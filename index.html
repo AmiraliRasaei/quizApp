@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-check { font-size: 14px; }
+        .alert {
+            --bs-alert-padding-x: 0.3rem;
+            --bs-alert-padding-y: 0.3rem;
+            --bs-alert-margin-bottom: 0.3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+       <div class="row mt-4">
+           <div class="col">
+               <h1>AWS Security</h1>
+           </div>
+           <div class="col" style="text-align: right;">
+               <h4 id="time">Time</h4>
+               <h4 id="score"></h4>
+           </div>
+       </div>
+       <!-- CSV Upload Form -->
+       <input type="file" id="csvFileInput" accept=".csv">
+       <button onclick="uploadAndParseFile()">Upload Quiz</button>
+       <!-- Quiz Content will be placed here -->
+       <div id="quizContainer"></div>
+       <div class="row my-4">
+        <div class="col">
+            <button type="button" class="btn btn-primary" onclick="submitQuiz()">Submit</button>
+        </div>
+        <div class="col" style="text-align: right;">
+            <button type="button" class="btn btn-secondary" onclick="resetQuiz()">Reset Answers</button>
+        </div>
+    </div>
+       
+
+
+   </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    let elapsedTime = 0; // Initialize timer
+    const timerElement = document.getElementById('time');
+    // Start the timer
+    const timerId = setInterval(function() {
+        elapsedTime++;
+        const minutes = Math.floor(elapsedTime / 60);
+        const seconds = elapsedTime % 60;
+        timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }, 1000);
+    window.timerId = timerId; // Make timerId accessible globally if needed to stop the timer
+});
+
+function uploadAndParseFile() {
+    const input = document.getElementById('csvFileInput');
+    const file = input.files[0];
+    if (file) {
+        Papa.parse(file, {
+            complete: function(results) {
+                generateQuiz(results.data);
+                resetTimer();
+            }
+        });
+    } else {
+        alert('Please select a CSV file to upload.');
+    }
+}
+
+function generateQuiz(data) {
+    const quizContainer = document.getElementById('quizContainer');
+    quizContainer.innerHTML = ''; // Clear existing quiz content
+    data.forEach((row, index) => {
+        if (index === 0) return; // Skip header row
+
+        const isMultiSelect = row[row.length - 1].includes(';'); // Determine if multi-select
+        const inputType = isMultiSelect ? 'checkbox' : 'radio';
+
+        // Determine correct answers by splitting the last element of the row by semicolons
+        const correctAnswers = row[row.length - 1].split(';').map(answer => answer.trim());
+
+        const questionElement = document.createElement('div');
+        questionElement.className = 'card my-5';
+        questionElement.innerHTML = `
+            <div class="card-header">Question ${index}</div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p>${row[0]}</p>
+                </blockquote>
+            </div>
+        `;
+
+        const answersBlock = questionElement.querySelector('.blockquote');
+        const options = row.slice(1, -1).filter(option => option.trim() !== ''); // Filter out empty options
+        options.forEach((option, optionIndex) => {
+            const optionId = `q${index}option${optionIndex}`;
+            const optionElement = document.createElement('div');
+            optionElement.className = 'alert role="alert"';
+            optionElement.innerHTML = `
+                <div class="form-check">
+                    <input class="form-check-input" type="${inputType}" name="question${index}" id="${optionId}" ${correctAnswers.includes(String.fromCharCode(65 + optionIndex)) ? 'data-correct="true"' : ''}>
+                    <label class="form-check-label" for="${optionId}">${option}</label>
+                </div>
+            `;
+            answersBlock.appendChild(optionElement);
+        });
+
+        quizContainer.appendChild(questionElement);
+    });
+}
+
+
+
+function submitQuiz() {
+    const questionBlocks = document.querySelectorAll('.card'); // Assuming each '.card' contains a question
+    let score = 0;
+    questionBlocks.forEach(block => {
+        const correctInputs = block.querySelectorAll('input[data-correct="true"]');
+        const userSelectedInputs = block.querySelectorAll('input:checked');
+        const correctUserSelectedInputs = block.querySelectorAll('input:checked[data-correct="true"]');
+        const cardHeader = block.querySelector('.card-header');
+
+        // Reset visual feedback
+        block.querySelectorAll('input').forEach(input => {
+            input.closest('.alert').classList.remove('alert-success', 'alert-danger');
+        });
+        cardHeader.classList.remove('alert', 'alert-danger'); // Reset card header
+
+        // Apply visual feedback for correct and incorrect answers
+        correctInputs.forEach(input => input.closest('.alert').classList.add('alert-success'));
+        userSelectedInputs.forEach(input => {
+            if (!input.dataset.correct) {
+                input.closest('.alert').classList.add('alert-danger');
+            }
+        });
+
+        // Scoring logic and visual feedback for headers
+        if ((correctInputs.length === userSelectedInputs.length) && (correctInputs.length === correctUserSelectedInputs.length)) {
+            score++; // Correctly answered question
+        } else {
+            cardHeader.classList.add('alert', 'alert-danger'); // Incorrectly answered question
+        }
+    });
+
+    // Update the score display
+    document.getElementById('score').textContent = `Score: ${score} / ${questionBlocks.length}`;
+
+    // Optional: Stop any running timer
+    clearInterval(window.timerId);
+}
+
+function resetTimer() {
+    // Stop any existing timer
+    clearInterval(window.timerId);
+    
+    let elapsedTime = 0; // Reset elapsed time
+    const timerElement = document.getElementById('time');
+    timerElement.textContent = 'Time: 0:00'; // Reset timer display to initial state
+
+    // Restart the timer
+    window.timerId = setInterval(function() {
+        elapsedTime++;
+        const minutes = Math.floor(elapsedTime / 60);
+        const seconds = elapsedTime % 60;
+        timerElement.textContent = `Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    }, 1000);
+}
+
+
+
+function resetQuiz() {
+    // Uncheck all inputs and remove visual feedback
+    document.querySelectorAll('#quizContainer .form-check-input').forEach(input => {
+        input.checked = false;
+    });
+    document.querySelectorAll('#quizContainer .alert').forEach(alert => {
+        alert.classList.remove('alert-success', 'alert-danger');
+    });
+    document.querySelectorAll('#quizContainer .card-header').forEach(header => {
+        header.classList.remove('alert', 'alert-danger');
+    });
+
+    // Reset the score display
+    document.getElementById('score').textContent = '';
+
+    // Reset and restart the timer
+    resetTimer();
+
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
+}
+
+
+
+
+
+
+        
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
