@@ -78,11 +78,12 @@
             questionElem.className = 'card my-5';
             let optionsHTML = '';
 
-            // Check if the question has an image and create an img tag
+            // Include the image if available
             const imageHTML = question.image ? `<img src="${question.image}" class="img-fluid mb-3" alt="Question image">` : '';
 
+            // Generate options
             Object.entries(question.options).forEach(([key, value], optionIndex) => {
-                const isCorrect = question.correctAnswer.includes(key); // Check if the option is correct
+                const isCorrect = question.correctAnswer.includes(key);
                 optionsHTML += `
                     <div class="alert" role="alert">
                         <div class="form-check">
@@ -93,13 +94,27 @@
                 `;
             });
 
+            // Explanation button and content
+            const collapseId = `collapseExample${index}`;
+            const explanationHTML = `
+                <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#${collapseId}" role="button" aria-expanded="false" aria-controls="${collapseId}">
+                    Show Explanation
+                </a>
+                <div class="collapse" id="${collapseId}">
+                    <div class="card card-body mt-3">
+                        ${question.explanation}
+                    </div>
+                </div>
+            `;
+
             questionElem.innerHTML = `
                 <div class="card-header">Question ${index + 1}</div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         <p>${question.question}</p>
-                        ${imageHTML} <!-- Include the image here -->
+                        ${imageHTML}
                         ${optionsHTML}
+                        ${explanationHTML} <!-- Include the explanation button and content here -->
                     </blockquote>
                 </div>
             `;
@@ -107,6 +122,7 @@
             quizContainer.appendChild(questionElem);
         });
     }
+
 
 
 
