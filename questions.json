@@ -253,7 +253,8 @@
             "B": "Create a service role that has cloudformation.amazonaws.com as the service principal. Configure the role to allow the sts:AssumeRole action.",
             "C": "For each required set of permissions, add a separate policy to the role to allow those permissions. Add the ARN of each CloudFormation stack in the resource field of each policy.",
             "D": "For each required set of permissions, add a separate policy to the role to allow those permissions. Add the ARN of each service that needs the permissions in the resource field of the corresponding policy.",
-            "E": "Update each stack to use the service role. F Add a policy to each member role to allow the iam:PassRole action. Set the policy's resource field to the ARN of the service role. "
+            "E": "Update each stack to use the service role.",
+            "F": "F Add a policy to each member role to allow the iam:PassRole action. Set the policy's resource field to the ARN of the service role."
         },
         "correctAnswer": [
             "B",
