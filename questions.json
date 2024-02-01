@@ -39,7 +39,7 @@
             "F": "Create a Systems Manager State Manager association to generate an EBS volume snapshot of the compromised EC2 instance. Tag the instance with any relevant metadata and incident ticket information. "
         },
         "correctAnswer": [
-            "A",
+            "B",
             "C",
             "E"
         ],
