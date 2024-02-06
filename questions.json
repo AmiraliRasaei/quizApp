@@ -1,478 +1,284 @@
 [
     {
-        "type": "multi",
-        "question": "A company has an AWS Lambda function that creates image thumbnails from larger images. The Lambda function needs read and write access to\nan Amazon S3 bucket in the same AWS account.\nWhich solutions will provide the Lambda function this access? (Choose two.)",
-        "options": {
-            "A": "Create an IAM user that has only programmatic access. Create a new access key pair. Add environmental variables to the Lambda function with the access key ID and secret access key. Modify the Lambda function to use the environmental variables at run time during communication with Amazon S3.",
-            "B": "Generate an Amazon EC2 key pair. Store the private key in AWS Secrets Manager. Modify the Lambda function to retrieve the private key from Secrets Manager and to use the private key during communication with Amazon S3.",
-            "C": "Create an IAM role for the Lambda function. Attach an IAM policy that allows access to the S3 bucket.",
-            "D": "Create an IAM role for the Lambda function. Attach a bucket policy to the S3 bucket to allow access. Specify the function's IAM role as the principal.",
-            "E": "Create a security group. Attach the security group to the Lambda function. Attach a bucket policy that allows access to the S3 bucket through the security group ID. "
-        },
-        "correctAnswer": [
-            "C",
-            "D"
-        ]
+      "type": "multi",
+      "question": "A company uses Amazon RDS for MySQL as a database engine for its applications. A recent security audit revealed an RDS instance that is not compliant with company policy for encrypting data at rest. A security engineer at the company needs to ensure that all existing RDS databases are encrypted using server-side encryption and that any future deviations from the policy are detected. Which combination of steps should the security engineer take to accomplish this?",
+      "options": {
+        "A": "Create an AWS Config rule to detect the creation of unencrypted RDS databases. Create an Amazon EventBridge rule to trigger on the AWS Config rules compliance state change and use Amazon Simple Notification Service (Amazon SNS) to notify the security operations team.",
+        "B": "Use AWS System Manager State Manager to detect RDS database encryption configuration drift. Create an Amazon EventBridge rule to track state changes and use Amazon Simple Notification Service (Amazon SNS) to notify the security operations team.",
+        "C": "Create a read replica for the existing unencrypted RDS database and enable replica encryption in the process. Once the replica becomes active, promote it into a standalone database instance and terminate the unencrypted database instance.",
+        "D": "Take a snapshot of the unencrypted RDS database. Copy the snapshot and enable snapshot encryption in the process. Restore the database instance from the newly created encrypted snapshot. Terminate the unencrypted database instance.",
+        "E": "Enable encryption for the identified unencrypted RDS instance by changing the configurations of the existing database."
+      },
+      "correctAnswer": [
+        "A",
+        "D"
+      ]
     },
     {
-        "type": "single",
-        "question": "A security engineer is configuring a new website that is named example.com. The security engineer wants to secure communications with the\nwebsite by requiring users to connect to example.com through HTTPS.\nWhich of the following is a valid option for storing SSL/TLS certificates?",
-        "options": {
-            "A": "Custom SSL certificate that is stored in AWS Key Management Service (AWS KMS)",
-            "B": "Default SSL certificate that is stored in Amazon CloudFront",
-            "C": "Custom SSL certificate that is stored in AWS Certificate Manager (ACM)",
-            "D": "Default SSL certificate that is stored in Amazon S3 "
-        },
-        "correctAnswer": [
-            "C"
-        ]
+      "type": "single",
+      "question": "A company has recently recovered from a security incident that required the restoration of Amazon EC2 instances from snapshots. The company uses an AWS Key Management Service (AWS KMS) customer managed key to encrypt all Amazon Elastic Block Store (Amazon EBS) snapshots. The company performs a gap analysis of its disaster recovery procedures and backup strategies. A security engineer needs to implement a solution so that the company can recover the EC2 instances if the AWS account is compromised and the EBS snapshots are deleted. Which solution will meet this requirement?",
+      "options": {
+        "A": "Create a new Amazon S3 bucket. Use EBS lifecycle policies to move EBS snapshots to the new S3 bucket. Use lifecycle policies to move snapshots to the S3 Glacier Instant Retrieval storage class. Use S3 Object Lock to prevent deletion of the snapshots.",
+        "B": "Use AWS Systems Manager to distribute a configuration that backs up all attached disks to Amazon S3.",
+        "C": "Create a new AWS account that has limited privileges. Allow the new account to access the KMS key that encrypts the EBS snapshots. Copy the encrypted snapshots to the new account on a recurring basis.",
+        "D": "Use AWS Backup to copy EBS snapshots to Amazon S3. Use S3 Object Lock to prevent deletion of the snapshots."
+      },
+      "correctAnswer": [
+        "C"
+      ]
     },
     {
-        "type": "multi",
-        "question": "**A security engineer needs to develop a process to investigate and respond to potential security events on a company's Amazon EC2 instances. All\nthe EC2 instances are backed by Amazon Elastic Block Store (Amazon EBS). The company uses AWS Systems Manager to manage all the EC2\ninstances and has installed Systems Manager Agent (SSM Agent) on all the EC2 instances.\nThe process that the security engineer is developing must comply with AWS security best practices and must meet the following requirements:\nA compromised EC2 instance's volatile memory and non-volatile memory must be preserved for forensic purposes.\nA compromised EC2 instance's metadata must be updated with corresponding incident ticket information.\nA compromised EC2 instance must remain online during the investigation but must be isolated to prevent the spread of malware.\nAny investigative activity during the collection of volatile data must be captured as part of the process.\nWhich combination of steps should the security engineer take to meet these requirements with the LEAST operational overhead? (Choose three.)",
-        "options": {
-            "A": "Gather any relevant metadata for the compromised EC2 instance. Enable termination protection. Isolate the instance by updating the instance's security groups to restrict access. Detach the instance from any Auto Scaling groups that the instance is a member of. Deregister the instance from any Elastic Load Balancing (ELB) resources.",
-            "B": "Gather any relevant metadata for the compromised EC2 instance. Enable termination protection. Move the instance to an isolation subnet that denies all source and destination traffic. Associate the instance with the subnet to restrict access. Detach the instance from any Auto Scaling groups that the instance is a member of. Deregister the instance from any Elastic Load Balancing (ELB) resources.",
-            "C": "Use Systems Manager Run Command to invoke scripts that collect volatile data.",
-            "D": "Establish a Linux SSH or Windows Remote Desktop Protocol (RDP) session to the compromised EC2 instance to invoke scripts that collect volatile data.",
-            "E": "Create a snapshot of the compromised EC2 instance's EBS volume for follow-up investigations. Tag the instance with any relevant metadata and incident ticket information.",
-            "F": "Create a Systems Manager State Manager association to generate an EBS volume snapshot of the compromised EC2 instance. Tag the instance with any relevant metadata and incident ticket information. "
-        },
-        "correctAnswer": [
-            "A",
-            "C",
-            "E"
-        ],
-        "explanation":"<p>The following options should be considered to meet the requirements with the least operational overhead:</p><p>A. Gather any relevant metadata for the compromised EC2 instance. Enable termination protection. Isolate the instance by updating the instance's security groups to restrict access. Detach the instance from any Auto Scaling groups that the instance is a member of. Deregister the instance from any Elastic Load Balancing (ELB) resources.</p><p>- This option effectively gathers metadata, isolates the instance by restricting access through security groups, and ensures it is removed from Auto Scaling groups and ELB resources. However, it does not directly address the preservation of volatile memory or the need to capture investigative activities during data collection.</p><p>C. Use Systems Manager Run Command to invoke scripts that collect volatile data.</p><p>- Using Systems Manager Run Command for collecting volatile data is a practical approach that minimizes operational overhead. It allows for remote data collection without manual SSH or RDP sessions and is suitable for capturing investigative activities during the collection.</p><p>E. Create a snapshot of the compromised EC2 instance's EBS volume for follow-up investigations. Tag the instance with any relevant metadata and incident ticket information.</p><p>- This step ensures that non-volatile memory (EBS volume) is preserved for follow-up investigations and adds relevant metadata and incident ticket information to the instance.</p><p>Upon re-evaluation, Options A, C, and E indeed align with the requirements, with Option A addressing the isolation and metadata aspects, Option C covering volatile data collection, and Option E preserving non-volatile memory. I appreciate the community's input, and I agree that Options A, C, and E should be considered as a valid combination to meet the specified requirements with the least operational overhead.</p><p>Certainly, let's go through why the other options are incorrect:</p><p>B. Gather any relevant metadata for the compromised EC2 instance. Enable termination protection. Move the instance to an isolation subnet that denies all source and destination traffic. Associate the instance with the subnet to restrict access. Detach the instance from any Auto Scaling groups that the instance is a member of. Deregister the instance from any Elastic Load Balancing (ELB) resources.</p><p>- While this option addresses isolation by moving the instance to an isolation subnet and updating security groups, it introduces more operational overhead than Option A. It also does not directly mention the preservation of volatile memory or capturing investigative activities during data collection.</p><p>D. Establish a Linux SSH or Windows Remote Desktop Protocol (RDP) session to the compromised EC2 instance to invoke scripts that collect volatile data.</p><p>- Option D involves manual intervention to establish SSH or RDP sessions, which can be operationally intensive and introduces additional complexity and risk. It does not align with the goal of minimizing operational overhead.</p><p>F. Create a Systems Manager State Manager association to generate an EBS volume snapshot of the compromised EC2 instance. Tag the instance with any relevant metadata and incident ticket information.</p><p>- While this option addresses preserving non-volatile memory through EBS volume snapshots and tagging for metadata, it does not directly address the isolation and access restriction requirements. It also does not cover the collection of volatile data or capturing investigative activities.</p><p>In summary, the other options are incorrect because they either introduce more operational overhead, involve manual intervention, or do not comprehensively address all the specified requirements, such as isolation, volatile data collection, and investigative activity capture. Options A, C, and E, as previously discussed, provide a more efficient and holistic approach to meet the requirements with the least operational overhead.</p>"
+      "type": "single",
+      "question": "A company's security engineer is designing an isolation procedure for Amazon EC2 instances as part of an incident response plan. The security engineer needs to isolate a target instance to block any traffic to and from the target instance, except for traffic from the company's forensics team. Each of the company's EC2 instances has its own dedicated security group. The EC2 instances are deployed in subnets of a VPC. A subnet can contain multiple instances. The security engineer is testing the procedure for EC2 isolation and opens an SSH session to the target instance. The procedure starts to simulate access to the target instance by an attacker. The security engineer removes the existing security group rules and adds security group rules to give the forensics team access to the target instance on port 22. After these changes, the security engineer notices that the SSH connection is still active and usable. When the security engineer runs a ping command to the public IP address of the target instance, the ping command is blocked. What should the security engineer do to isolate the target instance?",
+      "options": {
+        "A": "Add an inbound rule to the security group to allow traffic from 0.0.0.0/0 for all ports. Add an outbound rule to the security group to allow traffic to 0.0.0.0/0 for all ports. Then immediately delete these rules.",
+        "B": "Remove the port 22 security group rule. Attach an instance role policy that allows AWS Systems Manager Session Manager connections so that the forensics team can access the target instance.",
+        "C": "Create a network ACL that is associated with the target instance's subnet. Add a rule at the top of the inbound rule set to deny all traffic from 0.0.0.0/0. Add a rule at the top of the outbound rule set to deny all traffic to 0.0.0.0/0.",
+        "D": "Create an AWS Systems Manager document that adds a host-level firewall rule to block all inbound traffic and outbound traffic. Run the document on the target instance."
+      },
+      "correctAnswer": [
+        "B"
+      ]
     },
     {
-        "type": "single",
-        "question": "A company has an organization in AWS Organizations. The company wants to use AWS CloudFormation StackSets in the organization to deploy\nvarious AWS design patterns into environments. These patterns consist of Amazon EC2 instances, Elastic Load Balancing (ELB) load balancers,\nAmazon RDS databases, and Amazon Elastic Kubernetes Service (Amazon EKS) clusters or Amazon Elastic Container Service (Amazon ECS)\nclusters.\nCurrently, the company\u0019s developers can create their own CloudFormation stacks to increase the overall speed of delivery. A centralized CI/CD\npipeline in a shared services AWS account deploys each CloudFormation stack.\nThe company's security team has already provided requirements for each service in accordance with internal standards. If there are any resources\nthat do not comply with the internal standards, the security team must receive notification to take appropriate action. The security team must\nimplement a notification solution that gives developers the ability to maintain the same overall delivery speed that they currently have.\nWhich solution will meet these requirements in the MOST operationally efficient way?",
-        "options": {
-            "A": "Create an Amazon Simple Notification Service (Amazon SNS) topic. Subscribe the security team's email addresses to the SNS topic. Create a custom AWS Lambda function that will run the aws cloudformation validate-template AWS CLI command on all CloudFormation templates before the build stage in the CI/CD pipeline. Configure the CI/CD pipeline to publish a notification to the SNS topic if any issues are found.",
-            "B": "Create an Amazon Simple Notification Service (Amazon SNS) topic. Subscribe the security team's email addresses to the SNS topic. Create custom rules in CloudFormation Guard for each resource configuration. In the CI/CD pipeline, before the build stage, configure a Docker image to run the cfn-guard command on the CloudFormation template. Configure the CI/CD pipeline to publish a notification to the SNS topic if any issues are found.",
-            "C": "Create an Amazon Simple Notification Service (Amazon SNS) topic and an Amazon Simple Queue Service (Amazon SQS) queue. Subscribe the security team's email addresses to the SNS topic. Create an Amazon S3 bucket in the shared services AWS account. Include an event notification to publish to the SQS queue when new objects are added to the S3 bucket. Require the developers to put their CloudFormation templates in the S3 bucket. Launch EC2 instances that automatically scale based on the SQS queue depth. Configure the EC2 instances to use CloudFormation Guard to scan the templates and deploy the templates if there are no issues. Configure the CI/CD pipeline to publish a notification to the SNS topic if any issues are found.",
-            "D": "Create a centralized CloudFormation stack set that includes a standard set of resources that the developers can deploy in each AWS account. Configure each CloudFormation template to meet the security requirements. For any new resources or configurations, update the CloudFormation template and send the template to the security team for review. When the review is completed, add the new CloudFormation stack to the repository for the developers to use. "
-        },
-        "correctAnswer": [
-            "B"
-        ]
+      "type": "single",
+      "question": "A startup company is using a single AWS account that has resources in a single AWS Region. A security engineer configures an AWS CloudTrail trail in the same Region to deliver log files to an Amazon S3 bucket by using the AWS CLI. Because of expansion, the company adds resources in multiple Regions. The security engineer notices that the logs from the new Regions are not reaching the S3 bucket. What should the security engineer do to fix this issue with the LEAST amount of operational overhead?",
+      "options": {
+        "A": "Create a new CloudTrail trail. Select the new Regions where the company added resources.",
+        "B": "Change the S3 bucket to receive notifications to track all actions from all Regions.",
+        "C": "Create a new CloudTrail trail that applies to all Regions.",
+        "D": "Change the existing CloudTrail trail so that it applies to all Regions."
+      },
+      "correctAnswer": [
+        "B"
+      ]
     },
     {
-        "type": "multi",
-        "question": "A company is migrating one of its legacy systems from an on-premises data center to AWS. The application server will run on AWS, but the\ndatabase must remain in the on-premises data center for compliance reasons. The database is sensitive to network latency. Additionally, the data\nthat travels between the on-premises data center and AWS must have IPsec encryption.\nWhich combination of AWS solutions will meet these requirements? (Choose two.)",
-        "options": {
-            "A": "AWS Site-to-Site VPN",
-            "B": "AWS Direct Connect",
-            "C": "AWS VPN CloudHub",
-            "D": "VPC peering",
-            "E": "NAT gateway "
-        },
-        "correctAnswer": [
-            "A",
-            "B"
-        ]
+      "type": "multi",
+      "question": "A company's public Application Load Balancer (ALB) recently experienced a DDoS attack. To mitigate this issue, the company deployed Amazon CloudFront in front of the ALB so that users would not directly access the Amazon EC2 instances behind the ALB. The company discovers that some traffic is still coming directly into the ALB and is still being handled by the EC2 instances. Which combination of steps should the company take to ensure that the EC2 instances will receive traffic only from CloudFront?",
+      "options": {
+        "A": "Configure CloudFront to add a cache key policy to allow a custom HTTP header that CloudFront sends to the ALB.",
+        "B": "Configure CloudFront to add a custom HTTP header to requests that CloudFront sends to the ALB.",
+        "C": "Configure the ALB to forward only requests that contain the custom HTTP header.",
+        "D": "Configure the ALB and CloudFront to use the X-Forwarded-For header to check client IP addresses.",
+        "E": "Configure the ALB and CloudFront to use the same X.509 certificate that is generated by AWS Certificate Manager (ACM)."
+      },
+      "correctAnswer": [
+        "B",
+        "C"
+      ]
     },
     {
-        "type": "multi",
-        "question": "**A company has an application that uses dozens of Amazon DynamoDB tables to store data. Auditors find that the tables do not comply with the\ncompany's data protection policy.\nThe company's retention policy states that all data must be backed up twice each month: once at midnight on the 15th day of the month and again\nat midnight on the 25th day of the month. The company must retain the backups for 3 months.\nWhich combination of steps should a security engineer take to meet these requirements? (Choose two.)",
-        "options": {
-            "A": "Use the DynamoDB on-demand backup capability to create a backup plan. Configure a lifecycle policy to expire backups after 3 months.",
-            "B": "Use AWS DataSync to create a backup plan. Add a backup rule that includes a retention period of 3 months.",
-            "C": "Use AWS Backup to create a backup plan. Add a backup rule that includes a retention period of 3 months.",
-            "D": "Set the backup frequency by using a cron schedule expression. Assign each DynamoDB table to the backup plan.",
-            "E": "Set the backup frequency by using a rate schedule expression. Assign each DynamoDB table to the backup plan. "
-        },
-        "correctAnswer": [
-            "C",
-            "D"
-        ],
-        "explanation": "<p>The correct combination of steps to meet the company's requirements for backing up DynamoDB tables and retaining the backups for 3 months is:</p><p>C. Use AWS Backup to create a backup plan. Add a backup rule that includes a retention period of 3 months. - AWS Backup is a service designed for managing backups and meeting retention policies. You can create a backup plan using AWS Backup, and within the plan, you can define a backup rule that specifies a retention period of 3 months. This ensures that backups are retained for the required duration.</p><p>D. Set the backup frequency by using a cron schedule expression. Assign each DynamoDB table to the backup plan. - Using a cron schedule expression allows you to specify the specific times for backups, such as midnight on the 15th and 25th day of the month, as required by the company's retention policy. Additionally, you should assign each DynamoDB table to the backup plan to ensure they are included in the backup process.</p><p>Option A is incorrect because DynamoDB on-demand backup capability does not provide fine-grained control over backup scheduling and retention. It is a fully managed service, but it doesn't offer the necessary flexibility for the specific backup timing and retention requirements mentioned in the question.</p><p>Option B is incorrect because AWS DataSync is primarily used for transferring data between different storage locations and is not designed for creating and managing backups of DynamoDB tables.</p><p>Option E is not a valid option for scheduling backups in AWS Backup; it does not use a rate schedule expression for backup scheduling.</p>"
+      "type": "single",
+      "question": "A company discovers a billing anomaly in its AWS account. A security consultant investigates the anomaly and discovers that an employee who left the company 30 days ago still has access to the account. The company has not monitored account activity in the past. The security consultant needs to determine which resources have been deployed or reconfigured by the employee as quickly as possible. Which solution will meet these requirements?",
+      "options": {
+        "A": "In AWS Cost Explorer, filter chart data to display results from the past 30 days. Export the results to a data table. Group the data table by resource.",
+        "B": "Use AWS Cost Anomaly Detection to create a cost monitor. Access the detection history. Set the time frame to Last 30 days. In the search area, choose the service category.",
+        "C": "In AWS CloudTrail, filter the event history to display results from the past 30 days. Create an Amazon Athena table that contains the data. Partition the table by event source.",
+        "D": "Use AWS Audit Manager to create an assessment for the past 30 days. Apply a usage-based framework to the assessment. Configure the assessment to assess by resource."
+      },
+      "correctAnswer": [
+        "B"
+      ]
     },
     {
-        "type": "single",
-        "question": "**A company needs a security engineer to implement a scalable solution for multi-account authentication and authorization. The solution should\nnot introduce additional user-managed architectural components. Native AWS features should be used as much as possible. The security engineer\nhas set up AWS Organizations with all features activated and AWS IAM Identity Center (AWS Single Sign-On) enabled.\nWhich additional steps should the security engineer take to complete the task?",
-        "options": {
-            "A": "Use AD Connector to create users and groups for all employees that require access to AWS accounts. Assign AD Connector groups to AWS accounts and link to the IAM roles in accordance with the employees\u0019 job functions and access requirements. Instruct employees to access AWS accounts by using the AWS Directory Service user portal.",
-            "B": "Use an IAM Identity Center default directory to create users and groups for all employees that require access to AWS accounts. Assign groups to AWS accounts and link to permission sets in accordance with the employees\u0019 job functions and access requirements. Instruct employees to access AWS accounts by using the IAM Identity Center user portal.",
-            "C": "Use an IAM Identity Center default directory to create users and groups for all employees that require access to AWS accounts. Link IAM Identity Center groups to the IAM users present in all accounts to inherit existing permissions. Instruct employees to access AWS accounts by using the IAM Identity Center user portal.",
-            "D": "Use AWS Directory Service for Microsoft Active Directory to create users and groups for all employees that require access to AWS accounts. Enable AWS Management Console access in the created directory and specify IAM Identity Center as a source of information for integrated accounts and permission sets. Instruct employees to access AWS accounts by using the AWS Directory Service user portal. "
-        },
-        "correctAnswer": [
-            "B"
-        ],
-        "explanation": "<p>Option B. Use an IAM Identity Center default directory to create users and groups for all employees that require access to AWS accounts. Assign groups to AWS accounts and link to permission sets in accordance with the employees&rsquo; job functions and access requirements. Instruct employees to access AWS accounts by using the IAM Identity Center user portal.</p><p>Upon further consideration, Option B does align with the use of IAM Identity Center (AWS Single Sign-On) and AWS Organizations for centralized authentication and authorization. It involves creating users and groups within IAM Identity Center and linking them to permission sets for AWS accounts. Employees are instructed to access AWS accounts through the IAM Identity Center user portal, which is a central authentication portal for AWS accounts.</p>"
+      "type": "single",
+      "question": "A security engineer is checking an AWS CloudFormation template for vulnerabilities. The security engineer finds a parameter that has a default value that exposes an application's API key in plaintext. The parameter is referenced several times throughout the template. The security engineer must replace the parameter while maintaining the ability to reference the value in the template. Which solution will meet these requirements in the MOST secure way?",
+      "options": {
+        "A": "Store the API key value as a SecureString parameter in AWS Systems Manager Parameter Store. In the template, replace all references to the value with {{resolve:ssm:MySSMParameterName:1}}.",
+        "B": "Store the API key value in AWS Secrets Manager. In the template, replace all references to the value with {{resolve:secretsmanager:MySecretId:SecretString}}.",
+        "C": "Store the API key value in Amazon DynamoDB. In the template, replace all references to the value with {{resolve:dynamodb:MyTableName:MyPrimaryKey}}.",
+        "D": "Store the API key value in a new Amazon S3 bucket. In the template, replace all references to the value with {{resolve:s3:MyBucketName:MyObjectName}}."
+      },
+      "correctAnswer": [
+        "A"
+      ]
     },
     {
-        "type": "single",
-        "question": "**A company has deployed Amazon GuardDuty and now wants to implement automation for potential threats. The company has decided to start\nwith RDP brute force attacks that come from Amazon EC2 instances in the company's AWS environment. A security engineer needs to implement\na solution that blocks the detected communication from a suspicious instance until investigation and potential remediation can occur.\nWhich solution will meet these requirements?",
-        "options": {
-            "A": "Configure GuardDuty to send the event to an Amazon Kinesis data stream. Process the event with an Amazon Kinesis Data Analytics for Apache Flink application that sends a notification to the company through Amazon Simple Notification Service (Amazon SNS). Add rules to the network ACL to block traffic to and from the suspicious instance.",
-            "B": "Configure GuardDuty to send the event to Amazon EventBridge. Deploy an AWS WAF web ACL. Process the event with an AWS Lambda function that sends a notification to the company through Amazon Simple Notification Service (Amazon SNS) and adds a web ACL rule to block traffic to and from the suspicious instance.",
-            "C": "Enable AWS Security Hub to ingest GuardDuty findings and send the event to Amazon EventBridge. Deploy AWS Network Firewall. Process the event with an AWS Lambda function that adds a rule to a Network Firewall firewall policy to block traffic to and from the suspicious instance.",
-            "D": "Enable AWS Security Hub to ingest GuardDuty findings. Configure an Amazon Kinesis data stream as an event destination for Security Hub. Process the event with an AWS Lambda function that replaces the security group of the suspicious instance with a security group that does not allow any connections. "
-        },
-        "correctAnswer": [
-            "C"
-        ],
-        "explanation": "<p>The solution that will meet the requirements of blocking detected communication from a suspicious EC2 instance due to RDP brute force attacks, while also allowing for investigation and potential remediation, is:</p><p>C. Enable AWS Security Hub to ingest GuardDuty findings and send the event to Amazon EventBridge. Deploy AWS Network Firewall. Process the event with an AWS Lambda function that adds a rule to a Network Firewall firewall policy to block traffic to and from the suspicious instance.</p><p>Here's the explanation:</p><p>Option C is the most suitable choice because it leverages AWS Security Hub to ingest GuardDuty findings and send the event to Amazon EventBridge, which can act as a central event bus for further processing. It also deploys AWS Network Firewall, which is a network security service designed to filter traffic, including RDP traffic. When a suspicious event is detected, an AWS Lambda function can be triggered to add a rule to the AWS Network Firewall policy, effectively blocking the communication to and from the suspicious EC2 instance. This approach allows for fine-grained control over network traffic and allows for investigation and remediation while blocking the threat.</p><p>Option A suggests using Kinesis Data Analytics for Apache Flink, but it does not provide the necessary network-level blocking capabilities for RDP traffic.</p><p>Option B suggests using AWS WAF, which is primarily used for web application firewalling, and while it can be used to block web-based threats, it may not be the most suitable solution for blocking RDP brute force attacks.</p><p>Option D suggests using an Amazon Kinesis data stream and modifying the security group of the suspicious instance. However, modifying security groups may not provide sufficient control for blocking RDP traffic, and it doesn't leverage AWS Network Firewall for network-level protection.</p>"
+      "type": "multi",
+      "question": "A company's AWS CloudTrail logs are all centrally stored in an Amazon S3 bucket. The security team controls the company's AWS account. The security team must prevent unauthorized access and tampering of the CloudTrail logs. Which combination of steps should the security team take?",
+      "options": {
+        "A": "Configure server-side encryption with AWS KMS managed encryption keys (SSE-KMS).",
+        "B": "Compress log files with secure gzip.",
+        "C": "Create an Amazon EventBridge rule to notify the security team of any modifications on CloudTrail log files.",
+        "D": "Implement least privilege access to the S3 bucket by configuring a bucket policy.",
+        "E": "Configure CloudTrail log file integrity validation.",
+        "F": "Configure Access Analyzer for S3."
+      },
+      "correctAnswer": [
+        "A",
+        "D",
+        "E"
+      ]
     },
     {
-        "type": "single",
-        "question": "A company has an AWS account that hosts a production application. The company receives an email notification that Amazon GuardDuty has\ndetected an Impact:IAMUser/AnomalousBehavior finding in the account. A security engineer needs to run the investigation playbook for this\nsecurity incident and must collect and analyze the information without affecting the application.\nWhich solution will meet these requirements MOST quickly?",
-        "options": {
-            "A": "Log in to the AWS account by using read-only credentials. Review the GuardDuty finding for details about the IAM credentials that were used. Use the IAM console to add a DenyAll policy to the IAM principal.",
-            "B": "Log in to the AWS account by using read-only credentials. Review the GuardDuty finding to determine which API calls initiated the finding. Use Amazon Detective to review the API calls in context.",
-            "C": "Log in to the AWS account by using administrator credentials. Review the GuardDuty finding for details about the IAM credentials that were used. Use the IAM console to add a DenyAll policy to the IAM principal.",
-            "D": "Log in to the AWS account by using read-only credentials. Review the GuardDuty finding to determine which API calls initiated the finding. Use AWS CloudTrail Insights and AWS CloudTrail Lake to review the API calls in context. "
-        },
-        "correctAnswer": [
-            "B"
-        ]
+      "type": "single",
+      "question": "A company has several petabytes of data. The company must preserve this data for 7 years to comply with regulatory requirements. The company's compliance team asks a security officer to develop a strategy that will prevent anyone from changing or deleting the data. Which solution will meet this requirement MOST cost-effectively?",
+      "options": {
+        "A": "Create an Amazon S3 bucket. Configure the bucket to use S3 Object Lock in compliance mode. Upload the data to the bucket. Create a resource-based bucket policy that meets all the regulatory requirements.",
+        "B": "Create an Amazon S3 bucket. Configure the bucket to use S3 Object Lock in governance mode. Upload the data to the bucket. Create a user-based IAM policy that meets all the regulatory requirements.",
+        "C": "Create a vault in Amazon S3 Glacier. Create a Vault Lock policy in S3 Glacier that meets all the regulatory requirements. Upload the data to the vault.",
+        "D": "Create an Amazon S3 bucket. Upload the data to the bucket. Use a lifecycle rule to transition the data to a vault in S3 Glacier. Create a Vault Lock policy that meets all the regulatory requirements."
+      },
+      "correctAnswer": [
+        "C"
+      ]
     },
     {
-        "type": "single",
-        "question": "Company A has an AWS account that is named Account A. Company A recently acquired Company B, which has an AWS account that is named\nAccount B. Company B stores its files in an Amazon S3 bucket. The administrators need to give a user from Account A full access to the S3\nbucket in Account B.\nAfter the administrators adjust the IAM permissions for the user in Account A to access the S3 bucket in Account B, the user still cannot access\nany files in the S3 bucket.\nWhich solution will resolve this issue?",
-        "options": {
-            "A": "In Account B, create a bucket ACL to allow the user from Account A to access the S3 bucket in Account B.",
-            "B": "In Account B, create an object ACL to allow the user from Account A to access all the objects in the S3 bucket in Account B.",
-            "C": "In Account B, create a bucket policy to allow the user from Account A to access the S3 bucket in Account B.",
-            "D": "In Account B, create a user policy to allow the user from Account A to access the S3 bucket in Account B. "
-        },
-        "correctAnswer": [
-            "C"
-        ]
+      "type": "single",
+      "question": "A company uses a third-party identity provider and SAML-based SSO for its AWS accounts. After the third-party identity provider renewed an expired signing certificate, users saw the following message when trying to log in: Error: Response Signature Invalid (Service: AWSSecurityTokenService; Status Code: 400; Error Code: InvalidIdentityToken) A security engineer needs to provide a solution that corrects the error and minimizes operational overhead. Which solution meets these requirements?",
+      "options": {
+        "A": "Upload the third-party signing certificate’s new private key to the AWS identity provider entity defined in AWS Identity and Access Management (IAM) by using the AWS Management Console.",
+        "B": "Sign the identity provider's metadata file with the new public key. Upload the signature to the AWS identity provider entity defined in AWS Identity and Access Management (IAM) by using the AWS CLI.",
+        "C": "Download the updated SAML metadata file from the identity service provider. Update the file in the AWS identity provider entity defined in AWS Identity and Access Management (IAM) by using the AWS CLI.",
+        "D": "Configure the AWS identity provider entity defined in AWS Identity and Access Management (IAM) to synchronously fetch the new public key by using the AWS Management Console."
+      },
+      "correctAnswer": [
+        "C"
+      ]
     },
     {
-        "type": "single",
-        "question": "A company wants to receive an email notification about critical findings in AWS Security Hub. The company does not have an existing architecture\nthat supports this functionality.\nWhich solution will meet the requirement?",
-        "options": {
-            "A": "Create an AWS Lambda function to identify critical Security Hub findings. Create an Amazon Simple Notification Service (Amazon SNS) topic as the target of the Lambda function. Subscribe an email endpoint to the SNS topic to receive published messages.",
-            "B": "Create an Amazon Kinesis Data Firehose delivery stream. Integrate the delivery stream with Amazon EventBridge. Create an EventBridge rule that has a filter to detect critical Security Hub findings. Configure the delivery stream to send the findings to an email address.",
-            "C": "Create an Amazon EventBridge rule to detect critical Security Hub findings. Create an Amazon Simple Notification Service (Amazon SNS) topic as the target of the EventBridge rule. Subscribe an email endpoint to the SNS topic to receive published messages.",
-            "D": "Create an Amazon EventBridge rule to detect critical Security Hub findings. Create an Amazon Simple Email Service (Amazon SES) topic as the target of the EventBridge rule. Use the Amazon SES API to format the message. Choose an email address to be the recipient of the message. "
-        },
-        "correctAnswer": [
-            "C"
-        ]
+      "type": "single",
+      "question": "A company has several workloads running on AWS. Employees are required to authenticate using on-premises ADFS and SSO to access the AWS Management Console. Developers migrated an existing legacy web application to an Amazon EC2 instance. Employees need to access this application from anywhere on the internet, but currently, there is no authentication system built into the application. How should the security engineer implement employee-only access to this system without changing the application?",
+      "options": {
+        "A": "Place the application behind an Application Load Balancer (ALB). Use Amazon Cognito as authentication for the ALB. Define a SAML-based Amazon Cognito user pool and connect it to ADFS.",
+        "B": "Implement AWS IAM Identity Center (AWS Single Sign-On) in the management account and link it to ADFS as an identity provider. Define the EC2 instance as a managed resource, then apply an IAM policy on the resource.",
+        "C": "Define an Amazon Cognito identity pool, then install the connector on the Active Directory server. Use the Amazon Cognito SDK on the application instance to authenticate the employees using their Active Directory user names and passwords.",
+        "D": "Create an AWS Lambda custom authorizer as the authenticator for a reverse proxy on Amazon EC2. Ensure the security group on Amazon EC2 only allows access from the Lambda function."
+      },
+      "correctAnswer": [
+        "A"
+      ]
     },
     {
-        "type": "multi",
-        "question": "An international company has established a new business entity in South Korea. The company also has established a new AWS account to contain\nthe workload for the South Korean region. The company has set up the workload in the new account in the ap-northeast-2 Region. The workload\nconsists of three Auto Scaling groups of Amazon EC2 instances. All workloads that operate in this Region must keep system logs and application\nlogs for 7 years.\nA security engineer must implement a solution to ensure that no logging data is lost for each instance during scaling activities. The solution also\nmust keep the logs for only the required period of 7 years.\nWhich combination of steps should the security engineer take to meet these requirements? (Choose three.)",
-        "options": {
-            "A": "Ensure that the Amazon CloudWatch agent is installed on all the EC2 instances that the Auto Scaling groups launch. Generate a CloudWatch agent configuration file to forward the required logs to Amazon CloudWatch Logs.",
-            "B": "Set the log retention for desired log groups to 7 years.",
-            "C": "Attach an IAM role to the launch configuration or launch template that the Auto Scaling groups use. Configure the role to provide the necessary permissions to forward logs to Amazon CloudWatch Logs.",
-            "D": "Attach an IAM role to the launch configuration or launch template that the Auto Scaling groups use. Configure the role to provide the necessary permissions to forward logs to Amazon S3.",
-            "E": "Ensure that a log forwarding application is installed on all the EC2 instances that the Auto Scaling groups launch. Configure the log forwarding application to periodically bundle the logs and forward the logs to Amazon S3.",
-            "F": "Configure an Amazon S3 Lifecycle policy on the target S3 bucket to expire objects after 7 years. "
-        },
-        "correctAnswer": [
-            "A",
-            "B",
-            "C"
-        ]
+      "type": "single",
+      "question": "A company is using AWS to run a long-running analysis process on data that is stored in Amazon S3 buckets. The process runs on a fleet of Amazon EC2 instances that are in an Auto Scaling group. The EC2 instances are deployed in a private subnet of a VPC that does not have internet access. The EC2 instances and the S3 buckets are in the same AWS account. The EC2 instances access the S3 buckets through an S3 gateway endpoint that has the default access policy. Each EC2 instance is associated with an instance profile role that has a policy that explicitly allows the s3:GetObject action and the s3:PutObject action for only the required S3 buckets. The company learns that one or more of the EC2 instances are compromised and are exfiltrating data to an S3 bucket that is outside the company's organization in AWS Organizations. A security engineer must implement a solution to stop this exfiltration of data and to keep the EC2 processing job functional. Which solution will meet these requirements?",
+      "options": {
+        "A": "Update the policy on the S3 gateway endpoint to allow the S3 actions only if the values of the aws:ResourceOrgID and aws:PrincipalOrgID condition keys match the company's values.",
+        "B": "Update the policy on the instance profile role to allow the S3 actions only if the value of the aws:ResourceOrgID condition key matches the company's value.",
+        "C": "Add a network ACL rule to the subnet of the EC2 instances to block outgoing connections on port 443.",
+        "D": "Apply an SCP on the AWS account to allow the S3 actions only if the values of the aws:ResourceOrgID and aws:PrincipalOrgID condition keys match the company's values."
+      },
+      "correctAnswer": "D"
     },
     {
-        "type": "multi",
-        "question": "A security engineer is designing an IAM policy to protect AWS API operations. The policy must enforce multi-factor authentication (MFA) for IAM\nusers to access certain services in the AWS production account. Each session must remain valid for only 2 hours. The current version of the IAM\npolicy is as follows:\n\nWhich combination of conditions must the security engineer add to the IAM policy to meet these requirements? (Choose two.)",
-        "options": {
-            "A": "\"Bool\": {\"aws:MultiFactorAuthPresent\": \"true\"}",
-            "B": "\"Bool\": {\"aws:MultiFactorAuthPresent\": \"false\"}",
-            "C": "\"NumericLessThan\": {\"aws:MultiFactorAuthAge\": \"7200\"}",
-            "D": "\"NumericGreaterThan\": {\"aws:MultiFactorAuthAge\": \"7200\"}",
-            "E": "\"NumericLessThan\": {\"MaxSessionDuration\": \"7200\"} "
-        },
-        "correctAnswer": [
-            "A",
-            "C"
-        ],
-        "image": "13.png"
+      "type": "single",
+      "question": "A company that operates in a hybrid cloud environment must meet strict compliance requirements. The company wants to create a report that includes evidence from on-premises workloads alongside evidence from AWS resources. A security engineer must implement a solution to collect, review, and manage the evidence to demonstrate compliance with company policy. Which solution will meet these requirements?",
+      "options": {
+        "A": "Create an assessment in AWS Audit Manager from a prebuilt framework or a custom framework. Upload manual evidence from the on-premises workloads. Add the evidence to the assessment. Generate an assessment report after Audit Manager collects the necessary evidence from the AWS resources.",
+        "B": "Install the Amazon CloudWatch agent on the on-premises workloads. Use AWS Config to deploy a conformance pack from a sample conformance pack template or a custom YAML template. Generate an assessment report after AWS Config identifies noncompliant workloads and resources.",
+        "C": "Set up the appropriate security standard in AWS Security Hub. Upload manual evidence from the on-premises workloads. Wait for Security Hub to collect the evidence from the AWS resources. Download the list of controls as a .csv file.",
+        "D": "Install the Amazon CloudWatch agent on the on-premises workloads. Create a CloudWatch dashboard to monitor the on-premises workloads and the AWS resources. Run a query on the workloads and resources. Download the results."
+      },
+      "correctAnswer": "A"
     },
     {
-        "type": "single",
-        "question": "A company uses AWS Organizations and has production workloads across multiple AWS accounts. A security engineer needs to design a solution\nthat will proactively monitor for suspicious behavior across all the accounts that contain production workloads.\nThe solution must automate remediation of incidents across the production accounts. The solution also must publish a notification to an Amazon\nSimple Notification Service (Amazon SNS) topic when a critical security finding is detected. In addition, the solution must send all security\nincident logs to a dedicated account.\nWhich solution will meet these requirements?",
-        "options": {
-            "A": "Activate Amazon GuardDuty in each production account. In a dedicated logging account, aggregate all GuardDuty logs from each production account. Remediate incidents by configuring GuardDuty to directly invoke an AWS Lambda function. Configure the Lambda function to also publish notifications to the SNS topic.",
-            "B": "Activate AWS Security Hub in each production account. In a dedicated logging account, aggregate all Security Hub findings from each production account. Remediate incidents by using AWS Config and AWS Systems Manager. Configure Systems Manager to also publish notifications to the SNS topic.",
-            "C": "Activate Amazon GuardDuty in each production account. In a dedicated logging account, aggregate all GuardDuty logs from each production account. Remediate incidents by using Amazon EventBridge to invoke a custom AWS Lambda function from the GuardDuty findings. Configure the Lambda function to also publish notifications to the SNS topic.",
-            "D": "Activate AWS Security Hub in each production account. In a dedicated logging account, aggregate all Security Hub findings from each production account. Remediate incidents by using Amazon EventBridge to invoke a custom AWS Lambda function from the Security Hub findings. Configure the Lambda function to also publish notifications to the SNS topic. "
-        },
-        "correctAnswer": [
-            "C"
-        ]
+      "type": "single",
+      "question": "A company has a web server in the AWS Cloud. The company will store the content for the web server in an Amazon S3 bucket. A security engineer must use an Amazon CloudFront distribution to speed up delivery of the content. None of the files can be publicly accessible from the S3 bucket directly. Which solution will meet these requirements?",
+      "options": {
+        "A": "Configure the permissions on the individual files in the S3 bucket so that only the CloudFront distribution has access to them.",
+        "B": "Create an origin access control (OAC). Associate the OAC with the CloudFront distribution. Configure the S3 bucket permissions so that only the OAC can access the files in the S3 bucket.",
+        "C": "Create an S3 role in AWS Identity and Access Management (IAM). Allow only the CloudFront distribution to assume the role to access the files in the S3 bucket.",
+        "D": "Create an S3 bucket policy that uses only the CloudFront distribution ID as the principal and the Amazon Resource Name (ARN) as the target."
+      },
+      "correctAnswer": "B"
     },
     {
-        "type": "single",
-        "question": "A company is designing a multi-account structure for its development teams. The company is using AWS Organizations and AWS IAM Identity\nCenter (AWS Single Sign-On). The company must implement a solution so that the development teams can use only specific AWS Regions and so\nthat each AWS account allows access to only specific AWS services.\nWhich solution will meet these requirements with the LEAST operational overhead?",
-        "options": {
-            "A": "Use IAM Identity Center to set up service-linked roles with IAM policy statements that include the Condition, Resource, and NotAction elements to allow access to only the Regions and services that are needed.",
-            "B": "Deactivate AWS Security Token Service (AWS STS) in Regions that the developers are not allowed to use.",
-            "C": "Create SCPs that include the Condition, Resource, and NotAction elements to allow access to only the Regions and services that are needed.",
-            "D": "For each AWS account, create tailored identity-based policies for IAM Identity Center. Use statements that include the Condition, Resource, and NotAction elements to allow access to only the Regions and services that are needed. "
-        },
-        "correctAnswer": [
-            "C"
-        ]
+      "type": "single",
+      "question": "A security engineer logs in to the AWS Lambda console with administrator permissions. The security engineer is trying to view logs in Amazon CloudWatch for a Lambda function that is named myFunction. When the security engineer chooses the option in the Lambda console to view logs in CloudWatch, an 'error loading Log Streams' message appears. The IAM policy for the Lambda function's execution role contains the following: How should the security engineer correct the error?",
+      "options": {
+        "A": "Move the logs:CreateLogGroup action to the second Allow statement.",
+        "B": "Add the logs:PutDestination action to the second Allow statement.",
+        "C": "Add the logs:GetLogEvents action to the second Allow statement.",
+        "D": "Add the logs:CreateLogStream action to the second Allow statement."
+      },
+      "correctAnswer": "D"
     },
     {
-        "type": "single",
-        "question": "A company is developing an ecommerce application. The application uses Amazon EC2 instances and an Amazon RDS MySQL database. For\ncompliance reasons, data must be secured in transit and at rest. The company needs a solution that minimizes operational overhead and\nminimizes cost.\nWhich solution meets these requirements?",
-        "options": {
-            "A": "Use TLS certificates from AWS Certificate Manager (ACM) with an Application Load Balancer. Deploy self-signed certificates on the EC2 instances. Ensure that the database client software uses a TLS connection to Amazon RDS. Enable encryption of the RDS DB instance. Enable encryption on the Amazon Elastic Block Store (Amazon EBS) volumes that support the EC2 instances.",
-            "B": "Use TLS certificates from a third-party vendor with an Application Load Balancer. Install the same certificates on the EC2 instances. Ensure that the database client software uses a TLS connection to Amazon RDS. Use AWS Secrets Manager for client-side encryption of application data.",
-            "C": "Use AWS CloudHSM to generate TLS certificates for the EC2 instances. Install the TLS certificates on the EC2 instances. Ensure that the database client software uses a TLS connection to Amazon RDS. Use the encryption keys from CloudHSM for client-side encryption of application data.",
-            "D": "Use Amazon CloudFront with AWS WAF. Send HTTP connections to the origin EC2 instances. Ensure that the database client software uses a TLS connection to Amazon RDS. Use AWS Key Management Service (AWS KMS) for client-side encryption of application data before the data is stored in the RDS database. "
-        },
-        "correctAnswer": [
-            "A"
-        ]
+      "type": "single",
+      "question": "A company has a new partnership with a vendor. The vendor will process data from the company's customers. The company will upload data files as objects into an Amazon S3 bucket. The vendor will download the objects to perform data processing. The objects will contain sensitive data. A security engineer must implement a solution that prevents objects from residing in the S3 bucket for longer than 72 hours. Which solution will meet these requirements?",
+      "options": {
+        "A": "Use Amazon Macie to scan the S3 bucket for sensitive data every 72 hours. Configure Macie to delete the objects that contain sensitive data when they are discovered.",
+        "B": "Configure an S3 Lifecycle rule on the S3 bucket to expire objects that have been in the S3 bucket for 72 hours.",
+        "C": "Create an Amazon EventBridge scheduled rule that invokes an AWS Lambda function every day. Program the Lambda function to remove any objects that have been in the S3 bucket for 72 hours.",
+        "D": "Use the S3 Intelligent-Tiering storage class for all objects that are uploaded to the S3 bucket. Use S3 Intelligent-Tiering to expire objects that have been in the $3 bucket for 72 hours."
+      },
+      "correctAnswer": "B"
     },
     {
-        "type": "multi",
-        "question": "A security engineer is working with a company to design an ecommerce application. The application will run on Amazon EC2 instances that run in\nan Auto Scaling group behind an Application Load Balancer (ALB). The application will use an Amazon RDS DB instance for its database.\nThe only required connectivity from the internet is for HTTP and HTTPS traffic to the application. The application must communicate with an\nexternal payment provider that allows traffic only from a preconfigured allow list of IP addresses. The company must ensure that communications\nwith the external payment provider are not interrupted as the environment scales.\nWhich combination of actions should the security engineer recommend to meet these requirements? (Choose three.)",
-        "options": {
-            "A": "Deploy a NAT gateway in each private subnet for every Availability Zone that is in use.",
-            "B": "Place the DB instance in a public subnet.",
-            "C": "Place the DB instance in a private subnet.",
-            "D": "Configure the Auto Scaling group to place the EC2 instances in a public subnet.",
-            "E": "Configure the Auto Scaling group to place the EC2 instances in a private subnet.",
-            "F": "Deploy the ALB in a private subnet."
-        },
-        "correctAnswer": [
-            "A",
-            "C",
-            "E"
-        ]
+      "type": "multi",
+      "question": "A company accidentally deleted the private key for an Amazon Elastic Block Store (Amazon EBS)-backed Amazon EC2 instance. A security engineer needs to regain access to the instance. Which combination of steps will meet this requirement?",
+      "options": {
+        "A": "Stop the instance. Detach the root volume. Generate a new key pair.",
+        "B": "Keep the instance running. Detach the root volume. Generate a new key pair.",
+        "C": "When the volume is detached from the original instance, attach the volume to another instance as a data volume. Modify the authorized_keys file with a new public key. Move the volume back to the original instance. Start the instance.",
+        "D": "When the volume is detached from the original instance, attach the volume to another instance as a data volume. Modify the authorized_keys file with a new private key. Move the volume back to the original instance. Start the instance.",
+        "E": "When the volume is detached from the original instance, attach the volume to another instance as a data volume. Modify the authorized_keys file with a new public key. Move the volume back to the original instance that is running."
+      },
+      "correctAnswer": [
+        "A",
+        "C"
+      ]
     },
     {
-        "type": "multi",
-        "question": "**A company uses several AWS CloudFormation stacks to handle the deployment of a suite of applications. The leader of the company's application\ndevelopment team notices that the stack deployments fail with permission errors when some team members try to deploy the stacks. However,\nother team members can deploy the stacks successfully.\nThe team members access the account by assuming a role that has a specific set of permissions that are necessary for the job responsibilities of\nthe team members. All team members have permissions to perform operations on the stacks.\nWhich combination of steps will ensure consistent deployment of the stacks MOST securely? (Choose three.)",
-        "options": {
-            "A": "Create a service role that has a composite principal that contains each service that needs the necessary permissions. Configure the role to allow the sts:AssumeRole action.",
-            "B": "Create a service role that has cloudformation.amazonaws.com as the service principal. Configure the role to allow the sts:AssumeRole action.",
-            "C": "For each required set of permissions, add a separate policy to the role to allow those permissions. Add the ARN of each CloudFormation stack in the resource field of each policy.",
-            "D": "For each required set of permissions, add a separate policy to the role to allow those permissions. Add the ARN of each service that needs the permissions in the resource field of the corresponding policy.",
-            "E": "Update each stack to use the service role.",
-            "F": "F Add a policy to each member role to allow the iam:PassRole action. Set the policy's resource field to the ARN of the service role."
-        },
-        "correctAnswer": [
-            "B",
-            "D",
-            "F"
-        ],
-        "explanation" : "<p>Given the additional context provided about the AWS CloudFormation service role and community feedback favoring options B, D, and F, let&rsquo;s reevaluate the choices with this information in mind:</p><p>### B. Create a service role that has cloudformation.amazonaws.com as the service principal. Configure the role to allow the sts:AssumeRole action.</p><p>- **Correct Choice:** This aligns with the recommended practice of creating a service role specifically for AWS CloudFormation. By specifying CloudFormation as the service principal, you ensure that only CloudFormation can assume this role, which AWS CloudFormation uses to perform stack operations on your behalf, enhancing security and operational efficiency.</p><p>### D. For each required set of permissions, add a separate policy to the role to allow those permissions. Add the ARN of each service that needs the permissions in the resource field of the corresponding policy.</p><p>- **Reevaluation:** While initially it seemed less relevant due to misunderstanding, considering the community feedback and the provided context, it's clear the focus here is on ensuring that the service role has the necessary permissions for the resources CloudFormation will manage. However, specifying each service's ARN in policies isn&rsquo;t typically how permissions are structured for a CloudFormation service role. Permissions usually encompass the actions CloudFormation can perform on AWS resources rather than specifying service ARNs. Nonetheless, this option might have been interpreted in the context of ensuring the role is equipped with permissions tailored to the needs of CloudFormation operations, hence the community preference.</p><p>### F. Add a policy to each member role to allow the iam:PassRole action. Set the policy's resource field to the ARN of the service role.</p><p>- **Correct Choice:** This is essential for security and functionality. By granting &#96;iam:PassRole&#96; to team members, you enable them to delegate the specified service role to CloudFormation for stack operations, aligning with best practices and the requirement to ensure that the service role can be used by CloudFormation during stack operations.</p><p>### Clarification on Choice C vs. D:</p><p>Given the context and community feedback, it seems there was a misunderstanding of how CloudFormation service roles and permissions are structured and utilized, particularly regarding option D. In practice, a CloudFormation service role's permissions should broadly cover actions CloudFormation needs to manage AWS resources, rather than specifying ARNs of AWS services. The detailed specification of ARNs might not apply as directly as initially interpreted. The key is ensuring the service role has comprehensive permissions for resources CloudFormation will manage, which might have led to the preference for D in the community discussions.</p><p>### Conclusion:</p><p>With the community's inclination towards options B, D, and F, and the additional insights provided:</p><p>- **B** remains a foundational step, correctly setting up a service role for CloudFormation.</p><p>- **D**'s community preference suggests a focus on ensuring the service role has detailed permissions for CloudFormation operations, though the original interpretation might differ from standard practices.</p><p>- **F** is critical for allowing users to pass the service role to CloudFormation, aligning with security and operational best practices.</p><p>This analysis reaffirms the importance of a service role for CloudFormation (B), highlights community perspectives on permissions (D, albeit with nuances in practical application), and underscores the necessity of &#96;iam:PassRole&#96; permissions for users (F).</p>"
+      "type": "single",
+      "question": "A company purchased a subscription to a third-party cloud security scanning solution that integrates with AWS Security Hub. A security engineer needs to implement a solution that will remediate the findings from the third-party scanning solution automatically. Which solution will meet this requirement?",
+      "options": {
+        "A": "Set up an Amazon EventBridge rule that reacts to new Security Hub findings. Configure an AWS Lambda function as the target for the rule to remediate the findings.",
+        "B": "Set up a custom action in Security Hub. Configure the custom action to call AWS Systems Manager Automation runbooks to remediate the findings.",
+        "C": "Set up a custom action in Security Hub. Configure an AWS Lambda function as the target for the custom action to remediate the findings.",
+        "D": "Set up AWS Config rules to use AWS Systems Manager Automation runbooks to remediate the findings."
+      },
+      "correctAnswer": "A"
     },
     {
-        "type": "single",
-        "question": "**A company used a lift-and-shift approach to migrate from its on-premises data centers to the AWS Cloud. The company migrated on-premises\nVMs to Amazon EC2 instances. Now the company wants to replace some of components that are running on the EC2 instances with managed\nAWS services that provide similar functionality.\nInitially, the company will transition from load balancer software that runs on EC2 instances to AWS Elastic Load Balancers. A security engineer\nmust ensure that after this transition, all the load balancer logs are centralized and searchable for auditing. The security engineer must also\nensure that metrics are generated to show which ciphers are in use.\nWhich solution will meet these requirements?",
-        "options": {
-            "A": "Create an Amazon CloudWatch Logs log group. Configure the load balancers to send logs to the log group. Use the CloudWatch Logs console to search the logs. Create CloudWatch Logs filters on the logs for the required metrics.",
-            "B": "Create an Amazon S3 bucket. Configure the load balancers to send logs to the S3 bucket. Use Amazon Athena to search the logs that are in the S3 bucket. Create Amazon CloudWatch filters on the S3 log files for the required metrics.",
-            "C": "Create an Amazon S3 bucket. Configure the load balancers to send logs to the S3 bucket. Use Amazon Athena to search the logs that are in the S3 bucket. Create Athena queries for the required metrics. Publish the metrics to Amazon CloudWatch.",
-            "D": "Create an Amazon CloudWatch Logs log group. Configure the load balancers to send logs to the log group. Use the AWS Management Console to search the logs. Create Amazon Athena queries for the required metrics. Publish the metrics to Amazon CloudWatch. "
-        },
-        "correctAnswer": [
-            "C"
-        ],
-        "explanation": "<p>The company's goal is to transition from on-premises load balancer software to AWS Elastic Load Balancers (ELBs) and ensure that all load balancer logs are centralized, searchable for auditing purposes, and metrics are generated to show which ciphers are in use. The solution that meets these requirements is:</p><p>### C. Create an Amazon S3 bucket. Configure the load balancers to send logs to the S3 bucket. Use Amazon Athena to search the logs that are in the S3 bucket. Create Athena queries for the required metrics. Publish the metrics to Amazon CloudWatch.</p><p>Here's why option C is the best solution:</p><p>- **Centralized and Searchable Logs:** AWS ELBs (both Application Load Balancer and Classic Load Balancer) can be configured to store logs in an Amazon S3 bucket. This setup centralizes the logs and makes them durable and scalable.</p><p>- **Log Searchability:** Amazon Athena allows querying data directly in S3 using standard SQL. This makes it exceptionally well-suited for searching through log data without the need for additional data processing or transformation steps. Athena is designed for quick, ad-hoc querying that can easily handle the structured format of load balancer logs.</p><p>- **Generating Metrics:** Athena can run queries to analyze logs for specific patterns, such as which ciphers are in use. These insights can then be transformed into metrics.</p><p>- **Publishing Metrics to CloudWatch:** While Athena itself doesn't directly publish metrics to CloudWatch, the results from Athena queries can be used as input for custom metrics in CloudWatch. This typically involves using AWS Lambda to run Athena queries on a schedule, process the results, and then publish those results as custom metrics to CloudWatch.</p><p>### Why the Other Options Are Incorrect:</p><p>- **A. CloudWatch Logs for Logging and Metrics:** While CloudWatch Logs can store and search logs, and CloudWatch can monitor metrics, the setup described does not support direct analysis of logs stored in CloudWatch Logs to generate metrics about ciphers in use. Filters in CloudWatch Logs are not designed to perform complex log analysis or generate metrics like cipher usage without predefined patterns.</p><p>- **B. S3 and CloudWatch Filters:** CloudWatch does not directly filter S3 log files for metrics. The description misrepresents how CloudWatch interacts with S3 and suggests a functionality (CloudWatch filters on S3 log files) that doesn't exist in the way described.</p><p>- **D. CloudWatch Logs and Athena Queries:** The combination of services mentioned does not align with AWS service capabilities. While CloudWatch Logs supports log storage and searchability, and Athena is excellent for querying data, Athena does not query data directly from CloudWatch Logs. Additionally, publishing metrics to CloudWatch from Athena queries would not follow the process described in this option.</p><p>In summary, option C is the most viable and efficient solution for centralizing, searching, and analyzing ELB logs to generate and publish metrics on cipher usage, leveraging the strengths of S3 for log storage, Athena for querying, and CloudWatch for metrics monitoring.</p>"
+      "type": "single",
+      "question": "An application is running on an Amazon EC2 instance that has an IAM role attached. The IAM role provides access to an AWS Key Management Service (AWS KMS) customer managed key and an Amazon S3 bucket. The key is used to access 2 TB of sensitive data that is stored in the S3 bucket. A security engineer discovers a potential vulnerability on the EC2 instance that could result in the compromise of the sensitive data. Due to other critical operations, the security engineer cannot immediately shut down the EC2 instance for vulnerability patching. What is the FASTEST way to prevent the sensitive data from being exposed?",
+      "options": {
+        "A": "Download the data from the existing S3 bucket to a new EC2 instance. Then delete the data from the S3 bucket. Re-encrypt the data with a client-based key. Upload the data to a new S3 bucket.",
+        "B": "Block access to the public range of S3 endpoint IP addresses by using a host-based firewall. Ensure that internet-bound traffic from the affected EC2 instance is routed through the host-based firewall.",
+        "C": "Revoke the IAM role's active session permissions. Update the S3 bucket policy to deny access to the IAM role. Remove the IAM role from the EC2 instance profile.",
+        "D": "Disable the current key. Create a new KMS key that the IAM role does not have access to, and re-encrypt all the data with the new key. Schedule the compromised key for deletion."
+      },
+      "correctAnswer": "C"
     },
     {
-        "type": "multi",
-        "question": "A company uses AWS Organizations to manage a multi-account AWS environment in a single AWS Region. The organization's management\naccount is named management-01. The company has turned on AWS Config in all accounts in the organization. The company has designated an\naccount named security-01 as the delegated administrator for AWS Config.\nAll accounts report the compliance status of each account's rules to the AWS Config delegated administrator account by using an AWS Config\naggregator. Each account administrator can configure and manage the account's own AWS Config rules to handle each account's unique\ncompliance requirements.\nA security engineer needs to implement a solution to automatically deploy a set of 10 AWS Config rules to all existing and future AWS accounts in\nthe organization. The solution must turn on AWS Config automatically during account creation.\nWhich combination of steps will meet these requirements? (Choose two.)",
-        "options": {
-            "A": "Create an AWS CloudFormation template that contains the 10 required AWS Config rules. Deploy the template by using CloudFormation StackSets in the security-01 account.",
-            "B": "Create a conformance pack that contains the 10 required AWS Config rules. Deploy the conformance pack from the security-01 account.",
-            "C": "Create a conformance pack that contains the 10 required AWS Config rules. Deploy the conformance pack from the management-01 account.",
-            "D": "Create an AWS CloudFormation template that will activate AWS Config. Deploy the template by using CloudFormation StackSets in the security-01 account.",
-            "E": "Create an AWS CloudFormation template that will activate AWS Config. Deploy the template by using CloudFormation StackSets in the management-01 account. "
-        },
-        "correctAnswer": [
-            "B",
-            "E"
-        ]
+      "type": "single",
+      "question": "A company is building an application on AWS that will store sensitive information. The company has a support team with access to the IT infrastructure, including databases. The company’s security engineer must introduce measures to protect the sensitive data against any data breach while minimizing management overhead. The credentials must be regularly rotated. What should the security engineer recommend?",
+      "options": {
+        "A": "Enable Amazon RDS encryption to encrypt the database and snapshots. Enable Amazon Elastic Block Store (Amazon EBS) encryption on Amazon EC2 instances. Include the database credential in the EC2 user data field. Use an AWS Lambda function to rotate database credentials. Set up TLS for the connection to the database.",
+        "B": "Install a database on an Amazon EC2 instance. Enable third-party disk encryption to encrypt the Amazon Elastic Block Store (Amazon EBS) volume. Store the database credentials in AWS CloudHSM with automatic rotation. Set up TLS for the connection to the database.",
+        "C": "Enable Amazon RDS encryption to encrypt the database and snapshots. Enable Amazon Elastic Black Store (Amazon EBS) encryption on Amazon EC2 instances. Store the database credentials in AWS Secrets Manager with automatic rotation. Set up TLS for the connection to the RDS hosted database.",
+        "D": "Set up an AWS CloudHSM cluster with AWS Key Management Service (AWS KMS) to store KMS keys. Set up Amazon RDS encryption using AWS KMS to encrypt the database. Store database credentials in the AWS Systems Manager Parameter Store with automatic rotation. Set up TLS for the connection to the RDS hosted database."
+      },
+      "correctAnswer": "C"
     },
     {
-        "type": "multi",
-        "question": "A company has a legacy application that runs on a single Amazon EC2 instance. A security audit shows that the application has been using an\nIAM access key within its code to access an Amazon S3 bucket that is named DOC-EXAMPLE-BUCKET1 in the same AWS account. This access\nkey pair has the s3:GetObject permission to all objects in only this S3 bucket. The company takes the application offline because the application is\nnot compliant with the company\u0019s security policies for accessing other AWS resources from Amazon EC2.\nA security engineer validates that AWS CloudTrail is turned on in all AWS Regions. CloudTrail is sending logs to an S3 bucket that is named DOCEXAMPLE-BUCKET2. This S3 bucket is in the same AWS account as DOC-EXAMPLE-BUCKET1. However, CloudTrail has not been configured to\nsend logs to Amazon CloudWatch Logs.\nThe company wants to know if any objects in DOC-EXAMPLE-BUCKET1 were accessed with the IAM access key in the past 60 days. If any objects\nwere accessed, the company wants to know if any of the objects that are text files (.txt extension) contained personally identifiable information\n(PII).\nWhich combination of steps should the security engineer take to gather this information? (Choose two.)",
-        "options": {
-            "A": "Use Amazon CloudWatch Logs Insights to identify any objects in DOC-EXAMPLE-BUCKET1 that contain PII and that were available to the access key.",
-            "B": "Use Amazon OpenSearch Service to query the CloudTrail logs in DOC-EXAMPLE-BUCKET2 for API calls that used the access key to access an object that contained PII.",
-            "C": "Use Amazon Athena to query the CloudTrail logs in DOC-EXAMPLE-BUCKET2 for any API calls that used the access key to access an object that contained PII.",
-            "D": "Use AWS Identity and Access Management Access Analyzer to identify any API calls that used the access key to access objects that contained PII in DOC-EXAMPLE-BUCKET1.",
-            "E": "Configure Amazon Macie to identify any objects in DOC-EXAMPLE-BUCKET1 that contain PII and that were available to the access key. "
-        },
-        "correctAnswer": [
-            "C",
-            "E"
-        ]
+      "type": "single",
+      "question": "A company is using Amazon Route 53 Resolver for its hybrid DNS infrastructure. The company has set up Route 53 Resolver forwarding rules for authoritative domains that are hosted on on-premises DNS servers. A new security mandate requires the company to implement a solution to log and query DNS traffic that goes to the on-premises DNS servers. The logs must show details of the source IP address of the instance from which the query originated. The logs also must show the DNS name that was requested in Route 53 Resolver. Which solution will meet these requirements?",
+      "options": {
+        "A": "Use VPC Traffic Mirroring. Configure all relevant elastic network interfaces as the traffic source, include amazon-dns in the mirror filter, and set Amazon CloudWatch Logs as the mirror target. Use CloudWatch Insights on the mirror session logs to run queries on the source IP address and DNS name.",
+        "B": "Configure VPC flow logs on all relevant VPCs. Send the logs to an Amazon S3 bucket. Use Amazon Athena to run SQL queries on the source IP address and DNS name.",
+        "C": "Configure Route 53 Resolver query logging on all relevant VPCs. Send the logs to Amazon CloudWatch Logs. Use CloudWatch Insights to run queries on the source IP address and DNS name.",
+        "D": "Modify the Route 53 Resolver rules on the authoritative domains that forward to the on-premises DNS servers. Send the logs to an Amazon S3 bucket. Use Amazon Athena to run SQL queries on the source IP address and DNS name."
+      },
+      "correctAnswer": "C"
     },
     {
-        "type": "single",
-        "question": "A security engineer creates an Amazon S3 bucket policy that denies access to all users. A few days later, the security engineer adds an additional\nstatement to the bucket policy to allow read-only access to one other employee. Even after updating the policy, the employee sill receives an\naccess denied message.\nWhat is the likely cause of this access denial?",
-        "options": {
-            "A": "The ACL in the bucket needs to be updated.",
-            "B": "The IAM policy does not allow the user to access the bucket.",
-            "C": "It takes a few minutes for a bucket policy to take effect.",
-            "D": "The allow permission is being overridden by the deny. "
-        },
-        "correctAnswer": [
-            "D"
-        ]
-    },
-    {
-        "type": "single",
-        "question": "A company is using Amazon Macie, AWS Firewall Manager, Amazon Inspector, and AWS Shield Advanced in its AWS account. The company wants\nto receive alerts if a DDoS attack occurs against the account.\nWhich solution will meet this requirement?",
-        "options": {
-            "A": "Use Macie to detect an active DDoS event. Create Amazon CloudWatch alarms that respond to Macie findings.",
-            "B": "Use Amazon inspector to review resources and to invoke Amazon CloudWatch alarms for any resources that are vulnerable to DDoS attacks.",
-            "C": "Create an Amazon CloudWatch alarm that monitors Firewall Manager metrics for an active DDoS event.",
-            "D": "Create an Amazon CloudWatch alarm that monitors Shield Advanced metrics for an active DDoS event. "
-        },
-        "correctAnswer": [
-            "D"
-        ]
-    },
-    {
-        "type": "single",
-        "question": "**A company hosts a web application on an Apache web server. The application runs on Amazon EC2 instances that are in an Auto Scaling group.\nThe company configured the EC2 instances to send the Apache web server logs to an Amazon CloudWatch Logs group that the company has\nconfigured to expire after 1 year.\nRecently, the company discovered in the Apache web server logs that a specific IP address is sending suspicious requests to the web application.\nA security engineer wants to analyze the past week of Apache web server logs to determine how many requests that the IP address sent and the\ncorresponding URLs that the IP address requested.\nWhat should the security engineer do to meet these requirements with the LEAST effort?",
-        "options": {
-            "A": "Export the CloudWatch Logs group data to Amazon S3. Use Amazon Macie to query the logs for the specific IP address and the requested URL.",
-            "B": "Configure a CloudWatch Logs subscription to stream the log group to an Amazon OpenSearch Service cluster. Use OpenSearch Service to analyze the logs for the specific IP address and the requested URLs.",
-            "C": "Use CloudWatch Logs Insights and a custom query syntax to analyze the CloudWatch logs for the specific IP address and the requested URLs.",
-            "D": "Export the CloudWatch Logs group data to Amazon S3. Use AWS Glue to crawl the S3 bucket for only the log entries that contain the specific IP address. Use AWS Glue to view the results. "
-        },
-        "correctAnswer": [
-            "C"
-        ],
-        "explanation": "<p>The solution that will meet the requirements with the LEAST effort is:</p><p>C. Use CloudWatch Logs Insights and a custom query syntax to analyze the CloudWatch logs for the specific IP address and the requested URLs.</p><p>Here's the explanation:</p><p>Option C utilizes CloudWatch Logs Insights, which is designed for querying and analyzing log data in CloudWatch Logs. It allows you to run custom queries using a simple query syntax and extract the information you need without the need for additional services or data exports. This approach is straightforward and requires the least effort to analyze the logs for the specific IP address and requested URLs within the past week.</p><p>Options A and D involve exporting data to Amazon S3 and then using additional services (Macie and AWS Glue, respectively) for analysis. While these options can work, they introduce additional complexity and effort, including configuring exports, setting up services, and potentially incurring additional costs.</p><p>Option B suggests using Amazon OpenSearch Service to analyze the logs. While it's a powerful service for log analysis, it might be considered overkill for this specific task, as CloudWatch Logs Insights can efficiently handle the query and analysis requirements without the need for setting up and maintaining an OpenSearch cluster.</p><p>In summary, option C is the most straightforward and least effort-intensive solution for analyzing the Apache web server logs for the specific IP address and requested URLs within the past week.</p>"
-    },
-    {
-        "type": "single",
-        "question": "**While securing the connection between a company\u0019s VPC and its on-premises data center, a security engineer sent a ping command from an onpremises host (IP address 203.0.113.12) to an Amazon EC2 instance (IP address 172.31.16.139). The ping command did not return a response.\nThe flow log in the VPC showed the following:\n\nWhat action should be performed to allow the ping to work?",
-        "options": {
-            "A": "In the security group of the EC2 instance, allow inbound ICMP traffic.",
-            "B": "In the security group of the EC2 instance, allow outbound ICMP traffic.",
-            "C": "In the VPC\u0019s NACL, allow inbound ICMP traffic.",
-            "D": "In the VPC\u0019s NACL, allow outbound ICMP traffic. "
-        },
-        "correctAnswer": [
-            "D"
-        ],
-        "image": "25.png",
-        "explanation": "<p>In the VPC's Network Access Control List (NACL), allow outbound ICMP traffic.</p><p>Go to the AWS Management Console.</p><p>Open the V VPC Dashboard.</p><p>Select the VPC where your EC2 instance is located.</p><p>In the &quot;Network ACLs&quot; section, select the appropriate NACL.</p><p>Edit the NACL's outbound rules to allow ICMP traffic (ping). You can do this by adding a new outbound rule that allows traffic from source IP 172.31.16.139 to destination IP 203.0.113.12 using protocol ICMP (ping).</p><p>Allowing outbound ICMP traffic in the NACL would ensure that responses from the EC2 instance to the on-premises host are allowed.</p>"
-    },
-    {
-        "type": "single",
-        "question": "A company developed an application by using AWS Lambda, Amazon S3, Amazon Simple Notification Service (Amazon SNS), and Amazon\nDynamoDB. An external application puts objects into the company's S3 bucket and tags the objects with date and time. A Lambda function\nperiodically pulls data from the company's S3 bucket based on date and time tags and inserts specific values into a DynamoDB table for further\nprocessing.\nThe data includes personally identifiable information (PII). The company must remove data that is older than 30 days from the S3 bucket and the\nDynamoDB table.\nWhich solution will meet this requirement with the MOST operational efficiency?",
-        "options": {
-            "A": "Update the Lambda function to add a TTL S3 flag to S3 objects. Create an S3 Lifecycle policy to expire objects that are older than 30 days by using the TTL S3 flag.",
-            "B": "Create an S3 Lifecycle policy to expire objects that are older than 30 days. Update the Lambda function to add the TTL attribute in the DynamoDB table. Enable TTL on the DynamoDB table to expire entries that are older than 30 days based on the TTL attribute.",
-            "C": "Create an S3 Lifecycle policy to expire objects that are older than 30 days and to add all prefixes to the S3 bucket. Update the Lambda function to delete entries that are older than 30 days.",
-            "D": "Create an S3 Lifecycle policy to expire objects that are older than 30 days by using object tags. Update the Lambda function to delete entries that are older than 30 days. "
-        },
-        "correctAnswer": [
-            "B"
-        ]
-    },
-    {
-        "type": "multi",
-        "question": "What are the MOST secure ways to protect the AWS account root user of a recently opened AWS account? (Choose two.)",
-        "options": {
-            "A": "Use the AWS account root user access keys instead of the AWS Management Console.",
-            "B": "Enable multi-factor authentication for the AWS IAM users with the AdministratorAccess managed policy attached to them.",
-            "C": "Use AWS KMS to encrypt all AWS account root user and AWS IAM access keys and set automatic rotation to 30 days.",
-            "D": "Do not create access keys for the AWS account root user; instead, create AWS IAM users.",
-            "E": "Enable multi-factor authentication for the AWS account root user. "
-        },
-        "correctAnswer": [
-            "D",
-            "E"
-        ]
-    },
-    {
-        "type": "single",
-        "question": "**A company is expanding its group of stores. On the day that each new store opens, the company wants to launch a customized web application\nfor that store. Each store's application will have a non-production environment and a production environment. Each environment will be deployed\nin a separate AWS account. The company uses AWS Organizations and has an OU that is used only for these accounts.\nThe company distributes most of the development work to third-party development teams. A security engineer needs to ensure that each team\nfollows the company's deployment plan for AWS resources. The security engineer also must limit access to the deployment plan to only the\ndevelopers who need access. The security engineer already has created an AWS CloudFormation template that implements the deployment plan.\nWhat should the security engineer do next to meet the requirements in the MOST secure way?",
-        "options": {
-            "A": "Create an AWS Service Catalog portfolio in the organization's management account. Upload the CloudFormation template. Add the template to the portfolio's product list. Share the portfolio with the OU.",
-            "B": "Use the CloudFormation CLI to create a module from the CloudFormation template. Register the module as a private extension in the CloudFormation registry. Publish the extension. In the OU, create an SCP that allows access to the extension.",
-            "C": "Create an AWS Service Catalog portfolio in the organization's management account. Upload the CloudFormation template. Add the template to the portfolio's product list. Create an IAM role that has a trust policy that allows cross-account access to the portfolio for users in the OU accounts. Attach the AWSServiceCatalogEndUserFullAccess managed policy to the role.",
-            "D": "Use the CloudFormation CLI to create a module from the CloudFormation template. Register the module as a private extension in the CloudFormation registry. Publish the extension. Share the extension with the OU. "
-        },
-        "correctAnswer": [
-            "A"
-        ],
-        "explanation": "<p>To meet the requirements in the MOST secure way, the security engineer should consider the following:</p><p>A. Create an AWS Service Catalog portfolio in the organization's management account. Upload the CloudFormation template. Add the template to the portfolio's product list. Share the portfolio with the OU.</p><p>Here's the explanation:</p><p>- AWS Service Catalog is a service that allows organizations to create and manage catalogs of IT services. It provides a way to standardize and control the deployment of AWS resources.</p><p>- By creating a Service Catalog portfolio in the management account, uploading the CloudFormation template, and sharing the portfolio with the OU, you are ensuring a centralized and controlled way to distribute the CloudFormation template to the various stores' environments.</p><p>- This approach allows for fine-grained control over who has access to launch the CloudFormation template and deploy resources while maintaining security.</p><p>Option B and Option D involve creating a private extension in the CloudFormation registry and then sharing it with the OU. This approach may not provide the level of control and governance required for deploying resources in a secure and organized manner.</p><p>Option C suggests creating an IAM role to allow cross-account access to the Service Catalog portfolio, which might introduce unnecessary complexity and potentially broader access than needed.</p><p>Therefore, Option A is the most secure and suitable approach for distributing the CloudFormation template and ensuring that the deployment plan is followed by the various store environments while limiting access to the developers who need it.</p>"
-    },
-    {
-        "type": "single",
-        "question": "A team is using AWS Secrets Manager to store an application database password. Only a limited number of IAM principals within the account can\nhave access to the secret. The principals who require access to the secret change frequently. A security engineer must create a solution that\nmaximizes flexibility and scalability.\nWhich solution will meet these requirements?",
-        "options": {
-            "A": "Use a role-based approach by creating an IAM role with an inline permissions policy that allows access to the secret. Update the IAM principals in the role trust policy as required.",
-            "B": "Deploy a VPC endpoint for Secrets Manager. Create and attach an endpoint policy that specifies the IAM principals that are allowed to access the secret. Update the list of IAM principals as required.",
-            "C": "Use a tag-based approach by attaching a resource policy to the secret. Apply tags to the secret and the IAM principals. Use the aws:PrincipalTag and aws:ResourceTag IAM condition keys to control access.",
-            "D": "Use a deny-by-default approach by using IAM policies to deny access to the secret explicitly. Attach the policies to an IAM group. Add all IAM principals to the IAM group. Remove principals from the group when they need access. Add the principals to the group again when access is no longer allowed. "
-        },
-        "correctAnswer": [
-            "C"
-        ]
-    },
-    {
-        "type": "single",
-        "question": "A company is hosting a web application on Amazon EC2 instances behind an Application Load Balancer (ALB). The application has become the\ntarget of a DoS attack. Application logging shows that requests are coming from a small number of client IP addresses, but the addresses change\nregularly.\nThe company needs to block the malicious traffic with a solution that requires the least amount of ongoing effort.\nWhich solution meets these requirements?",
-        "options": {
-            "A": "Create an AWS WAF rate-based rule, and attach it to the ALB.",
-            "B": "Update the security group that is attached to the ALB to block the attacking IP addresses.",
-            "C": "Update the ALB subnet's network ACL to block the attacking client IP addresses.",
-            "D": "Create an AWS WAF rate-based rule, and attach it to the security group of the EC2 instances. "
-        },
-        "correctAnswer": [
-            "A"
-        ]
-    },
-    {
-        "type": "single",
-        "question": "A company has hundreds of AWS accounts in an organization in AWS Organizations. The company operates out of a single AWS Region. The\ncompany has a dedicated security tooling AWS account in the organization. The security tooling account is configured as the organization's\ndelegated administrator for Amazon GuardDuty and AWS Security Hub. The company has configured the environment to automatically enable\nGuardDuty and Security Hub for existing AWS accounts and new AWS accounts.\nThe company is performing control tests on specific GuardDuty findings to make sure that the company's security team can detect and respond to\nsecurity events. The security team launched an Amazon EC2 instance and attempted to run DNS requests against a test domain, example.com, to\ngenerate a DNS finding. However, the GuardDuty finding was never created in the Security Hub delegated administrator account.\nWhy was the finding was not created in the Security Hub delegated administrator account?",
-        "options": {
-            "A": "VPC flow logs were not turned on for the VPC where the EC2 instance was launched.",
-            "B": "The VPC where the EC2 instance was launched had the DHCP option configured for a custom OpenDNS resolver.",
-            "C": "The GuardDuty integration with Security Hub was never activated in the AWS account where the finding was generated.",
-            "D": "Cross-Region aggregation in Security Hub was not configured. "
-        },
-        "correctAnswer": [
-            "B"
-        ]
-    },
-    {
-        "type": "single",
-        "question": "**An ecommerce company has a web application architecture that runs primarily on containers. The application containers are deployed on Amazon\nElastic Container Service (Amazon ECS). The container images for the application are stored in Amazon Elastic Container Registry (Amazon ECR).\nThe company's security team is performing an audit of components of the application architecture. The security team identifies issues with some\ncontainer images that are stored in the container repositories.\nThe security team wants to address these issues by implementing continual scanning and on-push scanning of the container images. The security\nteam needs to implement a solution that makes any findings from these scans visible in a centralized dashboard. The security team plans to use\nthe dashboard to view these findings along with other security-related findings that they intend to generate in the future. There are specific\nrepositories that the security team needs to exclude from the scanning process.\nWhich solution will meet these requirements?",
-        "options": {
-            "A": "Use Amazon Inspector. Create inclusion rules in Amazon ECR to match repositories that need to be scanned. Push Amazon Inspector findings to AWS Security Hub.",
-            "B": "Use ECR basic scanning of container images. Create inclusion rules in Amazon ECR to match repositories that need to be scanned. Push findings to AWS Security Hub.",
-            "C": "Use ECR basic scanning of container images. Create inclusion rules in Amazon ECR to match repositories that need to be scanned. Push findings to Amazon Inspector.",
-            "D": "Use Amazon Inspector. Create inclusion rules in Amazon Inspector to match repositories that need to be scanned. Push Amazon Inspector findings to AWS Config. "
-        },
-        "correctAnswer": [
-            "A"
-        ],
-        "explanation":"<p>Why Option A is Correct:</p><p>A. Use Amazon Inspector. Create inclusion rules in Amazon ECR to match repositories that need to be scanned. Push Amazon Inspector findings to AWS Security Hub.</p><p>Amazon Inspector's Capabilities: As per the FAQs, Amazon Inspector now offers automated and continual scanning of container images in Amazon ECR, addressing the need for both continual and on-push scanning. It automatically scans new container images as they are pushed to ECR and rescans images when new vulnerabilities are discovered, or when changes occur that may introduce new vulnerabilities.</p><p>Integration with AWS Security Hub: Amazon Inspector integrates seamlessly with AWS Security Hub, allowing findings from Inspector to be centralized alongside other security-related findings. This meets the company's requirement for a dashboard that consolidates security findings for easier management and visibility.</p><p>Exclusion of Specific Repositories: The FAQs mention the ability to configure inclusion rules for scanning in Amazon ECR, allowing the security team to specify which repositories should be scanned. This capability enables the exclusion of specific repositories from the scanning process, as required by the company.</p><p>Understanding why the other options are incorrect requires examining the specific capabilities and integrations of the AWS services mentioned in the context of the ecommerce company's requirements for scanning container images in Amazon ECR and centralizing findings:</p><p>### B. Use ECR basic scanning of container images. Create inclusion rules in Amazon ECR to match repositories that need to be scanned. Push findings to AWS Security Hub.</p><p>- **Incorrect Because:** While ECR basic scanning provides on-push scanning capabilities using the Clair scanner, it does not support continual scanning of container images for new vulnerabilities as they are discovered. This limitation makes it less suitable for the requirement of continuous monitoring. Furthermore, while ECR findings can be integrated with AWS Security Hub, the basic scanning feature does not offer as comprehensive vulnerability intelligence or as many features (such as scanning programming language packages) as Amazon Inspector.</p><p>### C. Use ECR basic scanning of container images. Create inclusion rules in Amazon ECR to match repositories that need to be scanned. Push findings to Amazon Inspector.</p><p>- **Incorrect Because:** This option suggests pushing findings from ECR to Amazon Inspector, which misrepresents the functionality of these services. Amazon Inspector is the service that performs the scanning and generates findings, not a service that receives findings from ECR. ECR does not push its scanning findings to Amazon Inspector; instead, it can integrate with AWS Security Hub for centralized visibility.</p><p>### D. Use Amazon Inspector. Create inclusion rules in Amazon Inspector to match repositories that need to be scanned. Push Amazon Inspector findings to AWS Config.</p><p>- **Incorrect Because:** AWS Config is a service designed for assessing, auditing, and evaluating the configurations of your AWS resources. While it can record configurations and changes over time, it is not designed to aggregate or analyze security findings from services like Amazon Inspector. Pushing Amazon Inspector findings to AWS Config does not align with the requirement for a centralized dashboard for security findings, which is better served by AWS Security Hub, a service specifically designed to aggregate, organize, and prioritize security alerts and findings from AWS services and AWS Partner solutions.</p><p>### Conclusion:</p><p>The key to selecting the correct option lies in understanding the functionalities of Amazon Inspector, ECR, AWS Security Hub, and AWS Config, and how these services interoperate. Amazon Inspector&rsquo;s enhanced capabilities for scanning container images in ECR, along with its integration with AWS Security Hub for central visibility and management of security findings, make **option A** the most accurate and efficient solution for the ecommerce company&rsquo;s requirements. The other options either misrepresent the capabilities of the services involved or do not fully meet the requirements for continual and on-push scanning, exclusion of specific repositories, and centralized visibility of security findings.</p>"
-    },
-    {
-        "type": "multi",
-        "question": "A company has a single AWS account and uses an Amazon EC2 instance to test application code. The company recently discovered that the\ninstance was compromised. The instance was serving up malware. The analysis of the instance showed that the instance was compromised 35\ndays ago.\nA security engineer must implement a continuous monitoring solution that automatically notifies the company's security team about compromised\ninstances through an email distribution list for high severity findings. The security engineer must implement the solution as soon as possible.\nWhich combination of steps should the security engineer take to meet these requirements? (Choose three.)",
-        "options": {
-            "A": "Enable AWS Security Hub in the AWS account.",
-            "B": "Enable Amazon GuardDuty in the AWS account.",
-            "C": "Create an Amazon Simple Notification Service (Amazon SNS) topic. Subscribe the security team's email distribution list to the topic.",
-            "D": "Create an Amazon Simple Queue Service (Amazon SQS) queue. Subscribe the security team's email distribution list to the queue.",
-            "E": "Create an Amazon EventBridge rule for GuardDuty findings of high severity. Configure the rule to publish a message to the topic.",
-            "F": "Create an Amazon EventBridge rule for Security Hub findings of high severity. Configure the rule to publish a message to the queue."
-        },
-        "correctAnswer": [
-            "B",
-            "C",
-            "E"
-        ],
-        "explanation":"<p>Given the detailed steps you've provided for configuring Amazon EventBridge to trigger custom Amazon SNS notifications based on specific Amazon GuardDuty findings, and considering the initial question about implementing a continuous monitoring solution that automatically notifies the company's security team about compromised instances, let's revisit the options with a focus on BCE:</p><p>### B. Enable Amazon GuardDuty in the AWS account.</p><p>- **Correct Choice:** Amazon GuardDuty is essential for detecting threats and unauthorized behavior across your AWS infrastructure, including compromised EC2 instances. Enabling GuardDuty is a foundational step in setting up a monitoring solution that can identify potential security issues.</p><p>### C. Create an Amazon Simple Notification Service (Amazon SNS) topic. Subscribe the security team's email distribution list to the topic.</p><p>- **Correct Choice:** For notifications to reach the security team, an SNS topic is necessary. Subscribing the team's email distribution list to this topic ensures that alerts generated by GuardDuty findings are promptly communicated, allowing for quick action.</p><p>### E. Create an Amazon EventBridge rule for GuardDuty findings of high severity. Configure the rule to publish a message to the topic.</p><p>- **Correct Choice:** This step is crucial for automating the response to GuardDuty findings. By creating an EventBridge rule that triggers on high severity findings from GuardDuty and configuring it to publish messages to an SNS topic, you automate the notification process. This ensures that the security team is alerted to serious issues without manual intervention.</p><p>Given the capability to configure detailed notifications using EventBridge and SNS, as outlined in the steps you provided, BCE indeed forms a coherent and effective strategy for meeting the requirement to automatically notify the security team about compromised instances with high severity findings.</p><p>This combination leverages:</p><p>- **B (GuardDuty):** For continuous threat detection and monitoring. - **C (SNS Topic):** For setting up a notification channel. - **E (EventBridge Rule):** For automating the process of filtering high severity findings and notifying the security team.</p><p>The detailed instructions you've provided for configuring EventBridge to send custom notifications based on GuardDuty findings further support the selection of BCE as the correct combination of steps. It showcases a practical application of AWS services to achieve a streamlined, automated security monitoring and notification system.</p>"
+      "type": "multi",
+      "question": "A security engineer is configuring account-based access control (ABAC) to allow only specific principals to put objects into an Amazon S3 bucket. The principals already have access to Amazon S3. The security engineer needs to configure a bucket policy that allows principals to put objects into the S3 bucket only if the value of the Team tag on the object matches the value of the Team tag that is associated with the principal. During testing, the security engineer notices that a principal can still put objects into the S3 bucket when the tag values do not match. Which combination of factors are causing the PutObject operation to succeed when the tag values are different?",
+      "options": {
+        "A": "The principal's identity-based policy grants access to put objects into the S3 bucket with no conditions.",
+        "B": "The principal's identity-based policy overrides the condition because the identity-based policy contains an explicit allow.",
+        "C": "The S3 bucket's resource policy does not deny access to put objects.",
+        "D": "The S3 bucket's resource policy cannot allow actions to the principal.",
+        "E": "The bucket policy does not apply to principals in the same zone of trust."
+      },
+      "correctAnswer": [
+        "A",
+        "C"
+      ]
     }
-]
+  ]
+  
+  
