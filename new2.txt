@@ -1,215 +1,228 @@
-Question #44
+Question #55
 
-A company uses Amazon RDS for MySQL as a database engine for its applications. A recent security audit revealed an RDS instance that is not
-compliant with company policy for encrypting data at rest. A security engineer at the company needs to ensure that all existing RDS databases are
-encrypted using server-side encryption and that any future deviations from the policy are detected.
-Which combination of steps should the security engineer take to accomplish this? (Choose two.)
-
-A. Create an AWS Config rule to detect the creation of unencrypted RDS databases. Create an Amazon EventBridge rule to trigger on the AWS
-Config rules compliance state change and use Amazon Simple Notification Service (Amazon SNS) to notify the security operations team.
-B. Use AWS System Manager State Manager to detect RDS database encryption configuration drift. Create an Amazon EventBridge rule to
-track state changes and use Amazon Simple Notification Service (Amazon SNS) to notify the security operations team.
-C. Create a read replica for the existing unencrypted RDS database and enable replica encryption in the process. Once the replica becomes
-active, promote it into a standalone database instance and terminate the unencrypted database instance.
-D. Take a snapshot of the unencrypted RDS database. Copy the snapshot and enable snapshot encryption in the process. Restore the
-database instance from the newly created encrypted snapshot. Terminate the unencrypted database instance.
-E. Enable encryption for the identified unencrypted RDS instance by changing the configurations of the existing database.
----
-Correct Answer: AD
----
-
-
-Question #45
-
-A company has recently recovered from a security incident that required the restoration of Amazon EC2 instances from snapshots. The company
-uses an AWS Key Management Service (AWS KMS) customer managed key to encrypt all Amazon Elastic Block Store (Amazon EBS) snapshots.
-The company performs a gap analysis of its disaster recovery procedures and backup strategies. A security engineer needs to implement a
-solution so that the company can recover the EC2 instances if the AWS account is compromised and the EBS snapshots are deleted.
-Which solution will meet this requirement?
-
-A. Create a new Amazon S3 bucket. Use EBS lifecycle policies to move EBS snapshots to the new S3 bucket. Use lifecycle policies to move
-snapshots to the S3 Glacier Instant Retrieval storage class. Use S3 Object Lock to prevent deletion of the snapshots.
-B. Use AWS Systems Manager to distribute a configuration that backs up all attached disks to Amazon S3.
-C. Create a new AWS account that has limited privileges. Allow the new account to access the KMS key that encrypts the EBS snapshots.
-Copy the encrypted snapshots to the new account on a recurring basis.
-D. Use AWS Backup to copy EBS snapshots to Amazon S3. Use S3 Object Lock to prevent deletion of the snapshots.
----
-Correct Answer: C
----
-
-
-Question #46
-
-A company's security engineer is designing an isolation procedure for Amazon EC2 instances as part of an incident response plan. The security
-engineer needs to isolate a target instance to block any traffic to and from the target instance, except for traffic from the company's forensics
-team. Each of the company's EC2 instances has its own dedicated security group. The EC2 instances are deployed in subnets of a VPC. A subnet
-can contain multiple instances.
-The security engineer is testing the procedure for EC2 isolation and opens an SSH session to the target instance. The procedure starts to simulate
-access to the target instance by an attacker. The security engineer removes the existing security group rules and adds security group rules to give
-the forensics team access to the target instance on port 22.
-After these changes, the security engineer notices that the SSH connection is still active and usable. When the security engineer runs a ping
-command to the public IP address of the target instance, the ping command is blocked.
-What should the security engineer do to isolate the target instance?
-
-A. Add an inbound rule to the security group to allow traffic from 0.0.0.0/0 for all ports. Add an outbound rule to the security group to allow
-traffic to 0.0.0.0/0 for all ports. Then immediately delete these rules.
-B. Remove the port 22 security group rule. Attach an instance role policy that allows AWS Systems Manager Session Manager connections so
-that the forensics team can access the target instance.
-C. Create a network ACL that is associated with the target instance's subnet. Add a rule at the top of the inbound rule set to deny all traffic
-from 0.0.0.0/0. Add a rule at the top of the outbound rule set to deny all traffic to 0.0.0.0/0.
-D. Create an AWS Systems Manager document that adds a host-level firewall rule to block all inbound traffic and outbound traffic. Run the
-document on the target instance.
----
-Correct Answer: B
----
-
-
-
-Question #47
-
-A startup company is using a single AWS account that has resources in a single AWS Region. A security engineer configures an AWS CloudTrail
-trail in the same Region to deliver log files to an Amazon S3 bucket by using the AWS CLI.
-Because of expansion, the company adds resources in multiple Regions. The security engineer notices that the logs from the new Regions are not
-reaching the S3 bucket.
-What should the security engineer do to fix this issue with the LEAST amount of operational overhead?
-
-A. Create a new CloudTrail trail. Select the new Regions where the company added resources.
-B. Change the S3 bucket to receive notifications to track all actions from all Regions.
-C. Create a new CloudTrail trail that applies to all Regions.
-D. Change the existing CloudTrail trail so that it applies to all Regions.
----
-Correct Answer: B
----
-
-
-
-Question #48
-
-A company's public Application Load Balancer (ALB) recently experienced a DDoS attack. To mitigate this issue, the company deployed Amazon
-CloudFront in front of the ALB so that users would not directly access the Amazon EC2 instances behind the ALB.
-The company discovers that some traffic is still coming directly into the ALB and is still being handled by the EC2 instances.
-Which combination of steps should the company take to ensure that the EC2 instances will receive traffic only from CloudFront? (Choose two.)
-
-A. Configure CloudFront to add a cache key policy to allow a custom HTTP header that CloudFront sends to the ALB.
-B. Configure CloudFront to add a custom HTTP header to requests that CloudFront sends to the ALB.
-C. Configure the ALB to forward only requests that contain the custom HTTP header.
-D. Configure the ALB and CloudFront to use the X-Forwarded-For header to check client IP addresses.
-E. Configure the ALB and CloudFront to use the same X.509 certificate that is generated by AWS Certificate Manager (ACM).
----
-Correct Answer: BC
----
-
-
-Question #49
-
-A company discovers a billing anomaly in its AWS account. A security consultant investigates the anomaly and discovers that an employee who
-left the company 30 days ago still has access to the account. The company has not monitored account activity in the past.
-The security consultant needs to determine which resources have been deployed or reconfigured by the employee as quickly as possible.
+A company is using AWS to run a long-running analysis process on data that is stored in Amazon S3 buckets. The process runs on a fleet of
+Amazon EC2 instances that are in an Auto Scaling group. The EC2 instances are deployed in a private subnet of a VPC that does not have internet
+access. The EC2 instances and the S3 buckets are in the same AWS account.
+The EC2 instances access the S3 buckets through an S3 gateway endpoint that has the default access policy. Each EC2 instance is associated
+with an instance profile role that has a policy that explicitly allows the s3:GetObject action and the s3:PutObject action for only the required S3
+buckets.
+The company learns that one or more of the EC2 instances are compromised and are exfiltrating data to an S3 bucket that is outside the
+company's organization in AWS Organizations. A security engineer must implement a solution to stop this exfiltration of data and to keep the EC2
+processing job functional.
 Which solution will meet these requirements?
 
-A. In AWS Cost Explorer, filter chart data to display results from the past 30 days. Export the results to a data table. Group the data table by
-resource.
-B. Use AWS Cost Anomaly Detection to create a cost monitor. Access the detection history. Set the time frame to Last 30 days. In the search
-area, choose the service category.
-C. In AWS CloudTrail, filter the event history to display results from the past 30 days. Create an Amazon Athena table that contains the data.
-Partition the table by event source.
-D. Use AWS Audit Manager to create an assessment for the past 30 days. Apply a usage-based framework to the assessment. Configure the
-assessment to assess by resource.
----
+A. Update the policy on the S3 gateway endpoint to allow the S3 actions only if the values of the aws:ResourceOrgID and aws:PrincipalOrgID
+condition keys match the company's values.
+B. Update the policy on the instance profile role to allow the S3 actions only if the value of the aws:ResourceOrgID condition key matches the
+company's value.
+C. Add a network ACL rule to the subnet of the EC2 instances to block outgoing connections on port 443.
+D. Apply an SCP on the AWS account to allow the S3 actions only if the values of the aws:ResourceOrgID and aws:PrincipalOrgID condition
+keys match the company's values.
+
+Correct Answer: D
+
+
+
+Question #56
+
+A company that operates in a hybrid cloud environment must meet strict compliance requirements. The company wants to create a report that
+includes evidence from on-premises workloads alongside evidence from AWS resources. A security engineer must implement a solution to collect,
+review, and manage the evidence to demonstrate compliance with company policy.
+Which solution will meet these requirements?
+
+A. Create an assessment in AWS Audit Manager from a prebuilt framework or a custom framework. Upload manual evidence from the onpremises workloads. Add the evidence to the assessment. Generate an assessment report after Audit Manager collects the necessary
+evidence from the AWS resources.
+B. Install the Amazon CloudWatch agent on the on-premises workloads. Use AWS Config to deploy a conformance pack from a sample
+conformance pack template or a custom YAML template. Generate an assessment report after AWS Config identifies noncompliant workloads
+and resources.
+C. Set up the appropriate security standard in AWS Security Hub. Upload manual evidence from the on-premises workloads. Wait for Security
+Hub to collect the evidence from the AWS resources. Download the list of controls as a .csv file.
+D. Install the Amazon CloudWatch agent on the on-premises workloads. Create a CloudWatch dashboard to monitor the on-premises
+workloads and the AWS resources. Run a query on the workloads and resources. Download the results.
+
+Correct Answer: A
+
+
+
+
+Question #58
+
+A company has a web server in the AWS Cloud. The company will store the content for the web server in an Amazon S3 bucket. A security
+engineer must use an Amazon CloudFront distribution to speed up delivery of the content. None of the files can be publicly accessible from the S3
+bucket directly.
+Which solution will meet these requirements?
+
+A. Configure the permissions on the individual files in the S3 bucket so that only the CloudFront distribution has access to them.
+B. Create an origin access control (OAC). Associate the OAC with the CloudFront distribution. Configure the S3 bucket permissions so that
+only the OAC can access the files in the S3 bucket.
+C. Create an S3 role in AWS Identity and Access Management (IAM). Allow only the CloudFront distribution to assume the role to access the
+files in the S3 bucket.
+D. Create an S3 bucket policy that uses only the CloudFront distribution ID as the principal and the Amazon Resource Name (ARN) as the
+target.
+
 Correct Answer: B
----
 
-Question #50
 
-A security engineer is checking an AWS CloudFormation template for vulnerabilities. The security engineer finds a parameter that has a default
-value that exposes an application's API key in plaintext. The parameter is referenced several times throughout the template. The security engineer
-must replace the parameter while maintaining the ability to reference the value in the template.
-Which solution will meet these requirements in the MOST secure way?
 
-A. Store the API key value as a SecureString parameter in AWS Systems Manager Parameter Store. In the template, replace all references to
-the value with {{resolve:ssm:MySSMParameterName:1}}.
-B. Store the API key value in AWS Secrets Manager. In the template, replace all references to the value with
-{{resolve:secretsmanager:MySecretId:SecretString}}.
-C. Store the API key value in Amazon DynamoDB. In the template, replace all references to the value with
-{{resolve:dynamodb:MyTableName:MyPrimaryKey}}.
-D. Store the API key value in a new Amazon S3 bucket. In the template, replace all references to the value with
-{{resolve:s3:MyBucketName:MyObjectName}}.
----
+Question #59
+
+A security engineer logs in to the AWS Lambda console with administrator permissions. The security engineer is trying to view logs in Amazon
+CloudWatch for a Lambda function that is named myFunction. When the security engineer chooses the option in the Lambda console to view logs
+in CloudWatch, an "error loading Log Streams" message appears.
+The IAM policy for the Lambda function's execution role contains the following:
+
+How should the security engineer correct the error?
+
+A. Move the logs:CreateLogGroup action to the second Allow statement.
+B. Add the logs:PutDestination action to the second Allow statement.
+C. Add the logs:GetLogEvents action to the second Allow statement.
+D. Add the logs:CreateLogStream action to the second Allow statement.
+
+Correct Answer: D
+
+
+
+Question #60
+
+A company has a new partnership with a vendor. The vendor will process data from the company's customers. The company will upload data files
+as objects into an Amazon S3 bucket. The vendor will download the objects to perform data processing. The objects will contain sensitive data.
+A security engineer must implement a solution that prevents objects from residing in the S3 bucket for longer than 72 hours.
+Which solution will meet these requirements?
+
+A. Use Amazon Macie to scan the S3 bucket for sensitive data every 72 hours. Configure Macie to delete the objects that contain sensitive
+data when they are discovered.
+B. Configure an S3 Lifecycle rule on the S3 bucket to expire objects that have been in the S3 bucket for 72 hours.
+C. Create an Amazon EventBridge scheduled rule that invokes an AWS Lambda function every day. Program the Lambda function to remove
+any objects that have been in the S3 bucket for 72 hours.
+D. Use the S3 Intelligent-Tiering storage class for all objects that are uploaded to the S3 bucket. Use S3 Intelligent-Tiering to expire objects
+that have been in the $3 bucket for 72 hours.
+
+Correct Answer: B
+
+
+
+Question #61
+
+A company accidentally deleted the private key for an Amazon Elastic Block Store (Amazon EBS)-backed Amazon EC2 instance. A security
+engineer needs to regain access to the instance.
+Which combination of steps will meet this requirement? (Choose two.)
+
+A. Stop the instance. Detach the root volume. Generate a new key pair.
+B. Keep the instance running. Detach the root volume. Generate a new key pair.
+C. When the volume is detached from the original instance, attach the volume to another instance as a data volume. Modify the
+authorized_keys file with a new public key. Move the volume back to the original instance. Start the instance.
+D. When the volume is detached from the original instance, attach the volume to another instance as a data volume. Modify the
+authorized_keys file with a new private key. Move the volume back to the original instance. Start the instance.
+E. When the volume is detached from the original instance, attach the volume to another instance as a data volume. Modify the
+authorized_keys file with a new public key. Move the volume back to the original instance that is running.
+
+Correct Answer: AC
+
+
+
+Question #62
+
+A company purchased a subscription to a third-party cloud security scanning solution that integrates with AWS Security Hub. A security engineer
+needs to implement a solution that will remediate the findings from the third-party scanning solution automatically.
+Which solution will meet this requirement?
+
+A. Set up an Amazon EventBridge rule that reacts to new Security Hub findings. Configure an AWS Lambda function as the target for the rule
+to remediate the findings.
+B. Set up a custom action in Security Hub. Configure the custom action to call AWS Systems Manager Automation runbooks to remediate the
+findings.
+C. Set up a custom action in Security Hub. Configure an AWS Lambda function as the target for the custom action to remediate the findings.
+D. Set up AWS Config rules to use AWS Systems Manager Automation runbooks to remediate the findings.
+
 Correct Answer: A
----
 
 
-Question #51
+Question #63
 
-A company's AWS CloudTrail logs are all centrally stored in an Amazon S3 bucket. The security team controls the company's AWS account. The
-security team must prevent unauthorized access and tampering of the CloudTrail logs.
-Which combination of steps should the security team take? (Choose three.)
+An application is running on an Amazon EC2 instance that has an IAM role attached. The IAM role provides access to an AWS Key Management
+Service (AWS KMS) customer managed key and an Amazon S3 bucket. The key is used to access 2 TB of sensitive data that is stored in the S3
+bucket.
+A security engineer discovers a potential vulnerability on the EC2 instance that could result in the compromise of the sensitive data. Due to other
+critical operations, the security engineer cannot immediately shut down the EC2 instance for vulnerability patching.
+What is the FASTEST way to prevent the sensitive data from being exposed?
 
-A. Configure server-side encryption with AWS KMS managed encryption keys (SSE-KMS).
-B. Compress log files with secure gzip.
-C. Create an Amazon EventBridge rule to notify the security team of any modifications on CloudTrail log files.
-D. Implement least privilege access to the S3 bucket by configuring a bucket policy.
-E. Configure CloudTrail log file integrity validation.
-F. Configure Access Analyzer for S3.
----
-Correct Answer: ADE
----
+A. Download the data from the existing S3 bucket to a new EC2 instance. Then delete the data from the S3 bucket. Re-encrypt the data with a
+client-based key. Upload the data to a new S3 bucket.
+B. Block access to the public range of S3 endpoint IP addresses by using a host-based firewall. Ensure that internet-bound traffic from the
+affected EC2 instance is routed through the host-based firewall.
+C. Revoke the IAM role's active session permissions. Update the S3 bucket policy to deny access to the IAM role. Remove the IAM role from
+the EC2 instance profile.
+D. Disable the current key. Create a new KMS key that the IAM role does not have access to, and re-encrypt all the data with the new key.
+Schedule the compromised key for deletion.
 
-Question #52
-
-A company has several petabytes of data. The company must preserve this data for 7 years to comply with regulatory requirements. The
-company's compliance team asks a security officer to develop a strategy that will prevent anyone from changing or deleting the data.
-Which solution will meet this requirement MOST cost-effectively?
-
-A. Create an Amazon S3 bucket. Configure the bucket to use S3 Object Lock in compliance mode. Upload the data to the bucket. Create a
-resource-based bucket policy that meets all the regulatory requirements.
-B. Create an Amazon S3 bucket. Configure the bucket to use S3 Object Lock in governance mode. Upload the data to the bucket. Create a
-user-based IAM policy that meets all the regulatory requirements.
-C. Create a vault in Amazon S3 Glacier. Create a Vault Lock policy in S3 Glacier that meets all the regulatory requirements. Upload the data to
-the vault.
-D. Create an Amazon S3 bucket. Upload the data to the bucket. Use a lifecycle rule to transition the data to a vault in S3 Glacier. Create a Vault
-Lock policy that meets all the regulatory requirements.
----
-Correct Answer: C 
----
-
-
-Question #53
-
-A-company uses a third-party identity provider and SAML-based SSO for its AWS accounts. After the third-party identity provider renewed an
-expired signing certificate, users saw the following message when trying to log in:
-Error: Response Signature Invalid (Service: AWSSecurityTokenService; Status Code: 400; Error Code: InvalidIdentityToken)
-A security engineer needs to provide a solution that corrects the error and minimizes operational overhead.
-Which solution meets these requirements?
-
-A. Upload the third-party signing certificate’s new private key to the AWS identity provider entity defined in AWS Identity and Access
-Management (IAM) by using the AWS Management Console.
-B. Sign the identity provider's metadata file with the new public key. Upload the signature to the AWS identity provider entity defined in AWS
-Identity and Access Management (IAM) by using the AWS CLI.
-C. Download the updated SAML metadata file from the identity service provider. Update the file in the AWS identity provider entity defined in
-AWS Identity and Access Management (IAM) by using the AWS CLI.
-D. Configure the AWS identity provider entity defined in AWS Identity and Access Management (IAM) to synchronously fetch the new public key
-by using the AWS Management Console.
----
 Correct Answer: C
----
 
 
-Question #54
 
-A company has several workloads running on AWS. Employees are required to authenticate using on-premises ADFS and SSO to access the AWS
-Management Console. Developers migrated an existing legacy web application to an Amazon EC2 instance. Employees need to access this
-application from anywhere on the internet, but currently, there is no authentication system built into the application.
-How should the security engineer implement employee-only access to this system without changing the application?
+Question #64
 
-A. Place the application behind an Application Load Balancer (ALB). Use Amazon Cognito as authentication for the ALB. Define a SAML-based
-Amazon Cognito user pool and connect it to ADFS.
-B. Implement AWS IAM Identity Center (AWS Single Sign-On) in the management account and link it to ADFS as an identity provider. Define the
-EC2 instance as a managed resource, then apply an IAM policy on the resource.
-C. Define an Amazon Cognito identity pool, then install the connector on the Active Directory server. Use the Amazon Cognito SDK on the
-application instance to authenticate the employees using their Active Directory user names and passwords.
-D. Create an AWS Lambda custom authorizer as the authenticator for a reverse proxy on Amazon EC2. Ensure the security group on Amazon
-EC2 only allows access from the Lambda function.
----
-Correct Answer: A
----
+A company is building an application on AWS that will store sensitive information. The company has a support team with access to the IT
+infrastructure, including databases. The company’s security engineer must introduce measures to protect the sensitive data against any data
+breach while minimizing management overhead. The credentials must be regularly rotated.
+What should the security engineer recommend?
+
+A. Enable Amazon RDS encryption to encrypt the database and snapshots. Enable Amazon Elastic Block Store (Amazon EBS) encryption on
+Amazon EC2 instances. Include the database credential in the EC2 user data field. Use an AWS Lambda function to rotate database
+credentials. Set up TLS for the connection to the database.
+B. Install a database on an Amazon EC2 instance. Enable third-party disk encryption to encrypt the Amazon Elastic Block Store (Amazon EBS)
+volume. Store the database credentials in AWS CloudHSM with automatic rotation. Set up TLS for the connection to the database.
+C. Enable Amazon RDS encryption to encrypt the database and snapshots. Enable Amazon Elastic Black Store (Amazon EBS) encryption on
+Amazon EC2 instances. Store the database credentials in AWS Secrets Manager with automatic rotation. Set up TLS for the connection to the
+RDS hosted database.
+D. Set up an AWS CloudHSM cluster with AWS Key Management Service (AWS KMS) to store KMS keys. Set up Amazon RDS encryption using
+AWS KMS to encrypt the database. Store database credentials in the AWS Systems Manager Parameter Store with automatic rotation. Set up
+TLS for the connection to the RDS hosted database.
+
+Correct Answer: C
+
+
+
+Question #65
+
+A company is using Amazon Route 53 Resolver for its hybrid DNS infrastructure. The company has set up Route 53 Resolver forwarding rules for
+authoritative domains that are hosted on on-premises DNS servers.
+
+A new security mandate requires the company to implement a solution to log and query DNS traffic that goes to the on-premises DNS servers. The
+logs must show details of the source IP address of the instance from which the query originated. The logs also must show the DNS name that
+was requested in Route 53 Resolver.
+
+Which solution will meet these requirements?
+
+A. Use VPC Traffic Mirroring. Configure all relevant elastic network interfaces as the traffic source, include amazon-dns in the mirror filter, and
+set Amazon CloudWatch Logs as the mirror target. Use CloudWatch Insights on the mirror session logs to run queries on the source IP
+address and DNS name.
+B. Configure VPC flow logs on all relevant VPCs. Send the logs to an Amazon S3 bucket. Use Amazon Athena to run SQL queries on the source
+IP address and DNS name.
+C. Configure Route 53 Resolver query logging on all relevant VPCs. Send the logs to Amazon CloudWatch Logs. Use CloudWatch Insights to
+run queries on the source IP address and DNS name.
+D. Modify the Route 53 Resolver rules on the authoritative domains that forward to the on-premises DNS servers. Send the logs to an Amazon
+S3 bucket. Use Amazon Athena to run SQL queries on the source IP address and DNS name.
+
+Correct Answer: C
+
+
+
+Question #66
+
+A security engineer is configuring account-based access control (ABAC) to allow only specific principals to put objects into an Amazon S3 bucket.
+The principals already have access to Amazon S3.
+
+The security engineer needs to configure a bucket policy that allows principals to put objects into the S3 bucket only if the value of the Team tag
+on the object matches the value of the Team tag that is associated with the principal. During testing, the security engineer notices that a principal
+can still put objects into the S3 bucket when the tag values do not match.
+
+Which combination of factors are causing the PutObject operation to succeed when the tag values are different? (Choose two.)
+
+A. The principal's identity-based policy grants access to put objects into the S3 bucket with no conditions.
+B. The principal's identity-based policy overrides the condition because the identity-based policy contains an explicit allow.
+C. The S3 bucket's resource policy does not deny access to put objects.
+D. The S3 bucket's resource policy cannot allow actions to the principal.
+E. The bucket policy does not apply to principals in the same zone of trust.
+
+Correct Answer: AC
+
+
