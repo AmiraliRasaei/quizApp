@@ -1,0 +1,186 @@
+[
+    {
+        "type": "single",
+        "question": "Question #101: A security engineer wants to use Amazon Simple Notification Service (Amazon SNS) to send email alerts to a company's security team for Amazon GuardDuty findings that have a High severity level. The security engineer also wants to deliver these findings to a visualization tool for further examination. Which solution will meet these requirements?",
+        "options": {
+            "A": "Set up GuardDuty to send notifications to an Amazon CloudWatch alarm with two targets in CloudWatch. From CloudWatch, stream the findings through Amazon Kinesis Data Streams into an Amazon Open Search Service domain as the first target for delivery. Use Amazon QuickSight to visualize the findings. Use OpenSearch queries for further analysis. Deliver email alerts to the security team by configuring an SNS topic as a second target for the CloudWatch alarm. Use event pattern matching with an Amazon EventBridge event rule to send only High severity findings in the alerts.",
+            "B": "Set up GuardDuty to send notifications to AWS CloudTrail with two targets in CloudTrail. From CloudTrail, stream the findings through Amazon Kinesis Data Firehose into an Amazon OpenSearch Service domain as the first target for delivery. Use OpenSearch Dashboards to visualize the findings. Use OpenSearch queries for further analysis. Deliver email alerts to the security team by configuring an SNS topic as a second target for CloudTrail. Use event pattern matching with a CloudTrail event rule to send only High severity findings in the alerts.",
+            "C": "Set up GuardDuty to send notifications to Amazon EventBridge with two targets. From EventBridge, stream the findings through Amazon Kinesis Data Firehose into an Amazon OpenSearch Service domain as the first target for delivery. Use OpenSearch Dashboards to visualize the findings. Use OpenSearch queries for further analysis. Deliver email alerts to the security team by configuring an SNS topic as a second target for EventBridge. Use event pattern matching with an EventBridge event rule to send only High severity findings in the alerts.",
+            "D": "Set up GuardDuty to send notifications to Amazon EventBridge with two targets. From EventBridge, stream the findings through Amazon Kinesis Data Streams into an Amazon OpenSearch Service domain as the first target for delivery. Use Amazon QuickSight to visualize the findings. Use OpenSearch queries for further analysis. Deliver email alerts to the security team by configuring an SNS topic as a second target for EventBridge. Use event pattern matching with an EventBridge event rule to send only High severity findings in the alerts."
+        },
+        "correctAnswer": "C"
+    },
+    {
+        "type": "single",
+        "question": "Question #102: A security engineer needs to implement a write-once-read-many (WORM) model for data that a company will store in Amazon S3 buckets. The company uses the S3 Standard storage class for all of its S3 buckets. The security engineer must ensure that objects cannot be overwritten or deleted by any user, including the AWS account root user. Which solution will meet these requirements?",
+        "options": {
+            "A": "Create new S3 buckets with S3 Object Lock enabled in compliance mode. Place objects in the S3 buckets.",
+            "B": "Use S3 Glacier Vault Lock to attach a Vault Lock policy to new S3 buckets. Wait 24 hours to complete the Vault Lock process. Place objects in the S3 buckets.",
+            "C": "Create new S3 buckets with S3 Object Lock enabled in governance mode. Place objects in the S3 buckets.",
+            "D": "Create new S3 buckets with S3 Object Lock enabled in governance mode. Add a legal hold to the S3 buckets. Place o10bjects in the S3 buckets."
+        },
+        "correctAnswer": "A"
+    },
+    {
+        "type": "single",
+        "question": "Question #103: A company needs complete encryption of the traffic between external users and an application. The company hosts the application on a fleet of Amazon EC2 instances that run in an Auto Scaling group behind an Application Load Balancer (ALB). How can a security engineer meet these requirements?",
+        "options": {
+            "A": "Create a new Amazon-issued certificate in AWS Secrets Manager. Export the certificate from Secrets Manager. Import the certificate into the ALB and the EC2 instances.",
+            "B": "Create a new Amazon-issued certificate in AWS Certificate Manager (ACM). Associate the certificate with the ALExport the certificate from ACM. Install the certificate on the EC2 instances.",
+            "C": "Import a new third-party certificate into AWS Identity and Access Management (IAM). Export the certificate from IAM. Associate the certificate with the ALB and the EC2 instances.",
+            "D": "Import a new third-party certificate into AWS Certificate Manager (ACM). Associate the certificate with the ALB. Install the certificate on the EC2 instances."
+        },
+        "correctAnswer": "D",
+        "explanation":"<p>Option D is the correct solution. To encrypt traffic between external users and the application behind the Application Load Balancer (ALB), a certificate should be imported into AWS Certificate Manager (ACM) and associated with the ALB. The same certificate should also be installed on the EC2 instances.</p><p><strong>Option A Create a new Amazon-issued certificate in AWS Secrets Manager. Export the certificate from Secrets Manager. Import the certificate into the ALB and the EC2 instances.</strong> It is incorrect because Secrets Manager is used for storing secrets, not SSL/TLS certificates.</p><p><strong>Option B Create a new Amazon-issued certificate in AWS Certificate Manager (ACM). Associate the certificate with the ALExport the certificate from ACM. Install the certificate on the EC2 instances.</strong> It is incorrect because Amazon-issued ACM certificates can only be used with Elastic Load Balancers and Amazon CloudFront. They cannot be exported and installed on EC2 instances.</p><p><strong>Option C Import a new third-party certificate into AWS Identity and Access Management (IAM). Export the certificate from IAM. Associate the certificate with the ALB and the EC2 instances.</strong> It is incorrect because IAM does not support importing or managing SSL/TLS certificates.</p><p>Option D uses a third-party certificate imported into ACM, associated with the ALB, and installed on the EC2 instances. This provides complete encryption between the users and application.</p>"
+    },
+    {
+        "type": "single",
+        "question": "Question #104: A company has an organization with SCPs in AWS Organizations. The root SCP for the organization is as follows: The company's developers are members of a group that has an IAM policy that allows access to Amazon Simple Email Service (Amazon SES) by allowing ses:* actions. The account is a child to an OU that has an SCP that allows Amazon SES. The developers are receiving a not-authorized error when they try to access Amazon SES through the AWS Management Console. Which change must a security engineer implement so that the developers can access Amazon SES?",
+        "options": {
+            "A": "Add a resource policy that allows each member of the group to access Amazon SES.",
+            "B": "Add a resource policy that allows \"Principal\": {\"AWS\": \"arn:aws:iam::account-number:group/Dev\"}.",
+            "C": "Remove the AWS Control Tower control (guardrail) that restricts access to Amazon SES.",
+            "D": "Remove Amazon SES from the root SCP."
+        },
+        "correctAnswer": "D",
+        "image": "104.png"
+    },
+    {
+        "type": "multi",
+        "question": "Question #105: A company hosts a public website on an Amazon EC2 instance. HTTPS traffic must be able to access the website. The company uses SSH for management of the web server. The website is on the subnet 10.0.1.0/24. The management subnet is 192.168.100.0/24. A security engineer must create a security group for the EC2 instance. Which combination of steps should the security engineer take to meet these requirements in the MOST secure manner? (Choose two.)",
+        "options": {
+            "A": "Allow port 22 from source 0.0.0.0/0.",
+            "B": "Allow port 443 from source 0.0 0 0/0.",
+            "C": "Allow port 22 from 192.168.100.0/24.",
+            "D": "Allow port 22 from 10.0.1.0/24.",
+            "E": "Allow port 443 from 10.0.1.0/24."
+        },
+        "correctAnswer": ["B", "C"]
+    },
+    {
+        "type": "single",
+        "question": "Question #106: A security engineer wants to forward custom application-security logs from an Amazon EC2 instance to Amazon CloudWatch. The security engineer installs the CloudWatch agent on the EC2 instance and adds the path of the logs to the CloudWatch configuration file. However, CloudWatch does not receive the logs. The security engineer verifies that the awslogs service is running on the EC2 instance. What should the security engineer do next to resolve the issue?",
+        "options": {
+            "A": "Add AWS CloudTrail to the trust policy of the EC2 instance. Send the custom logs to CloudTrail instead of CloudWatch.",
+            "B": "Add Amazon S3 to the trust policy of the EC2 instance. Configure the application to write the custom logs to an S3 bucket that CloudWatch can use to ingest the logs.",
+            "C": "Add Amazon Inspector to the trust policy of the EC2 instance. Use Amazon Inspector instead of the CloudWatch agent to collect the custom logs.",
+            "D": "Attach the CloudWatchAgentServerPolicy AWS managed policy to the EC2 instance role."
+        },
+        "correctAnswer": "D"
+    },
+    {
+        "type": "single",
+        "question": "Question #107: A systems engineer is troubleshooting the connectivity of a test environment that includes a virtual security appliance deployed inline. In addition to using the virtual security appliance, the development team wants to use security groups and network ACLs to accomplish various security requirements in the environment. What configuration is necessary to allow the virtual security appliance to route the traffic?",
+        "options": {
+            "A": "Disable network ACLs.",
+            "B": "Configure the security appliance's elastic network interface for promiscuous mode.",
+            "C": "Disable the Network Source/Destination check on the security appliance's elastic network interface.",
+            "D": "Place the security appliance in the public subnet with the internet gateway."
+        },
+        "correctAnswer": "C"
+    },
+    {
+        "type": "single",
+        "question": "Question #109: A security engineer recently rotated all IAM access keys in an AWS account. The security engineer then configured AWS Config and enabled the following AWS Config managed rules: mfa-enabled-for-iam-console-access, iam-user-mfa-enabled, access-keys-rotated, and iam-user-unused-credentials-check. The security engineer notices that all resources are displaying as noncompliant after the IAM GenerateCredentialReport API operation is invoked. What could be the reason for the noncompliant status?",
+        "options": {
+            "A": "The IAM credential report was generated within the past 4 hours.",
+            "B": "The security engineer does not have the GenerateCredentialReport permission.",
+            "C": "The security engineer does not have the GetCredentialReport permission.",
+            "D": "The AWS Config rules have a MaximumExecutionFrequency value of 24 hours."
+        },
+        "correctAnswer": "A"
+    },
+    {
+        "type": "single",
+        "question": "Question #110: A company is using AWS WAF to protect a customized public API service that is based on Amazon EC2 instances. The API uses an Application Load Balancer. The AWS WAF web ACL is configured with an AWS Managed Rules rule group. After a software upgrade to the API and the client application, some types of requests are no longer working and are causing application stability issues. A security engineer discovers that AWS WAF logging is not turned on for the web ACL. The security engineer needs to immediately return the application to service, resolve the issue, and ensure that logging is not turned off in the future. The security engineer turns on logging for the web ACL and specifies Amazon CloudWatch Logs as the destination. Which additional set of steps should the security engineer take to meet the requirements?",
+        "options": {
+            "A": "Edit the rules in the web ACL to include rules with Count actions. Review the logs to determine which rule is blocking the request. Modify the IAM policy of all AWS WAF administrators so that they cannot remove the logging configuration for any AWS WAF web ACLs.",
+            "B": "Edit the rules in the web ACL to include rules with Count actions. Review the logs to determine which rule is blocking the request. Modify the AWS WAF resource policy so that AWS WAF administrators cannot remove the logging configuration for any AWS WAF web ACLs.",
+            "C": "Edit the rules in the web ACL to include rules with Count and Challenge actions. Review the logs to determine which rule is blocking the request. Modify the AWS WAF resource policy so that AWS WAF administrators cannot remove the logging configuration for any AWS WAF web ACLs.",
+            "D": "Edit the rules in the web ACL to include rules with Count and Challenge actions. Review the logs to determine which rule is blocking the request. Modify the IAM policy of all AWS WAF administrators so that they cannot remove the logging configuration for any AWS WAF web ACLs."
+        },
+        "correctAnswer": "A"
+    },
+    {
+        "type": "multi",
+        "question": "Question #111: A security engineer is creating an AWS Lambda function. The Lambda function needs to use a role that is named LambdaAuditRole to assume a role that is named AcmeAuditFactoryRole in a different AWS account. When the code is processed, the following error message appears: \"An error occurred (AccessDenied) when calling the AssumeRole operation.\" Which combination of steps should the security engineer take to resolve this error? (Choose two.)",
+        "options": {
+            "A": "Ensure that LambdaAuditRole has the sts:AssumeRole permission for AcmeAuditFactoryRole.",
+            "B": "Ensure that LambdaAuditRole has the AWSLambdaBasicExecutionRole managed policy attached.",
+            "C": "Ensure that the trust policy for AcmeAuditFactoryRole allows the sts:AssumeRole action from LambdaAuditRole.",
+            "D": "Ensure that the trust policy for LambdaAuditRole allows the sts:AssumeRole action from the lambda.amazonaws.com service.",
+            "E": "Ensure that the sts:AssumeRole API call is being issued to the us-east-1 Region endpoint."
+        },
+        "correctAnswer": ["A", "C"]
+    },
+    {
+        "type": "multi",
+        "question": "Question #112: A company has AWS accounts in an organization in AWS Organizations. The organization includes a dedicated security account. All AWS account activity across all member accounts must be logged and reported to the dedicated security account. The company must retain all the activity logs in a secure storage location within the dedicated security account for 2 years. No changes or deletions of the logs are allowed. Which combination of steps will meet these requirements with the LEAST operational overhead? (Choose two.)",
+        "options": {
+            "A": "In the dedicated security account, create an Amazon S3 bucket. Configure S3 Object Lock in compliance mode and a retention period of 2 years on the S3 bucket. Set the bucket policy to allow the organization's management account to write to the S3 bucket.",
+            "B": "In the dedicated security account, create an Amazon S3 bucket. Configure S3 Object Lock in compliance mode and a retention period of 2 years on the S3 bucket. Set the bucket policy to allow the organization's member accounts to write to the S3 bucket.",
+            "C": "In the dedicated security account, create an Amazon S3 bucket that has an S3 Lifecycle configuration that expires objects after 2 years. Set the bucket policy to allow the organization's member accounts to write to the S3 bucket.",
+            "D": "Create an AWS CloudTrail trail for the organization. Configure logs to be delivered to the logging Amazon S3 bucket in the dedicated security account.",
+            "E": "Turn on AWS CloudTrail in each account. Configure logs to be delivered to an Amazon S3 bucket that is created in the organization's management account. Forward the logs to the S3 bucket in the dedicated security account by using AWS Lambda and Amazon Kinesis Data Firehose."
+        },
+        "correctAnswer": ["B", "D"]
+    },
+    {
+        "type": "single",
+        "question": "Question #113: A company is testing its incident response plan for compromised credentials. The company runs a database on an Amazon EC2 instance and stores the sensitive database credentials as a secret in AWS Secrets Manager. The secret has rotation configured with an AWS Lambda function that uses the generic rotation function template. The EC2 instance and the Lambda function are deployed in the same private subnet. The VPC has a Secrets Manager VPC endpoint. A security engineer discovers that the secret cannot rotate. The security engineer determines that the VPC endpoint is working as intended. The Amazon CloudWatch logs contain the following error: \"setSecret: Unable to log into database\". Which solution will resolve this error?",
+        "options": {
+            "A": "Use the AWS Management Console to edit the JSON structure of the secret in Secrets Manager so that the secret automatically conforms with the structure that the database requires.",
+            "B": "Ensure that the security group that is attached to the Lambda function allows outbound connections to the EC2 instance. Ensure that the security group that is attached to the EC2 instance allows inbound connections from the security group that is attached to the Lambda function.",
+            "C": "Use the Secrets Manager list-secrets command in the AWS CLI to list the secret. Identify the database credentials. Use the Secrets Manager rotate-secret command in the AWS CLI to force the immediate rotation of the secret.",
+            "D": "Add an internet gateway to the VPC. Create a NAT gateway in a public subnet. Update the VPC route tables so that traffic from the Lambda function and traffic from the EC2 instance can reach the Secrets Manager public endpoint."
+        },
+        "correctAnswer": "B"
+    },
+    {
+        "type": "single",
+        "question": "Question #115: A company needs to follow security best practices to deploy resources from an AWS CloudFormation template. The CloudFormation template must be able to configure sensitive database credentials. The company already uses AWS Key Management Service (AWS KMS) and AWS Secrets Manager. Which solution will meet the requirements?",
+        "options": {
+            "A": "Use a dynamic reference in the CloudFormation template to reference the database credentials in Secrets Manager.",
+            "B": "Use a parameter in the CloudFormation template to reference the database credentials. Encrypt the CloudFormation template by using AWS KMS.",
+            "C": "Use a SecureString parameter in the CloudFormation template to reference the database credentials in Secrets Manager.",
+            "D": "Use a SecureString parameter in the CloudFormation template to reference an encrypted value in AWS KMS."
+        },
+        "correctAnswer": "A"
+    },
+    {
+        "type": "multi",
+        "question": "Question #116: An international company wants to combine AWS Security Hub findings across all the company's AWS Regions and from multiple accounts. In addition, the company wants to create a centralized custom dashboard to correlate these findings with operational data for deeper analysis and insights. The company needs an analytics tool to search and visualize Security Hub findings. Which combination of steps will meet these requirements? (Choose three.)",
+        "options": {
+            "A": "Designate an AWS account as a delegated administrator for Security Hub. Publish events to Amazon CloudWatch from the delegated administrator account, all member accounts, and required Regions that are enabled for Security Hub findings.",
+            "B": "Designate an AWS account in an organization in AWS Organizations as a delegated administrator for Security Hub. Publish events to Amazon EventBridge from the delegated administrator account, all member accounts, and required Regions that are enabled for Security Hub findings.",
+            "C": "In each Region, create an Amazon EventBridge rule to deliver findings to an Amazon Kinesis data stream. Configure the Kinesis data streams to output the logs to a single Amazon S3 bucket.",
+            "D": "In each Region, create an Amazon EventBridge rule to deliver findings to an Amazon Kinesis Data Firehose delivery stream. Configure the Kinesis Data Firehose delivery streams to deliver the logs to a single Amazon S3 bucket.",
+            "E": "Use AWS Glue DataBrew to crawl the Amazon S3 bucket and build the schema. Use AWS Glue Data Catalog to query the data and create views to flatten nested attributes. Build Amazon QuickSight dashboards by using Amazon Athena.",
+            "F": "Partition the Amazon S3 data. Use AWS Glue to crawl the S3 bucket and build the schema. Use Amazon Athena to query the data and create views to flatten nested attributes. Build Amazon QuickSight dashboards that use the Athena views."
+        },
+        "correctAnswer": ["B", "D", "F"]
+    },
+    {
+        "type": "single",
+        "question": "Question #117: An AWS account administrator created an IAM group and applied the following managed policy to require that each individual user authenticate using multi-factor authentication: After implementing the policy, the administrator receives reports that users are unable to perform Amazon EC2 commands using the AWS CLI. What should the administrator do to resolve this problem while still enforcing multi-factor authentication?",
+        "options": {
+            "A": "Change the value of aws:MultiFactorAuthPresent to true.",
+            "B": "Instruct users to run the aws sts get-session-token CLI command and pass the multi-factor authentication --serial-number and -token-code parameters. Use these resulting values to make API/CLI calls.",
+            "C": "Implement federated API/CLI access using SAML 2.0, then configure the identity provider to enforce multi-factor authentication.",
+            "D": "Create a role and enforce multi-factor authentication in the role trust policy. Instruct users to run the sts assume-role CLI command and pass --serial-number and --token-code parameters. Store the resulting values in environment variables. Add sts:AssumeRole to NotAction in the policy."
+        },
+        "correctAnswer": "B",
+        "image": "117.png"
+    },
+    {
+        "type": "single",
+        "question": "Question #118: A company is developing a mechanism that will help data scientists use Amazon SageMaker to read, process, and output data to an Amazon S3 bucket. Data scientists will have access to a dedicated S3 prefix for each of their projects. The company will implement bucket policies that use the dedicated S3 prefixes to restrict access to the S3 objects. The projects can last up to 60 days. The company's security team mandates that data cannot remain in the S3 bucket after the end of the projects that use the data. Which solution will meet these requirements MOST cost-effectively?",
+        "options": {
+            "A": "Create an AWS Lambda function to identify and delete objects in the S3 bucket that have not been accessed for 60 days. Create an Amazon EventBridge scheduled rule that runs every day to invoke the Lambda function.",
+            "B": "Create a new S3 bucket. Configure the new S3 bucket to use S3 Intelligent-Tiering. Copy the objects to the new S3 bucket.",
+            "C": "Create an S3 Lifecycle configuration for each S3 bucket prefix for each project. Set the S3 Lifecycle configurations to expire objects after 60 days.",
+            "D": "Create an AWS Lambda function to delete objects that have not been accessed for 60 days. Create an S3 event notification for S3 Intelligent-Tiering automatic archival events to invoke the Lambda function."
+        },
+        "correctAnswer": "C"
+    }
+]

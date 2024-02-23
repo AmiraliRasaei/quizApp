@@ -75,7 +75,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-            fetch('questions.json')
+            fetch('questions118.json')
                 .then(response => response.json())
                 .then(data => {
                     generateQuiz(data);
@@ -95,7 +95,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         let quizQuestions = [];
 
-        fetch('questions.json')
+        fetch('questions118.json')
             .then(response => response.json())
             .then(data => {
                 quizQuestions = data; // Store fetched data
