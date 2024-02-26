@@ -41,6 +41,7 @@
             </div>
             <div class="col" style="text-align: right;">
                 <button id="shuffleQuizBtn" class="btn btn-secondary mb-3">Shuffle Quiz</button>
+                <button id="toggleQuestionsBtn" class="btn btn-warning mb-3">Switch Questions</button>
                 <h4 id="time">Time</h4>
                 <h4 id="score"></h4>
                 
@@ -52,8 +53,6 @@
                 <button type="button" class="btn btn-primary" id="submitQuizBtn">Submit</button>
             </div>
             <div class="col" style="text-align: right;">
-                
-
                 <!-- <button type="button" class="btn btn-secondary" id="resetQuizBtn">Reset Answers</button> -->
             </div>
         </div>
@@ -75,34 +74,27 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-            fetch('questions.json')
-                .then(response => response.json())
-                .then(data => {
-                    generateQuiz(data);
-                })
-                .catch(error => console.error('Failed to load quiz questions:', error));
-
-            document.getElementById('submitQuizBtn').addEventListener('click', submitQuiz);
-        });
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
+        let currentQuestionsFile = 'questions.json'; // Default questions file
         let quizQuestions = [];
 
-        fetch('questions.json')
-            .then(response => response.json())
-            .then(data => {
-                quizQuestions = data; // Store fetched data
-                generateQuiz(quizQuestions); // Generate the quiz UI initially or you can remove this line to force users to shuffle before viewing
-            })
-            .catch(error => console.error('Failed to load quiz questions:', error));
+        // Function to fetch questions and generate quiz
+        function fetchAndGenerateQuiz() {
+            fetch(currentQuestionsFile)
+                .then(response => response.json())
+                .then(data => {
+                    quizQuestions = data; // Store fetched data
+                    generateQuiz(quizQuestions); // Generate the quiz UI
+                })
+                .catch(error => console.error(`Failed to load quiz questions from ${currentQuestionsFile}:`, error));
+        }
 
+        // Initial load
+        fetchAndGenerateQuiz();
+
+        // Submit Quiz Button
+        document.getElementById('submitQuizBtn').addEventListener('click', submitQuiz);
+
+        // Shuffle Quiz Button
         document.getElementById('shuffleQuizBtn').addEventListener('click', () => {
             shuffleArray(quizQuestions); // Shuffle questions
             quizQuestions.forEach(question => {
@@ -112,9 +104,14 @@
             });
             generateQuiz(quizQuestions); // Regenerate the quiz UI with shuffled questions and answers
         });
+
+        // Toggle Questions Button
+        document.getElementById('toggleQuestionsBtn').addEventListener('click', () => {
+            // Toggle between question files
+            currentQuestionsFile = currentQuestionsFile === 'questions.json' ? 'questions66.json' : 'questions.json';
+            fetchAndGenerateQuiz(); // Fetch and regenerate quiz
+        });
     });
-
-
 
     function generateQuiz(questions) {
         const quizContainer = document.getElementById('quizContainer');

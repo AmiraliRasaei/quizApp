@@ -28,6 +28,18 @@
         ]
     },
     {
+        "type": "single",
+        "question": "Question #69: A security engineer needs to configure an Amazon S3 bucket policy to restrict access to an S3 bucket that is named DOC-EXAMPLE-BUCKET. The policy must allow access to only DOC-EXAMPLE-BUCKET from only the following endpoint: vpce-1a2b3c4d. The policy must deny all access to DOC-EXAMPLE-BUCKET if the specified endpoint is not used. Which bucket policy statement meets these requirements?",
+        "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+        },
+        "correctAnswer": "B",
+        "image":"69.png"
+    },
+    {
         "type": "multi",
         "question": "Question #70: A company has a group of Amazon EC2 instances in a single private subnet of a VPC with no internet gateway attached. A security engineer has installed the Amazon CloudWatch agent on all instances in that subnet to capture logs from a specific application. To ensure that the logs flow securely, the company's networking team has created VPC endpoints for CloudWatch monitoring and CloudWatch logs. The networking team has attached the endpoints to the VPC. The application is generating logs. However, when the security engineer queries CloudWatch, the logs do not appear. Which combination of steps should the security engineer take to troubleshoot this issue? (Choose three.)",
         "options": {
@@ -420,6 +432,19 @@
     },
     {
         "type": "single",
+        "question": "Question #100: A company has a guideline that mandates the encryption of all Amazon S3 bucket data in transit. A security engineer must implement an S3 bucket policy that denies any S3 operations if data is not encrypted. Which S3 bucket policy will meet this requirement?",
+        "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+        },
+        "correctAnswer": "B",
+        "image":"100.png",
+        "explanation":""
+    },
+    {
+        "type": "single",
         "question": "Question #101: A security engineer wants to use Amazon Simple Notification Service (Amazon SNS) to send email alerts to a company's security team for Amazon GuardDuty findings that have a High severity level. The security engineer also wants to deliver these findings to a visualization tool for further examination. Which solution will meet these requirements?",
         "options": {
             "A": "Set up GuardDuty to send notifications to an Amazon CloudWatch alarm with two targets in CloudWatch. From CloudWatch, stream the findings through Amazon Kinesis Data Streams into an Amazon Open Search Service domain as the first target for delivery. Use Amazon QuickSight to visualize the findings. Use OpenSearch queries for further analysis. Deliver email alerts to the security team by configuring an SNS topic as a second target for the CloudWatch alarm. Use event pattern matching with an Amazon EventBridge event rule to send only High severity findings in the alerts.",
@@ -503,6 +528,19 @@
     },
     {
         "type": "single",
+        "question": "Question #108",
+        "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+        },
+        "correctAnswer": "B",
+        "image": "108.png",
+        "explanation":""
+    },
+    {
+        "type": "single",
         "question": "Question #109: A security engineer recently rotated all IAM access keys in an AWS account. The security engineer then configured AWS Config and enabled the following AWS Config managed rules: mfa-enabled-for-iam-console-access, iam-user-mfa-enabled, access-keys-rotated, and iam-user-unused-credentials-check. The security engineer notices that all resources are displaying as noncompliant after the IAM GenerateCredentialReport API operation is invoked. What could be the reason for the noncompliant status?",
         "options": {
             "A": "The IAM credential report was generated within the past 4 hours.",
@@ -562,6 +600,19 @@
         },
         "correctAnswer": "B",
         "explanation":"<p>The error \"setSecret: Unable to log into database\" suggests that the AWS Lambda function, which is responsible for rotating the secret, cannot connect to the database on the Amazon EC2 instance to apply the new credentials. The possible causes could be network-related issues such as security group configurations or the Lambda function's execution role permissions.</p><p>Based on the given options, the most likely solution would be:</p><p>B. Ensure that the security group that is attached to the Lambda function allows outbound connections to the EC2 instance. Ensure that the security group that is attached to the EC2 instance allows inbound connections from the security group that is attached to the Lambda function. - This step is essential because the Lambda function must be able to establish a connection to the EC2 instance hosting the database to rotate the secret. This involves the security group of the Lambda function allowing outbound traffic to the database port on the EC2 instance and the security group of the EC2 instance allowing inbound traffic from the Lambda function.</p><p>The other options are less likely to be the correct solution:</p><p>A. Use the AWS Management Console to edit the JSON structure of the secret in Secrets Manager so that the secret automatically conforms with the structure that the database requires. - While the secret structure must match what the database expects, the error message does not indicate a problem with the secret's structure. Instead, it points to a connectivity issue.</p><p>C. Use the Secrets Manager list-secrets command in the AWS CLI to list the secret. Identify the database credentials. Use the Secrets Manager rotate-secret command in the AWS CLI to force the immediate rotation of the secret. - Forcing rotation of the secret would not resolve a connectivity issue. The error would likely persist if the underlying issue is not addressed.</p><p>D. Add an internet gateway to the VPC. Create a NAT gateway in a public subnet. Update the VPC route tables so that traffic from the Lambda function and traffic from the EC2 instance can reach the Secrets Manager public endpoint. - Since the VPC has a Secrets Manager VPC endpoint and it is working as intended, there is no need for the Lambda function or the EC2 instance to access Secrets Manager through the internet. This step would not solve the connectivity issue between the Lambda function and the EC2 instance.</p><p>Therefore, option B is the best solution to resolve the error because it directly addresses the potential connectivity issue between the Lambda function and the EC2 instance that is preventing the secret rotation.</p>"
+    },
+    {
+        "type": "single",
+        "question": "Question #114: A company deploys a set of standard IAM roles in AWS accounts. The IAM roles are based on job functions within the company. To balance operational efficiency and security, a security engineer implemented AWS Organizations SCPs to restrict access to critical security services in all company accounts. All of the company's accounts and OUs within AWS Organizations have a default FullAWSAccess SCP that is attached. The security engineer needs to ensure that no one can disable Amazon GuardDuty and AWS Security Hub. The security engineer also must not override other permissions that are granted by IAM policies that are defined in the accounts. Which SCP should the security engineer attach to the root of the organization to meet these requirements?",
+        "options": {
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+        },
+        "correctAnswer": "A",
+        "image":"114.png",
+        "explanation":""
     },
     {
         "type": "single",
