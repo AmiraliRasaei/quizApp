@@ -97,11 +97,12 @@
         // Shuffle Quiz Button
         document.getElementById('shuffleQuizBtn').addEventListener('click', () => {
             shuffleArray(quizQuestions); // Shuffle questions
-            quizQuestions.forEach(question => {
-                const optionsEntries = Object.entries(question.options);
-                shuffleArray(optionsEntries); // Shuffle options for each question
-                question.options = Object.fromEntries(optionsEntries); // Convert back to object
-            });
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]]; // ES6 array destructuring to swap elements
+                }
+            }
             generateQuiz(quizQuestions); // Regenerate the quiz UI with shuffled questions and answers
         });
 
