@@ -187,7 +187,7 @@
             "A",
             "C"
         ],
-        "image": "13.png"
+        "image":"aws/13.png"
     },
     {
         "type": "single",
@@ -359,7 +359,7 @@
         "correctAnswer": [
             "D"
         ],
-        "image": "25.png",
+        "image":"aws/25.png",
         "explanation": "<p>In the VPC's Network Access Control List (NACL), allow outbound ICMP traffic.</p><p>Go to the AWS Management Console.</p><p>Open the V VPC Dashboard.</p><p>Select the VPC where your EC2 instance is located.</p><p>In the &quot;Network ACLs&quot; section, select the appropriate NACL.</p><p>Edit the NACL's outbound rules to allow ICMP traffic (ping). You can do this by adding a new outbound rule that allows traffic from source IP 172.31.16.139 to destination IP 203.0.113.12 using protocol ICMP (ping).</p><p>Allowing outbound ICMP traffic in the NACL would ensure that responses from the EC2 instance to the on-premises host are allowed.</p>"
     },
     {

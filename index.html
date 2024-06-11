@@ -74,7 +74,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        let currentQuestionsFile = 'questions.json'; // Default questions file
+        let currentQuestionsFile = 'aws/questions.json'; // Default questions file
         let quizQuestions = [];
 
         // Function to fetch questions and generate quiz
@@ -120,7 +120,7 @@
         // Toggle Questions Button
         document.getElementById('toggleQuestionsBtn').addEventListener('click', () => {
             // Toggle between question files
-            currentQuestionsFile = currentQuestionsFile === 'questions.json' ? 'questions66.json' : 'questions.json';
+            currentQuestionsFile = currentQuestionsFile === 'aws/questions.json' ? 'aws/questions66.json' : 'aws/questions.json';
             fetchAndGenerateQuiz(); // Fetch and regenerate quiz
         });
     });

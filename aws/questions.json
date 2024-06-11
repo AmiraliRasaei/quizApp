@@ -37,7 +37,7 @@
             "D": "D"
         },
         "correctAnswer": "B",
-        "image":"69.png"
+        "image":"aws/69.png"
     },
     {
         "type": "multi",
@@ -414,7 +414,7 @@
             "C": "Change the Resource element to \"arn:aws:s3:::DOC-EXAMPLE- BUCKET/*\".",
             "D": "Change the Resource element to \"arn:aws:lambda:::function:MyLambdaFunction\". Change the Principal element to the following:"
         },
-        "image": "98.png",
+        "image":"aws/98.png",
         "correctAnswer": "C",
         "explanation":"<p>The community's suggestion that the correct answer is **C** is indeed valid if the policy's &#96;Resource&#96; element is incorrectly specifying the bucket itself without including the objects within the bucket. In AWS S3 bucket policies, to refer to all objects in a bucket, you must include &quot;/*&quot; at the end of the bucket ARN. Here is why:</p><p><strong>C. Change the Resource element to &quot;arn:aws:s3:::DOC-EXAMPLE-BUCKET/*&quot;.</strong></p><p>Explanation:</p><p>- The current &#96;Resource&#96; element in the policy &#96;&quot;arn:aws:s3:::DOC-EXAMPLE-BUCKET&quot;&#96; points to the bucket itself and not the objects within the bucket. To grant access to read objects, the policy must specify the object-level path which includes the &quot;/*&quot; wildcard after the bucket name. This indicates that the permission applies to all objects within the bucket.</p><p>- The &#96;Condition&#96; element with the &#96;aws:SourceArn&#96; key restricts the permission to requests made from a specific source, which in this case, is the Lambda function &#96;MyLambdaFunction&#96;. If the Lambda function's &#96;Invoke&#96; action is configured correctly with the right ARN, and the function's execution role has the necessary permissions, this condition should not prevent the Lambda function from accessing the objects. Hence, the condition does not necessarily need to be removed unless it is confirmed to be the cause of the issue.</p><p>- The &#96;Principal&#96; element is using a service principal (&#96;lambda.amazonaws.com&#96;), which is correct when you want to allow the Lambda service to assume the role attached to a function to perform actions specified in the bucket policy.</p><p>Therefore, correcting the &#96;Resource&#96; element to include all objects in the bucket with &quot;/*&quot; would ensure that the Lambda function has the necessary permissions to read the objects, assuming the other elements like &#96;Principal&#96; and &#96;Condition&#96; are properly configured to match the Lambda function's execution role and ARN respectively.</p>"
     },
@@ -440,7 +440,7 @@
             "D": "D"
         },
         "correctAnswer": "B",
-        "image":"100.png",
+        "image":"aws/100.png",
         "explanation":""
     },
     {
@@ -487,7 +487,7 @@
             "D": "Remove Amazon SES from the root SCP."
         },
         "correctAnswer": "D",
-        "image": "104.png",
+        "image":"aws/104.png",
         "explanation":"<p>The JSON structure in the image shows a root Service Control Policy (SCP) in AWS Organizations. It includes two statements: one that allows all actions on all resources (`\"Action\": \"*\"`) and one that explicitly denies all actions on Amazon Simple Email Service (SES) resources (`\"Action\": \"ses:*\"`).</p><p>Given that the account is part of an OU with an SCP that allows Amazon SES and that developers have an IAM policy that allows access to SES, the issue lies with the root SCP denying SES actions. Hence, the developers are receiving a not-authorized error when trying to access Amazon SES through the AWS Management Console.</p><p>To resolve this issue, the security engineer needs to:</p><p>D. Remove Amazon SES from the root SCP.</p><p>This action would remove the explicit deny for Amazon SES actions at the root level, which is currently overriding the allow permissions in the IAM policies at the account level. SCPs are evaluated before IAM policies, and a 'Deny'; at the SCP level cannot be overridden by an /'Allow/'; at the IAM level. Therefore, removing the 'DenySES'; statement from the root SCP should allow the developers to access Amazon SES, assuming there are no other denies at the OU level or other SCPs applied to the account.</p><p>Sure, let's look at why the other options are incorrect given the context of AWS IAM and SCPs:</p><p>A. Add a resource policy that allows each member of the group to access Amazon SES. - Incorrect because resource policies are attached to AWS resources rather than users or groups, and they are used to grant permissions to other AWS accounts or anonymous users. Since the developers are already part of a group with an IAM policy that allows SES actions, the issue is not with the resource policy or the IAM policy at the user/group level. The issue is with the SCP which has an organization-wide effect and overrides IAM policies.</p><p>B. Add a resource policy that allows \"Principal\": {\"AWS\": \"arn:aws:iam::account-number:group/Dev\"}. - Incorrect because, as mentioned above, resource policies are attached to AWS resources, not IAM entities. Also, specifying the Principal in a resource policy would not override the `Deny` in the SCP. SCPs apply to all IAM principals within the specified AWS account or OU, and an SCP `Deny` cannot be overcome by an IAM `Allow`.</p><p>C. Remove the AWS Control Tower control (guardrail) that restricts access to Amazon SES. - Incorrect because the question does not mention that AWS Control Tower is being used, nor does it indicate that a Control Tower guardrail is responsible for the restriction. Even if a guardrail were in place, the SCP's explicit deny would still prevent access. Control Tower uses SCPs as part of its guardrail implementation, but the JSON policy shown is an SCP, not a Control Tower guardrail.</p><p>Option D is the correct one because SCPs take precedence over IAM policies, and an explicit `Deny` in an SCP will prevent any IAM `Allow` from granting access. Removing the SCP that explicitly denies access to Amazon SES would allow the IAM policy permissions to grant access as intended.</p>"
     },
     {
@@ -536,7 +536,7 @@
             "D": "D"
         },
         "correctAnswer": "A",
-        "image": "108.png",
+        "image":"aws/108.png",
         "explanation":""
     },
     {
@@ -611,7 +611,7 @@
             "D": "D"
         },
         "correctAnswer": "A",
-        "image":"114.png",
+        "image":"aws/114.png",
         "explanation":""
     },
     {
@@ -650,7 +650,7 @@
             "D": "Create a role and enforce multi-factor authentication in the role trust policy. Instruct users to run the sts assume-role CLI command and pass --serial-number and --token-code parameters. Store the resulting values in environment variables. Add sts:AssumeRole to NotAction in the policy."
         },
         "correctAnswer": "B",
-        "image": "117.png",
+        "image":"aws/117.png",
         "explanation":"<p>The IAM policy in the provided image is intended to enforce multi-factor authentication (MFA) for accessing Amazon EC2 resources. However, users are reporting that they are unable to perform Amazon EC2 commands using the AWS CLI after this policy was implemented. This is likely because the AWS CLI does not inherently support MFA when making direct API calls, and the policy denies all EC2 actions if MFA is not used.</p><p>The administrator needs to resolve this issue while still enforcing MFA. The correct steps to do this would be:</p><p>B. Instruct users to run the aws sts get-session-token CLI command and pass the multi-factor authentication --serial-number and --token-code parameters. Use these resulting values to make API/CLI calls. - By using the `get-session-token` command with MFA, the user receives temporary credentials that include an `access key ID`, a `secret access key`, and a `session token`. When these temporary credentials are used, they satisfy the MFA condition in the policy, allowing users to perform EC2 actions.</p><p>Here's why the other options are incorrect or less suitable:</p><p>A. Changing the value of aws:MultiFactorAuthPresent to true. - This is not a practical solution because the `aws:MultiFactorAuthPresent` condition key is set by AWS based on the context of the API request. It cannot be manually changed by administrators in IAM policies to enforce MFA.</p><p>C. Implement federated API/CLI access using SAML 2.0, then configure the identity provider to enforce multi-factor authentication. - While federation with SAML is a valid way to enforce MFA, it is typically used for single sign-on (SSO) from corporate directories and is more complex to set up. It's not a direct solution to the immediate problem of CLI access and would involve significant changes to the way authentication is handled.</p><p>D. Create a role and enforce multi-factor authentication in the role trust policy. Instruct users to run the sts assume-role CLI command and pass --serial-number and --token-code parameters. Store the resulting values in environment variables. Add sts:AssumeRole to NotAction in the policy. - This option is unnecessarily complex for the given scenario. While assuming a role with MFA is a valid approach, the `NotAction` element in IAM policies is not typically used in this context and could lead to unintended permission grants. Additionally, this would require setting up a new role and modifying the trust policy, which is more involved than simply obtaining a session token with MFA.</p><p>Therefore, the most straightforward and immediate resolution to allow users to use the CLI with MFA enforced is option B.</p>"
     },
     {
