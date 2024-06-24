@@ -1,0 +1,198 @@
+[
+    {
+        "type": "single",
+        "question": "Question #1 <p>You have an Azure Active Directory (Azure AD) tenant that contains the following objects:<br>✑ A device named Device1<br>✑ Users named User1, User2, User3, User4, and User5<br>✑ Groups named Group1, Group2, Group3, Group4, and Group5<br>The groups are configured as shown in the following table.<br><img src='azure/1.png'><br>To which groups can you assign a Microsoft Office 365 Enterprise E5 license directly?<br></p>",
+        "options": {
+            "A": "Group1 and Group4 only",
+            "B": "Group1, Group2, Group3, Group4, and Group5",
+            "C": "Group1 and Group2 only",
+            "D": "Group1 only",
+            "E": "Group1, Group2, Group4, and Group5 only"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #2 <p>You have a Microsoft Exchange organization that uses an SMTP address space of contoso.com.<br>Several users use their contoso.com email address for self-service sign-up to Azure Active Directory (Azure AD).<br>You gain global administrator privileges to the Azure AD tenant that contains the self-signed users.<br>You need to prevent the users from creating user accounts in the contoso.com Azure AD tenant for self-service sign-up to Microsoft 365 services.<br>Which PowerShell cmdlet should you run?<br></p>",
+        "options": {
+            "A": "Set-MsolCompanySettings",
+            "B": "Set-MsolDomainFederationSettings",
+            "C": "Update-MsolfederatedDomain",
+            "D": "Set-MsolDomain"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #3 <p>You have a Microsoft 365 tenant that uses the domain named fabrikam.com. The Guest invite settings for Azure Active Directory (Azure AD) are configured as shown in the exhibit.</p><img src='azure/3_1.png'><p>A user named bsmith@fabrikam.com shares a Microsoft SharePoint Online document library to the users shown in the following table:</p><p><img src='azure/3_2.png'><br>Which users will be emailed a passcode?<br></p>",
+        "options": {
+            "A": "User2 only",
+            "B": "User1 only",
+            "C": "User1 and User2 only",
+            "D": "User1, User2, and User3"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #4 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft 365 Enterprise E5 licenses to the users.<br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br>What should you use?<br></p>",
+        "options": {
+            "A": "the Identity Governance blade in the Azure Active Directory admin center",
+            "B": "the Set-AzureAdUser cmdlet",
+            "C": "the Licenses blade in the Azure Active Directory admin center",
+            "D": "the Set-WindowsProductKey cmdlet"
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "multi",
+        "question": "Question #5 <p>HOTSPOT -<br>You have a Microsoft 365 tenant named contoso.com.<br>Guest user access is enabled.<br>Users are invited to collaborate with contoso.com as shown in the following table:<br><img src='azure/5_1.png'><br>From the External collaboration settings in the Azure Active Directory admin center, you configure the Collaboration restrictions settings as shown in the following exhibit:<br><img src='azure/5_2.png'><br>From a Microsoft SharePoint Online site, a user invites user3@adatum.com to the site.<br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br>NOTE: Each correct selection is worth one point.<br>Hot Area:<br><img src='azure/5_3.png'><br></p>",
+        "options": {
+            "Statement 1": "Yes",
+            "Statement 2": "No",
+            "Statement 3": "Yes"
+        },
+        "correctAnswer": [
+            "Statement 1: Yes",
+            "Statement 2: Yes",
+            "Statement 3: No"
+        ]
+    },
+    {
+        "type": "multi",
+        "question": "Question #6 <p>You have an Azure Active Directory (Azure AD) tenant named contoso.com.<br>You plan to bulk invite Azure AD business-to-business (B2B) collaboration users.<br>Which two parameters must you include when you create the bulk invite? Each correct answer presents part of the solution.<br>NOTE: Each correct selection is worth one point.<br></p>",
+        "options": {
+            "A": "email address",
+            "B": "redirection URL",
+            "C": "username",
+            "D": "shared key",
+            "E": "password"
+        },
+        "correctAnswer": [
+            "A",
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #7 <p>You have an Azure Active Directory (Azure AD) tenant that contains the objects shown in the following table:<br><img src='azure/7.png'><br>Which objects can you add as members to Group3?<br></p>",
+        "options": {
+            "A": "User2 and Group2 only",
+            "B": "User2, Group1, and Group2 only",
+            "C": "User1, User2, Group1 and Group2",
+            "D": "User1 and User2 only",
+            "E": "User2 only"
+        },
+        "correctAnswer": [
+            "E"
+        ]
+    },
+    {
+        "type": "multi",
+        "question": "Question #8 <p>DRAG DROP -<br>You have an on-premises Microsoft Exchange organization that uses an SMTP address space of contoso.com.<br>You discover that users use their email address for self-service sign-up to Microsoft 365 services.<br>You need to gain global administrator privileges to the Azure Active Directory (Azure AD) tenant that contains the self-signed users.<br>Which four actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.<br>Select and Place:<br><img src='azure/8.png'><br></p>",
+        "options": {
+            "Action 1": "Step 1",
+            "Action 2": "Step 2",
+            "Action 3": "Step 3",
+            "Action 4": "Step 4"
+        },
+        "correctAnswer": [
+            "Action 1",
+            "Action 2",
+            "Action 3",
+            "Action 4"
+        ]
+    },
+    {
+        "type": "multi",
+        "question": "Question #9 <p>HOTSPOT -<br>You have an Azure Active Directory (Azure AD) tenant that contains a user named User1 and the groups shown in the following table:<br><img src='azure/9_1.png'><br>In the tenant, you create the groups shown in the following table:<br><img src='azure/9_2.png'><br>Which members can you add to GroupA and GroupB? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br>Hot Area:<br><img src='azure/9_3.png'><br></p>",
+        "options": {
+            "GroupA": "Option 1",
+            "GroupB": "Option 2"
+        },
+        "correctAnswer": [
+            "GroupA: Option 1",
+            "GroupB: Option 2"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #10 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have an Active Directory forest that syncs to an Azure Active Directory (Azure AD) tenant.<br>You discover that when a user account is disabled in Active Directory, the disabled user can still authenticate to Azure AD for up to 30 minutes.<br>You need to ensure that when a user account is disabled in Active Directory, the user account is immediately prevented from authenticating to Azure AD.<br>Solution: You configure password writeback. Does this meet the goal?<br></p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #11 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have an Active Directory forest that syncs to an Azure Active Directory (Azure AD) tenant.<br>You discover that when a user account is disabled in Active Directory, the disabled user can still authenticate to Azure AD for up to 30 minutes.<br>You need to ensure that when a user account is disabled in Active Directory, the user account is immediately prevented from authenticating to Azure AD.<br>Solution: You configure pass-through authentication. Does this meet the goal?<br></p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #12 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have an Azure Active Directory (Azure AD) tenant that syncs to an Active Directory forest.<br>You discover that when a user account is disabled in Active Directory, the disabled user can still authenticate to Azure AD for up to 30 minutes.<br>You need to ensure that when a user account is disabled in Active Directory, the user account is immediately prevented from authenticating to Azure AD.<br>Solution: You configure conditional access policies. Does this meet the goal?<br></p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #13 <p>You have an Azure Active Directory (Azure AD) tenant that contains the following objects:<br>✑ A device named Device1<br>✑ Users named User1, User2, User3, User4, and User5<br>✑ Groups named Group1, Group2, Group3, Group4, and Group5<br>The groups are configured as shown in the following table:<br><img src='azure/13.png'><br>How many licenses are used if you assign the Microsoft 365 Enterprise E5 license to Group1?<br></p>",
+        "options": {
+            "A": "0",
+            "B": "2",
+            "C": "3",
+            "D": "4"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #14 <p>You have an Azure Active Directory (Azure AD) tenant named contoso.com that contains an Azure AD enterprise application named App1.<br>A contractor uses the credentials of user1@outlook.com.<br>You need to ensure that you can provide the contractor with access to App1. The contractor must be able to authenticate as user1@outlook.com.<br>What should you do?<br></p>",
+        "options": {
+            "A": "Run the New-AzADUser cmdlet.",
+            "B": "Configure the External collaboration settings.",
+            "C": "Add a WS-Fed identity provider.",
+            "D": "Create a guest user account in contoso.com."
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #15 <p>Your network contains an Active Directory forest named contoso.com that is linked to an Azure Active Directory (Azure AD) tenant named contoso.com by using Azure AD Connect.<br>You need to prevent the synchronization of users who have the extensionAttribute15 attribute set to NoSync.<br>What should you do in Azure AD Connect?<br></p>",
+        "options": {
+            "A": "Create an inbound synchronization rule for the Windows Azure Active Directory connector.",
+            "B": "Configure a Full Import run profile.",
+            "C": "Create an inbound synchronization rule for the Active Directory Domain Services connector.",
+            "D": "Configure an Export run profile."
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    }
+]

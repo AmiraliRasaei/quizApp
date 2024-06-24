@@ -37,7 +37,7 @@
     <div class="container">
         <div class="row mt-4">
             <div class="col">
-                <h1>AWS Security</h1>
+                <h1>Azure IAM</h1>
             </div>
             <div class="col" style="text-align: right;">
                 <button id="shuffleQuizBtn" class="btn btn-secondary mb-3">Shuffle Quiz</button>
@@ -74,7 +74,7 @@
     });
 
     document.addEventListener('DOMContentLoaded', function() {
-        let currentQuestionsFile = 'aws/questions.json'; // Default questions file
+        let currentQuestionsFile = 'azure/questions.json'; // Default questions file
         let quizQuestions = [];
 
         // Function to fetch questions and generate quiz
@@ -120,7 +120,7 @@
         // Toggle Questions Button
         document.getElementById('toggleQuestionsBtn').addEventListener('click', () => {
             // Toggle between question files
-            currentQuestionsFile = currentQuestionsFile === 'aws/questions.json' ? 'aws/questions66.json' : 'aws/questions.json';
+            currentQuestionsFile = currentQuestionsFile === 'azure/questions.json' ? 'azure/questions66.json' : 'aws/questions.json';
             fetchAndGenerateQuiz(); // Fetch and regenerate quiz
         });
     });
