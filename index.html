@@ -44,106 +44,155 @@
         }
 
         @media only screen and (min-width: 992px) {
-            img, svg {
+            img,
+            svg {
                 width: 50%;
             }
+        }
+
+        #draggable-container,
+        #drop-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .draggable,
+        .droppable {
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 150px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .droppable {
+            border-style: dashed;
+            min-height: 50px;
+            /* Ensures droppables are easily visible */
         }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <div id="summaryTableContainer" class="row mt-4"></div>
         <div class="row mt-4">
             <div class="col">
                 <h1>Azure IAM</h1>
             </div>
             <div class="col" style="text-align: right;">
-                <button id="shuffleQuizBtn" class="btn btn-secondary mb-3">Shuffle Quiz</button>
-                <button id="toggleQuestionsBtn" class="btn btn-warning mb-3">Switch Questions</button>
-                <h4 id="time">Time</h4>
-                <h4 id="score"></h4>
-
+                <button id="shuffleQuizButton" class="btn btn-secondary mb-3">Shuffle Quiz</button>
+                <button id="toggleQuestionsButton" class="btn btn-warning mb-3">Switch Questions</button>
+                <h4 id="timerDisplay">Time</h4>
+                <h4 id="scoreDisplay"></h4>
             </div>
         </div>
         <div id="quizContainer"></div>
         <div class="row my-4">
             <div class="col">
-                <button type="button" class="btn btn-primary" id="submitQuizBtn">Submit</button>
-            </div>
-            <div class="col" style="text-align: right;">
-                <!-- <button type="button" class="btn btn-secondary" id="resetQuizBtn">Reset Answers</button> -->
+                <button type="button" class="btn btn-primary" id="submitQuizButton">Submit</button>
             </div>
         </div>
     </div>
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
-            let elapsedTime = 0; // Initialize timer
-            const timerElement = document.getElementById('time');
+            let timeElapsed = 0; // Initialize timer
+            const timerDisplayElement = document.getElementById('timerDisplay');
             // Start the timer
             const timerId = setInterval(function () {
-                elapsedTime++;
-                const minutes = Math.floor(elapsedTime / 60);
-                const seconds = elapsedTime % 60;
-                timerElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                timeElapsed++;
+                const minutes = Math.floor(timeElapsed / 60);
+                const seconds = timeElapsed % 60;
+                timerDisplayElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
             }, 1000);
             window.timerId = timerId; // Make timerId accessible globally if needed to stop the timer
         });
 
         document.addEventListener('DOMContentLoaded', function () {
-            let currentQuestionsFile = 'azure/questions.json'; // Default questions file
-            let quizQuestions = [];
+            let currentQuestionsFilePath = 'azure/questions.json'; // Default questions file
+            let questionsList = [];
 
             // Function to fetch questions and generate quiz
-            function fetchAndGenerateQuiz() {
-                fetch(currentQuestionsFile)
+            function loadAndRenderQuiz() {
+                fetch(currentQuestionsFilePath)
                     .then(response => response.json())
                     .then(data => {
-                        quizQuestions = data; // Store fetched data
-                        generateQuiz(quizQuestions); // Generate the quiz UI
+                        questionsList = data; // Store fetched data
+                        generateSummaryTable(questionsList); // Generate summary table
+                        renderQuiz(questionsList); // Generate the quiz UI
                     })
-                    .catch(error => console.error(`Failed to load quiz questions from ${currentQuestionsFile}:`, error));
+                    .catch(error => console.error(`Failed to load quiz questions from ${currentQuestionsFilePath}:`, error));
             }
 
             // Initial load
-            fetchAndGenerateQuiz();
+            loadAndRenderQuiz();
 
             // Submit Quiz Button
-            document.getElementById('submitQuizBtn').addEventListener('click', submitQuiz);
+            document.getElementById('submitQuizButton').addEventListener('click', evaluateQuiz);
 
             // Shuffle Quiz Button
-            document.getElementById('shuffleQuizBtn').addEventListener('click', () => {
-                shuffleArray(quizQuestions); // Shuffle questions
-
-                // Define the shuffleArray function if not already defined elsewhere
-                function shuffleArray(array) {
-                    for (let i = array.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [array[i], array[j]] = [array[j], array[i]]; // Swap elements
-                    }
-                }
+            document.getElementById('shuffleQuizButton').addEventListener('click', () => {
+                shuffleArrayElements(questionsList); // Shuffle questions
 
                 // Shuffle options for each question
-                quizQuestions.forEach(question => {
-                    const optionsEntries = Object.entries(question.options);
-                    shuffleArray(optionsEntries); // Shuffle options for this question
-                    question.options = Object.fromEntries(optionsEntries); // Convert back to object to maintain key-value association
+                questionsList.forEach(question => {
+                    if (question.type !== 'drag') {
+                        const optionsEntries = Object.entries(question.options);
+                        shuffleArrayElements(optionsEntries); // Shuffle options for this question
+                        question.options = Object.fromEntries(optionsEntries); // Convert back to object to maintain key-value association
+                    }
                 });
 
-                generateQuiz(quizQuestions); // Regenerate the quiz UI with shuffled questions and answers
+                renderQuiz(questionsList); // Regenerate the quiz UI with shuffled questions and answers
             });
 
-
             // Toggle Questions Button
-            document.getElementById('toggleQuestionsBtn').addEventListener('click', () => {
+            document.getElementById('toggleQuestionsButton').addEventListener('click', () => {
                 // Toggle between question files
-                currentQuestionsFile = currentQuestionsFile === 'azure/questions.json' ? 'azure/questions66.json' : 'aws/questions.json';
-                fetchAndGenerateQuiz(); // Fetch and regenerate quiz
+                currentQuestionsFilePath = currentQuestionsFilePath === 'azure/questions.json' ? 'azure/questions66.json' : 'aws/questions.json';
+                loadAndRenderQuiz(); // Fetch and regenerate quiz
             });
         });
 
-        function generateQuiz(questions) {
+        function generateSummaryTable(questions) {
+            const summaryTableContainer = document.getElementById('summaryTableContainer');
+            let summaryHTML = `
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Question Number</th>
+                        <th>Question Type</th>
+                        <th>Correct</th>
+                        <th>Incorrect</th>
+                        <th>Not Answered</th>
+                    </tr>
+                </thead>
+                <tbody>
+            `;
+
+            questions.forEach((question, index) => {
+                summaryHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${question.type}</td>
+                    <td id="correct-${index + 1}"></td>
+                    <td id="incorrect-${index + 1}"></td>
+                    <td id="not-answered-${index + 1}"></td>
+                </tr>
+                `;
+            });
+
+            summaryHTML += `
+                </tbody>
+            </table>
+            `;
+
+            summaryTableContainer.innerHTML = summaryHTML;
+        }
+
+        function renderQuiz(questions) {
             const quizContainer = document.getElementById('quizContainer');
             quizContainer.innerHTML = ''; // Clear existing content
 
@@ -151,25 +200,8 @@
                 const questionElem = document.createElement('div');
                 questionElem.className = 'card my-5';
 
-                let optionsHTML = '';
-                // Assuming options are now an array of [key, value] pairs after shuffling
-                const optionsEntries = Object.entries(question.options);
-                optionsEntries.forEach(([key, value], optionIndex) => {
-                    const isCorrect = question.correctAnswer.includes(key);
-                    optionsHTML += `
-                    <div class="alert" role="alert">
-                        <div class="form-check">
-                            <input class="form-check-input" type="${question.type === 'multi' ? 'checkbox' : 'radio'}" name="question${index}" id="q${index}option${optionIndex}" data-correct="${isCorrect}">
-                            <label class="form-check-label" for="q${index}option${optionIndex}">${value}</label>
-                        </div>
-                    </div>
-                `;
-                });
-
-                // Include the image if available
                 const imageHTML = question.image ? `<img src="${question.image}" class="img-fluid mb-3" alt="Question image">` : '';
 
-                // Explanation handling
                 const collapseId = `collapseExample${index}`;
                 const explanationHTML = question.explanation ? `
                 <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#${collapseId}" role="button" aria-expanded="false" aria-controls="${collapseId}">
@@ -182,8 +214,17 @@
                 </div>
             ` : '';
 
+                let optionsHTML = '';
+                if (question.type === 'single') {
+                    optionsHTML = renderSingleChoice(question, index);
+                } else if (question.type === 'multi') {
+                    optionsHTML = renderMultipleChoice(question, index);
+                } else if (question.type === 'drag') {
+                    optionsHTML = renderDragAndDrop(question, index);
+                }
+
                 questionElem.innerHTML = `
-                <div class="card-header">Question ${index + 1}</div>
+                <div class="card-header" data-type="${question.type}" data-index="${index + 1}" data-correct-order='${question.correctOrder ? JSON.stringify(question.correctOrder) : ''}' data-correct-answer='${question.correctAnswer ? JSON.stringify(question.correctAnswer) : ''}'>Question ${index + 1}</div>
                 <div class="card-body">
                     <blockquote class="blockquote mb-0">
                         <p>${question.question}</p>
@@ -198,53 +239,136 @@
             });
         }
 
-        function submitQuiz() {
+        function renderSingleChoice(question, index) {
+            let optionsHTML = '';
+            const optionsEntries = Object.entries(question.options);
+            optionsEntries.forEach(([key, value], optionIndex) => {
+                const isCorrect = question.correctAnswer.includes(key);
+                optionsHTML += `
+                <div class="alert" role="alert">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="question${index}" id="q${index}option${optionIndex}" data-correct="${isCorrect}">
+                        <label class="form-check-label" for="q${index}option${optionIndex}">${value}</label>
+                    </div>
+                </div>
+            `;
+            });
+            return optionsHTML;
+        }
+
+        function renderMultipleChoice(question, index) {
+            let optionsHTML = '';
+            const optionsEntries = Object.entries(question.options);
+            optionsEntries.forEach(([key, value], optionIndex) => {
+                const isCorrect = question.correctAnswer.includes(key);
+                optionsHTML += `
+                <div class="alert" role="alert">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="question${index}" id="q${index}option${optionIndex}" data-correct="${isCorrect}">
+                        <label class="form-check-label" for="q${index}option${optionIndex}">${value}</label>
+                    </div>
+                </div>
+            `;
+            });
+            return optionsHTML;
+        }
+
+        function renderDragAndDrop(question, index) {
+            let draggableHTML = '<div id="draggable-container">';
+            let droppableHTML = '<div id="drop-container">';
+            question.options.forEach((option, i) => {
+                draggableHTML += `<div class="draggable" draggable="true" id="q${index}item${i}">${option}</div>`;
+                droppableHTML += `<div class="droppable" id="q${index}drop${i}"></div>`;
+            });
+            draggableHTML += '</div>';
+            droppableHTML += '</div>';
+
+            setTimeout(() => { // Add event listeners after elements are added to DOM
+                const draggables = document.querySelectorAll(`#quizContainer .draggable`);
+                const droppables = document.querySelectorAll(`#quizContainer .droppable`);
+
+                draggables.forEach(draggable => {
+                    draggable.addEventListener('dragstart', dragStart);
+                });
+
+                droppables.forEach(droppable => {
+                    droppable.addEventListener('dragover', dragOver);
+                    droppable.addEventListener('drop', drop);
+                });
+            }, 0);
+
+            return draggableHTML + droppableHTML;
+        }
+
+        function dragStart(event) {
+            event.dataTransfer.setData('text/plain', event.target.id);
+        }
+
+        function dragOver(event) {
+            event.preventDefault();
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            const data = event.dataTransfer.getData('text/plain');
+            const draggableElement = document.getElementById(data);
+            if (event.target.classList.contains('droppable') && event.target.children.length === 0) {
+                event.target.appendChild(draggableElement);
+            }
+        }
+
+        function evaluateQuiz() {
             const questionBlocks = document.querySelectorAll('.card');
             let score = 0;
-            const totalQuestions = 65; // Define total questions for scoring
+            const TOTAL_QUESTIONS = questionBlocks.length;
 
             questionBlocks.forEach((block, index) => {
-                let isQuestionCorrect = true; // Assume correct until proven otherwise
-
                 const cardHeader = block.querySelector('.card-header');
                 if (!cardHeader) {
-                    console.error('Card header not found for question', index);
-                    return; // Skip this iteration
+                    console.error('Card header not found for question', index + 1);
+                    return;
                 }
                 const originalHeaderText = cardHeader.textContent.replace(/ \(0\)| \(1\)/, '');
 
-                const optionsContainers = block.querySelectorAll('.alert');
-                optionsContainers.forEach(container => {
-                    const input = container.querySelector('input');
-                    if (!input) {
-                        console.error('Input not found in container', container);
-                        return; // Skip this iteration
+                const questionType = cardHeader.dataset.type;
+                const questionNumber = cardHeader.dataset.index;
+                let isQuestionCorrect = false;
+                let isQuestionAnswered = false;
+
+                if (questionType === 'single') {
+                    isQuestionCorrect = evaluateSingleChoice(block);
+                    isQuestionAnswered = checkIfSingleAnswered(block);
+                } else if (questionType === 'multi') {
+                    isQuestionCorrect = evaluateMultipleChoice(block);
+                    isQuestionAnswered = checkIfMultipleAnswered(block);
+                } else if (questionType === 'drag') {
+                    isQuestionCorrect = evaluateDragAndDrop(block, index);
+                    isQuestionAnswered = checkIfDragAndDropAnswered(block, index);
+                }
+
+                const correctCell = document.getElementById(`correct-${questionNumber}`);
+                const incorrectCell = document.getElementById(`incorrect-${questionNumber}`);
+                const notAnsweredCell = document.getElementById(`not-answered-${questionNumber}`);
+
+                if (correctCell && incorrectCell && notAnsweredCell) {
+                    correctCell.textContent = '';
+                    incorrectCell.textContent = '';
+                    notAnsweredCell.textContent = '';
+
+                    if (isQuestionCorrect) {
+                        correctCell.textContent = '✔';
+                        score++;
+                    } else if (isQuestionAnswered) {
+                        incorrectCell.textContent = '✘';
+                    } else {
+                        notAnsweredCell.textContent = '✘';
                     }
-                    const isCorrect = input.dataset.correct === "true";
-                    const isSelected = input.checked;
+                } else {
+                    console.error('Summary cells not found for question', questionNumber);
+                }
 
-                    // Reset classes
-                    container.classList.remove('alert-success', 'alert-danger');
-
-                    // Correct options
-                    if (isCorrect) {
-                        container.classList.add('alert-success');
-                        if (!isSelected) {
-                            isQuestionCorrect = false; // Correct answer not selected
-                        }
-                    }
-
-                    // Incorrect selections
-                    if (!isCorrect && isSelected) {
-                        container.classList.add('alert-danger');
-                        isQuestionCorrect = false; // Incorrect answer selected
-                    }
-                });
-
-                // Update card header and scoring
                 if (isQuestionCorrect) {
                     cardHeader.textContent = `${originalHeaderText} (1)`;
-                    score++; // Increment score for fully correct answers
                     cardHeader.classList.remove('alert-danger');
                 } else {
                     cardHeader.textContent = `${originalHeaderText} (0)`;
@@ -252,16 +376,138 @@
                 }
             });
 
-            // Update score display, ensuring it's out of the total number of questions
-            document.getElementById('score').textContent = `Score: ${score} / ${totalQuestions}`;
+            document.getElementById('scoreDisplay').textContent = `Score: ${score} / ${TOTAL_QUESTIONS}`;
 
-            // Stop the timer
             clearInterval(window.timerId);
 
-            // Scroll to the top
             window.scrollTo(0, 0);
         }
 
+        function evaluateSingleChoice(block) {
+            const optionsContainers = block.querySelectorAll('.alert');
+            let isQuestionCorrect = false;
+
+            optionsContainers.forEach(container => {
+                const input = container.querySelector('input[type="radio"]');
+                if (input) {
+                    const isCorrect = input.dataset.correct === "true";
+                    const isSelected = input.checked;
+
+                    if (isCorrect && isSelected) {
+                        isQuestionCorrect = true;
+                    }
+
+                    container.classList.remove('alert-success', 'alert-danger');
+                    if (isCorrect) {
+                        container.classList.add('alert-success');
+                    } else if (isSelected) {
+                        container.classList.add('alert-danger');
+                    }
+                }
+            });
+
+            return isQuestionCorrect;
+        }
+
+        function evaluateMultipleChoice(block) {
+            const optionsContainers = block.querySelectorAll('.alert');
+            let allCorrect = true;
+            let anySelected = false;
+
+            optionsContainers.forEach(container => {
+                const input = container.querySelector('input[type="checkbox"]');
+                if (input) {
+                    const isCorrect = input.dataset.correct === "true";
+                    const isSelected = input.checked;
+
+                    if (isSelected) {
+                        anySelected = true;
+                    }
+
+                    if ((isCorrect && !isSelected) || (!isCorrect && isSelected)) {
+                        allCorrect = false;
+                    }
+
+                    container.classList.remove('alert-success', 'alert-danger');
+                    if (isCorrect) {
+                        container.classList.add('alert-success');
+                    } else if (isSelected) {
+                        container.classList.add('alert-danger');
+                    }
+                }
+            });
+
+            return allCorrect && anySelected;
+        }
+
+        function evaluateDragAndDrop(block, index) {
+            const cardHeader = block.querySelector('.card-header');
+            const correctOrderString = cardHeader.dataset.correctOrder;
+
+            if (!correctOrderString) {
+                console.error('Order not given for question', index + 1);
+                return false;
+            }
+
+            const correctOrder = JSON.parse(correctOrderString);
+            const droppables = block.querySelectorAll('.droppable');
+            const currentOrder = Array.from(droppables).map(droppable => {
+                const draggable = droppable.querySelector('.draggable');
+                console.log('Draggable:', draggable); // Debugging line
+                if (draggable) {
+                    const id = draggable.id.match(/\d+$/)[0];
+                    console.log('Extracted ID:', id); // Debugging line
+                    return parseInt(id);
+                }
+                return null;
+            }).filter(id => id !== null);
+
+            // Adjust currentOrder to only consider the first 'n' elements where 'n' is the length of correctOrder
+            const filteredCurrentOrder = currentOrder.slice(0, correctOrder.length);
+
+            console.log('Current Order:', filteredCurrentOrder); // Debugging line
+            console.log('Correct Order:', correctOrder); // Debugging line
+
+            if (JSON.stringify(filteredCurrentOrder) === JSON.stringify(correctOrder)) {
+                console.log('Order correct for question', index + 1);
+                return true;
+            } else {
+                console.log('Order incorrect for question', index + 1);
+                return false;
+            }
+        }
+
+
+        function checkIfSingleAnswered(block) {
+            const optionsContainers = block.querySelectorAll('.alert');
+            return Array.from(optionsContainers).some(container => {
+                const input = container.querySelector('input[type="radio"]');
+                return input && input.checked;
+            });
+        }
+
+        function checkIfMultipleAnswered(block) {
+            const optionsContainers = block.querySelectorAll('.alert');
+            return Array.from(optionsContainers).some(container => {
+                const input = container.querySelector('input[type="checkbox"]');
+                return input && input.checked;
+            });
+        }
+
+        function checkIfDragAndDropAnswered(block, index) {
+            const droppables = block.querySelectorAll('.droppable');
+            return Array.from(droppables).some(droppable => {
+                const draggable = droppable.querySelector('.draggable');
+                return draggable !== null;
+            });
+        }
+
+        function shuffleArrayElements(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
