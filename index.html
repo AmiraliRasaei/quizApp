@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -96,6 +95,12 @@
     </div>
 
     <script>
+        let uniqueIdCounter = 1;
+
+        function generateUniqueId() {
+            return `hotarea-${uniqueIdCounter++}`;
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             let timeElapsed = 0; // Initialize timer
             const timerDisplayElement = document.getElementById('timerDisplay');
@@ -138,14 +143,24 @@
                 // Shuffle options for each question
                 questionsList.forEach(question => {
                     if (question.type !== 'drag') {
-                        const optionsEntries = Object.entries(question.options);
-                        shuffleArrayElements(optionsEntries); // Shuffle options for this question
-                        question.options = Object.fromEntries(optionsEntries); // Convert back to object to maintain key-value association
+                        if (Array.isArray(question.options)) {
+                            // If options is an array, shuffle it directly
+                            shuffleArrayElements(question.options);
+                        } else if (typeof question.options === 'object' && question.options !== null) {
+                            // If options is an object, convert to array of entries, shuffle, and convert back to object
+                            const optionsEntries = Object.entries(question.options);
+                            shuffleArrayElements(optionsEntries); // Shuffle options for this question
+                            question.options = Object.fromEntries(optionsEntries); // Convert back to object to maintain key-value association
+                        } else {
+                            console.error('Expected an array or object for question.options but received:', question.options); // Debugging line
+                        }
                     }
                 });
 
                 renderQuiz(questionsList); // Regenerate the quiz UI with shuffled questions and answers
             });
+
+
 
             // Toggle Questions Button
             document.getElementById('toggleQuestionsButton').addEventListener('click', () => {
@@ -202,8 +217,6 @@
             summaryTableContainer.innerHTML = summaryHTML;
         }
 
-
-
         function renderQuiz(questions) {
             const quizContainer = document.getElementById('quizContainer');
             quizContainer.innerHTML = ''; // Clear existing content
@@ -233,6 +246,8 @@
                     optionsHTML = renderMultipleChoice(question, index);
                 } else if (question.type === 'drag') {
                     optionsHTML = renderDragAndDrop(question, index);
+                } else if (question.type === 'hotarea') {
+                    optionsHTML = renderHotArea(question, index);
                 }
 
                 questionElem.innerHTML = `
@@ -312,6 +327,29 @@
             return draggableHTML + droppableHTML;
         }
 
+        function renderHotArea(question) {
+            let optionsHTML = '<div class="hot-area-container">';
+            question.options.forEach(option => {
+                const elementId = generateUniqueId();
+                console.log(`Creating element with ID: ${elementId}`);  // Debugging log
+                optionsHTML += `
+                <div class="mb-2">
+                    <p>${option.label}</p>
+                    <select class="form-select" id="${elementId}" name="${elementId}">
+                        <option value="">Select</option>
+                `;
+                option.choices.forEach(choice => {
+                    optionsHTML += `<option value="${choice}">${choice}</option>`;
+                });
+                optionsHTML += `
+                    </select>
+                </div>
+                `;
+            });
+            optionsHTML += '</div>';
+            return optionsHTML;
+        }
+
         function dragStart(event) {
             event.dataTransfer.setData('text/plain', event.target.id);
         }
@@ -358,6 +396,9 @@
                 } else if (questionType === 'drag') {
                     isQuestionCorrect = evaluateDragAndDrop(block, index);
                     isQuestionAnswered = checkIfDragAndDropAnswered(block, index);
+                } else if (questionType === 'hotarea') {
+                    isQuestionCorrect = evaluateHotArea(block);
+                    isQuestionAnswered = checkIfHotAreaAnswered(block);
                 }
 
                 const correctCell = document.getElementById(`correct-${questionNumber}`);
@@ -401,7 +442,6 @@
 
             window.scrollTo(0, 0);
         }
-
 
         function evaluateSingleChoice(block) {
             const optionsContainers = block.querySelectorAll('.alert');
@@ -497,6 +537,46 @@
             }
         }
 
+        function evaluateHotArea(block) {
+            const cardHeader = block.querySelector('.card-header');
+            const correctAnswerArray = JSON.parse(cardHeader.dataset.correctAnswer);
+
+            if (!correctAnswerArray) {
+                console.error('Correct answer not given for hot area question');
+                return false;
+            }
+
+            console.log('Evaluating HotArea Question:');
+            console.log('Correct Answers:', correctAnswerArray);
+
+            let isQuestionCorrect = true;
+            let currentId = uniqueIdCounter - correctAnswerArray.length; // Calculate starting ID for current question
+
+            correctAnswerArray.forEach((correctAnswer, i) => {
+                const elementId = `hotarea-${currentId++}`;
+                const selectedElement = document.getElementById(elementId);
+
+                if (!selectedElement) {
+                    console.error(`Element with ID ${elementId} not found`);  // Debugging log
+                    isQuestionCorrect = false;
+                    return;
+                }
+
+                const selectedOption = selectedElement.value;
+                console.log(`Statement ${i + 1}:`);
+                console.log(`Selected Option: ${selectedOption}`);
+
+                if (selectedOption !== correctAnswer) {
+                    isQuestionCorrect = false;
+                    console.log(`Statement ${i + 1} is incorrect`);
+                } else {
+                    console.log(`Statement ${i + 1} is correct`);
+                }
+            });
+
+            console.log('Final Evaluation for HotArea Question:', isQuestionCorrect ? 'Correct' : 'Incorrect');
+            return isQuestionCorrect;
+        }
 
         function checkIfSingleAnswered(block) {
             const optionsContainers = block.querySelectorAll('.alert');
@@ -522,6 +602,17 @@
             });
         }
 
+        function checkIfHotAreaAnswered(block) {
+            let currentId = uniqueIdCounter - 3; // Assuming there are always 3 statements
+            for (let i = 0; i < 3; i++) { 
+                const element = document.getElementById(`hotarea-${currentId++}`);
+                if (element && element.value === "") {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         function shuffleArrayElements(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -531,5 +622,4 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
