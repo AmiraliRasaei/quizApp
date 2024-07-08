@@ -12,7 +12,7 @@
         "correctAnswer": [
             "B"
         ],
-        "explanation":"<p>The answer is B because</p><p>Security groups are for user licensing for assigned, dynamic user and dynamic device(as an example shared device in classrooms)</p><p>MS 365 can also be used for user licensing as long as securityEnabled attribute is true. Which in most cases securityEnabled attribute is true by default on MS 365 groups.</p>"
+        "explanation":"<p>The answer is 'Group1, Group2, Group3, Group4, and Group5' because</p><p>Security groups are for user licensing for assigned, dynamic user and dynamic device(as an example shared device in classrooms)</p><p>MS 365 can also be used for user licensing as long as securityEnabled attribute is true. Which in most cases securityEnabled attribute is true by default on MS 365 groups.</p>"
     },
     {
         "type": "single",
