@@ -129,7 +129,7 @@
     },
     {
         "type": "hotarea",
-        "question": "Question #9 <p>HOTSPOT -<br><br>You have an Azure Active Directory (Azure AD) tenant that contains a user named User1 and the groups shown in the following table:<br><br><img src='azure/9_1.png'><br><br>In the tenant, you create the groups shown in the following table:<br><br><img src='azure/9_2.png'><br><br>Which members can you add to GroupA and GroupB? To answer, select the appropriate options in the answer area.<br><br>NOTE: Each correct selection is worth one point.<br><br>Hot Area:<br><br><img src='azure/9_3.png'><br><br></p>",
+        "question": "Question #9 <p>HOTSPOT -<br><br>You have an Azure Active Directory (Azure AD) tenant that contains a user named User1 and the groups shown in the following table:<br><br><img src='azure/9_1.png'><br><br>In the tenant, you create the groups shown in the following table:<br><br><img src='azure/9_2.png'><br><br>Which members can you add to GroupA and GroupB? To answer, select the appropriate options in the answer area.<br><br>NOTE: Each correct selection is worth one point.<br><br></p>",
         "options": [
             {
                 "label": "GroupA",
@@ -233,5 +233,1041 @@
             "C"
         ],
         "explanation":"<h3>Key Concepts:</h3><ol><li><strong>Active Directory Forest</strong>:<ul><li>An <strong>Active Directory (AD) forest</strong> is the top-level container in an Active Directory setup. It contains one or more domains that share a common schema (structure) and global catalog (searchable directory of every object in all domains).</li><li>A forest is used to create a security boundary within which users, computers, and resources can be managed.</li><li>In the context of the scenario, the forest is named <code>contoso.com</code>.</li></ul></li><li><strong>Azure AD Connect</strong>:<ul><li><strong>Azure AD Connect</strong> is a tool that synchronizes your on-premises Active Directory with Azure Active Directory. This allows users to use the same credentials to access resources both on-premises and in the cloud.</li></ul></li><li><strong>Synchronization Rules</strong>:<ul><li><strong>Inbound Synchronization Rules</strong>: Rules that determine how objects and attributes from on-premises AD are brought into the metaverse (intermediate storage in Azure AD Connect).</li><li><strong>Outbound Synchronization Rules</strong>: Rules that determine how objects and attributes from the metaverse are exported to Azure AD or other connected directories.</li></ul></li><li><strong>Run Profiles</strong>:<ul><li><strong>Full Import</strong>: Imports all objects from the connected directory (like on-premises AD) into the metaverse.</li><li><strong>Export</strong>: Exports objects from the metaverse to the connected directory (like Azure AD).</li></ul></li></ol><h3>Problem Statement:</h3><ul><li><strong>Requirement</strong>: Prevent the synchronization of users who have the <code>extensionAttribute15</code> attribute set to <code>NoSync</code>.</li></ul><h3>Solution Options:</h3><ol><li><strong>A. Create an inbound synchronization rule for the Windows Azure Active Directory connector</strong>:<ul><li>This rule applies to objects coming from Azure AD into the metaverse, which is not relevant for filtering users coming from on-premises AD.</li></ul></li><li><strong>B. Configure a Full Import run profile</strong>:<ul><li>This profile imports all objects but does not apply filtering rules based on attributes.</li></ul></li><li><strong>C. Create an inbound synchronization rule for the Active Directory Domain Services connector</strong>:<ul><li>This rule can filter objects based on attributes like <code>extensionAttribute15</code> during synchronization from on-premises AD to the metaverse.</li></ul></li><li><strong>D. Configure an Export run profile</strong>:<ul><li>This profile handles exporting objects from the metaverse to Azure AD, not relevant for filtering during the import process.</li></ul></li></ol><h3>Correct Answer and Explanation:</h3><p><strong>Correct Answer: C. Create an inbound synchronization rule for the Active Directory Domain Services connector</strong></p><h3>Why C is Correct:</h3><ul><li><strong>Inbound Synchronization Rule</strong>:<ul><li>By creating an inbound synchronization rule for the AD DS connector, you can filter users based on the <code>extensionAttribute15</code> attribute value.</li><li>This rule will exclude users with <code>extensionAttribute15</code> set to <code>NoSync</code> from being synchronized from on-premises AD to Azure AD.</li></ul></li></ul><h3>Steps to Create the Rule:</h3><ol><li><strong>Open Azure AD Connect</strong>:<ul><li>Launch the Azure AD Connect tool.</li></ul></li><li><strong>Configure Directory Partitions</strong>:<ul><li>Go to the synchronization rules editor.</li></ul></li><li><strong>Create a New Inbound Rule</strong>:<ul><li>Create a new inbound synchronization rule for the Active Directory Domain Services connector.</li></ul></li><li><strong>Define the Filtering Condition</strong>:<ul><li>Set the condition to exclude users where <code>extensionAttribute15</code> equals <code>NoSync</code>.</li></ul></li><li><strong>Apply and Test</strong>:<ul><li>Apply the rule and run a synchronization cycle to ensure that users with <code>extensionAttribute15</code> set to <code>NoSync</code> are not synchronized to Azure AD.</li></ul></li></ol><h3>Summary:</h3><p>An Active Directory forest is the top-level container in an AD setup that includes one or more domains. To meet the goal of preventing the synchronization of users with <code>extensionAttribute15</code> set to <code>NoSync</code>, you need to create an inbound synchronization rule for the Active Directory Domain Services connector. This rule will filter out the specified users during the synchronization process from on-premises AD to Azure AD.</p><p>Therefore, the correct answer is <strong>C. Create an inbound synchronization rule for the Active Directory Domain Services connector</strong>.</p>"
+    },
+    {
+        "type": "single",
+        "question": "Question #16 <p>Your network contains an on-premises Active Directory domain that syncs to an Azure Active Directory (Azure AD) tenant. The tenant contains the users shown in the following table.<br><img src='azure/16_1.png'><br>All the users work remotely.<br>Azure AD Connect is configured in Azure AD as shown in the following exhibit.<br><img src='azure/16_2.png'><br>Connectivity from the on-premises domain to the internet is lost.<br>Which users can sign in to Azure AD?<br></p>",
+        "options": {
+            "A": "User1 and User3 only",
+            "B": "User1 only",
+            "C": "User1, User2, and User3",
+            "D": "User1 and User2 only"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #17 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have an Active Directory forest that syncs to an Azure Active Directory (Azure AD) tenant.<br>You discover that when a user account is disabled in Active Directory, the disabled user can still authenticate to Azure AD for up to 30 minutes.<br>You need to ensure that when a user account is disabled in Active Directory, the user account is immediately prevented from authenticating to Azure AD.<br>Solution: You configure Azure AD Password Protection.<br>Does this meet the goal?<br></p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #18 <p>HOTSPOT -<br>Your network contains an on-premises Active Directory domain named contoso.com. The domain contains the objects shown in the following table.<br><img src='azure/18_1.png'><br>You install Azure AD Connect. You configure the Domain and OU filtering settings as shown in the Domain and OU Filtering exhibit. (Click the Domain and OU Filtering tab.)<br><img src='azure/18_2.jpg'><br>You configure the Filter users and devices settings as shown in the Filter Users and Devices exhibit. (Click the Filter Users and Devices tab.)<br><img src='azure/18_3.jpg'><br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br>NOTE: Each correct selection is worth one point.<br></p>",
+        "options": [
+            {
+                "label": "User1 syncs to Azure AD",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "User2 syncs to Azure AD",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Group2 syncs to Azure AD",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ],
+        "correctAnswer": ["Yes", "No", "Yes"]
+    },
+    {
+        "type": "single",
+        "question": "Question #19 <p>You have an Azure Active Directory (Azure AD) tenant named contoso.com.<br>You need to ensure that Azure AD External Identities pricing is based on monthly active users (MAU).<br>What should you configure?<br></p>",
+        "options": {
+            "A": "a user flow",
+            "B": "the terms of use",
+            "C": "a linked subscription",
+            "D": "an access review"
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "drag",
+        "question": "Question #20 <p>DRAG DROP -<br>You have a new Microsoft 365 tenant that uses a domain name of contoso.onmicrosoft.com.<br>You register the name contoso.com with a domain registrar.<br>You need to use contoso.com as the default domain name for new Microsoft 365 users.<br>Which four actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.<br>Select and Place:<br><img src='azure/20_1.png'><br></p>",
+        "options": [
+            "Delete the contoso.onmicrosoft.com domain.",
+            "Add a custom domain name of contoso.com.",
+            "Set the domain to primary.",
+            "Create a new TXT record in DNS.",
+            "Successfully verify the domain."
+        ],
+        "correctOrder": [1, 3, 4, 2]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #21 <p>HOTSPOT -<br>You have an Azure Active Directory (Azure AD) tenant that has an Azure Active Directory Premium Plan 2 license. The tenant contains the users shown in the following table.<br><img src='azure/21_1.png'><br>You have the Device Settings shown in the following exhibit.<br><img src='azure/21_2.jpg'><br>User1 has the devices shown in the following table.<br><img src='azure/21_3.png'><br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br>NOTE: Each correct selection is worth one point.<br></p>",
+        "options": [
+            {
+                "label": "User1 can join four additional Windows 10 devices to Azure AD.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Admin1 can set Devices to be Azure AD joined or Azure AD registered require Multi-Factor Authentication to Yes.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Admin2 is a local administrator on Device3.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ],
+        "correctAnswer": ["No", "Yes", "No"]
+    },
+    {
+        "type": "drag",
+        "question": "Question #22 <p>DRAG DROP -<br>You have a Microsoft 365 E5 subscription that contains three users named User1, User2, and User3.<br>You need to configure the users as shown in the following table.<br><img src='azure/22_1.png'><br>Which portal should you use to configure each user? To answer, drag the appropriate portals to the correct users. Each portal may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br>Select and Place:<br><img src='azure/22_2.jpg'><br></p>",
+        "options": [
+            "Azure Active Directory admin center",
+            "Exchange admin center",
+            "Microsoft 365 compliance center",
+            "Microsoft Endpoint Manager admin center",
+            "SharePoint admin center"
+        ],
+        "correctOrder": [0, 1, 2]
+    },
+    {
+        "type": "single",
+        "question": "Question #23 <p>You have an Active Directory forest that syncs to an Azure Active Directory (Azure AD) tenant. The tenant uses pass-through authentication.<br>A corporate security policy states the following:<br>✑ Domain controllers must never communicate directly to the internet.<br>✑ Only required software must be installed on servers.<br>The Active Directory domain contains the on-premises servers shown in the following table.<br><img src='azure/23_1.png'><br>You need to ensure that users can authenticate to Azure AD if a server fails.<br>On which server should you install an additional pass-through authentication agent?<br></p>",
+        "options": {
+            "A": "Server4",
+            "B": "Server2",
+            "C": "Server1",
+            "D": "Server3"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #24 <p>You have an Azure Active Directory (Azure AD) tenant named contoso.com that contains an Azure AD enterprise application named App1.<br>A contractor uses the credentials of user1@outlook.com.<br>You need to ensure that you can provide the contractor with access to App1. The contractor must be able to authenticate as user1@outlook.com.<br>What should you do?<br></p>",
+        "options": {
+            "A": "Run the New-AzureADMSInvitation cmdlet.",
+            "B": "Configure the External collaboration settings.",
+            "C": "Add a WS-Fed identity provider.",
+            "D": "Implement Azure AD Connect."
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #25 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft 365 Enterprise E5 licenses to the users.<br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br>What should you use?<br></p>",
+        "options": {
+            "A": "the Administrative units blade in the Azure Active Directory admin center",
+            "B": "the Set-AzureAdUser cmdlet",
+            "C": "the Groups blade in the Azure Active Directory admin center",
+            "D": "the Set-MsolUserLicense cmdlet"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #26 <p>HOTSPOT -<br>You have an Azure Active Directory (Azure AD) tenant and an Azure web app named App1.<br>You need to provide guest users with self-service sign-up for App1. The solution must meet the following requirements:<br>✑ Guest users must be able to sign up by using a one-time password.<br>✑ The users must provide their first name, last name, city, and email address during the sign-up process.<br>What should you configure in the Azure Active Directory admin center for each requirement? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br></p>",
+        "options": [
+            {
+                "label": "One-time password",
+                "choices": [
+                    "A linked subscription",
+                    "An identity provider",
+                    "Azure AD Privileged Identity Management (PIM)",
+                    "The External collaboration settings"
+                ]
+            },
+            {
+                "label": "user Details",
+                "choices": [
+                    "A user flow",
+                    "Access reviews",
+                    "An access package",
+                    "The tenant properties"
+                ]
+            }
+        ],
+        "correctAnswer": ["An identity provider", "A user flow"]
+    },
+    {
+        "type": "single",
+        "question": "Question #27 <p>You have an Azure Active Directory (Azure AD) Azure AD tenant.<br>You need to bulk create 25 new user accounts by uploading a template file.<br>Which properties are required in the template file?<br></p>",
+        "options": {
+            "A": "displayName, identityIssuer, usageLocation, and userType",
+            "B": "accountEnabled, givenName, surname, and userPrincipalName",
+            "C": "accountEnabled, displayName, userPrincipalName, and passwordProfile",
+            "D": "accountEnabled, passwordProfile, usageLocation, and userPrincipalName"
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #28 <p>Your network contains an on-premises Active Directory domain that syncs to an Azure Active Directory (Azure AD) tenant.<br>Users sign in to computers that run Windows 10 and are joined to the domain.<br>You plan to implement Azure AD Seamless Single Sign-On (Azure AD Seamless SSO).<br>You need to configure the Windows 10 computers to support Azure AD Seamless SSO.<br>What should you do?<br></p>",
+        "options": {
+            "A": "Configure Sign-in options from the Settings app.",
+            "B": "Enable Enterprise State Roaming.",
+            "C": "Modify the Intranet Zone settings.",
+            "D": "Install the Azure AD Connect Authentication Agent."
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "drag",
+        "question": "Question #29 <p>DRAG DROP -<br>You need to resolve the recent security incident issues.<br>What should you configure for each incident? To answer, drag the appropriate policy types to the correct issues. Each policy type may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br>Select and Place:<br><img src='azure/29_1.jpg'><br></p>",
+        "options": [
+            "An authentication method policy",
+            "A Conditional Access policy",
+            "A sign-in risk policy",
+            "A user risk policy"
+        ],
+        "correctOrder": [3, 2, 2]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #30 <p>HOTSPOT -<br>You have an Azure Active Directory (Azure AD) tenant that contains the users shown in the following table.<br><img src='azure/30_1.png'><br>For which users can you configure the Job title property and the Usage location property in Azure AD? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br></p>",
+        "options": [
+            {
+                "label": "Job title property",
+                "choices": [
+                    "User2 only",
+                    "User1 and User2 only",
+                    "User2 and User3 only",
+                    "User1, User2, and User3"
+                ]
+            },
+            {
+                "label": "Usage location property",
+                "choices": [
+                    "User2 only",
+                    "User1 and User2 only",
+                    "User2 and User3 only",
+                    "User1, User2, and User3"
+                ]
+            }
+        ],
+        "correctAnswer": ["User1 and User2 only", "User1, User2, and User3"]
+    },
+    {
+        "type": "single",
+        "question": "Question #31 <p>You have an Azure Active Directory (Azure AD) tenant that: contains a user named User1.<br>You need to ensure that User1 can create new catalogs and add resources to the catalogs they own.<br>What should you do?<br></p>",
+        "options": {
+            "A": "From the Roles and administrators blade, modify the Groups administrator role.",
+            "B": "From the Roles and administrators blade, modify the Service support administrator role.",
+            "C": "From the Identity Governance blade, modify the Entitlement management settings.",
+            "D": "From the Identity Governance blade, modify the roles and administrators for the General catalog."
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #32 <p>Your network contains an on-premises Active Directory domain that syncs to an Azure Active Directory (Azure AD) tenant.<br>Users sign in to computers that run Windows 10 and are joined to the domain.<br>You plan to implement Azure AD Seamless Single Sign-On (Azure AD Seamless SSO).<br>You need to configure the Windows 10 computers to support Azure AD Seamless SSO.<br>What should you do?<br></p>",
+        "options": {
+            "A": "Configure Sign-in options from the Settings app.",
+            "B": "Enable Enterprise State Roaming.",
+            "C": "Modify the Local intranet Zone settings.",
+            "D": "Install the Azure AD Connect Authentication Agent."
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #33 <p>Your company has two divisions named Contoso East and Contoso West. The Microsoft 365 identity architecture for both divisions is shown in the following exhibit.<br><img src='/assets/media/exam-media/04262/0005800001.jpg' class='in-exam-image'><br>You need to assign users from the Contoso East division access to Microsoft SharePoint Online sites in the Contoso West tenant. The solution must not require additional Microsoft 365 licenses.<br>What should you do?<br></p>",
+        "options": {
+            "A": "Configure Azure AD Application Proxy in the Contoso West tenant.",
+            "B": "Invite the Contoso East users as guests in the Contoso West tenant.",
+            "C": "Deploy a second Azure AD Connect server to Contoso East and configure the server to sync the Contoso East Active Directory forest to the Contoso West tenant.",
+            "D": "Configure the existing Azure AD Connect server in Contoso East to sync the Contoso East Active Directory forest to the Contoso West tenant."
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "drag",
+        "question": "Question #34 <p>DRAG DROP<br>You have a Microsoft 365 E5 subscription that contains two users named User1 and User2.<br>You need to ensure that User1 can create access reviews for groups, and that User2 can review the history report for all the completed access reviews. The solution must use the principle of least privilege.<br>Which role should you assign to each user? To answer, drag the appropriate roles to the correct users. Each role may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br><img src='https://img.examtopics.com/sc-300/image193.png'></p>",
+        "options": [
+            "Global administrator",
+            "Global reader",
+            "Reports reader",
+            "Security operator",
+            "Security reader",
+            "User administrator"
+        ],
+        "correctOrder": [0, 1]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #35 <p>HOTSPOT<br>You have an Azure subscription.<br>You need to create two custom roles named Role1 and Role2. The solution must meet the following requirements:<br>• Users that are assigned Role1 can create or delete instances of Azure Container Apps.<br>• Users that are assigned Role2 can enforce adaptive network hardening rules.<br>Which resource provider permissions are required for each role? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br><img src='https://img.examtopics.com/sc-300/image195.png'></p>",
+        "options": [
+            {
+                "label": "Role1",
+                "choices": [
+                    "Microsoft.App",
+                    "Microsoft.Compute",
+                    "Microsoft.Management",
+                    "Microsoft.Security"
+                ]
+            },
+            {
+                "label": "Role2",
+                "choices": [
+                    "Microsoft.App",
+                    "Microsoft.Compute",
+                    "Microsoft.Network",
+                    "Microsoft.Security"
+                ]
+            }
+        ],
+        "correctAnswer": ["Microsoft.Compute", "Microsoft.Security"]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #36 <p>HOTSPOT<br>You have a Microsoft 365 tenant that has 5,000 users. One hundred of the users are executives. The executives have a dedicated support team.<br>You need to ensure that the support team can reset passwords and manage multi-factor authentication (MFA) settings for only the executives. The solution must use the principle of least privilege.<br>Which object type and Azure Active Directory (Azure AD) role should you use? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br><img src='https://img.examtopics.com/sc-300/image197.png'></p>",
+        "options": [
+            {
+                "label": "Object type",
+                "choices": [
+                    "An administrative unit",
+                    "A custom administrator role",
+                    "A dynamic group",
+                    "A Microsoft 365 group"
+                ]
+            },
+            {
+                "label": "Role",
+                "choices": [
+                    "Authentication administrator",
+                    "Groups administrator",
+                    "Helpdesk administrator",
+                    "Password administrator"
+                ]
+            }
+        ],
+        "correctAnswer": ["A custom administrator role", "Helpdesk administrator"]
+    },
+    {
+        "type": "single",
+        "question": "Question #37 <p>You have an Azure Active Directory (Azure AD) tenant that contains the users shown in the following table.<br><br><img src='https://img.examtopics.com/sc-300/image199.png'><br><br>You have an administrative unit named Au1. Group1, User2, and User3 are members of Au1.<br><br>User5 is assigned the User administrator role for Au1.<br><br>For which users can User5 reset passwords?</p>",
+        "options": {
+            "A": "User1, User2, and User3",
+            "B": "User1 and User2 only",
+            "C": "User3 and User4 only",
+            "D": "User2 and User3 only"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #38 <p>You have an Azure Active Directory (Azure AD) tenant that contains the users shown in the following table.<br><br><img src='https://img.examtopics.com/sc-300/image200.png'><br><br>You create a dynamic user group and configure the following rule syntax.<br><br>user.usageLocation -in ['US','AU'] -and (user.department -eq 'Sales') -and -not (user.jobTitle -eq 'Manager') –or (user. jobTitle -eq 'SalesRep')<br><br>Which users will be added to the group?</p>",
+        "options": {
+            "A": "User1 only",
+            "B": "User2 only",
+            "C": "User3 only",
+            "D": "User1 and User2 only",
+            "E": "User1 and User3 only",
+            "F": "User1, User2, and User3"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #39 <p>You have an Azure AD tenant that contains a user named User1.<br><br>User1 needs to manage license assignments and reset user passwords.<br><br>Which role should you assign to User1?</p>",
+        "options": {
+            "A": "Helpdesk administrator",
+            "B": "Billing administrator",
+            "C": "License administrator",
+            "D": "User administrator"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #40 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br><br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br><br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br><br>What should you use?</p>",
+        "options": {
+            "A": "the Set-MsolUserLicense cmdlet",
+            "B": "the Set-AzureADGroup cmdlet",
+            "C": "the Set-WindowsProductKey cmdlet",
+            "D": "the Administrative units blade in the Azure Active Directory admin center"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #41 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft 365 Enterprise E5 licenses to a group that includes all the users.<br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br>What should you use?</p>",
+        "options": {
+            "A": "the Set-AzureADGroup cmdlet",
+            "B": "the Identity Governance blade in the Azure Active Directory admin center",
+            "C": "the Set-WindowsProductKey cmdlet",
+            "D": "the Set-MsolUserLicense cmdlet"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #42 <p>HOTSPOT<br>Your on-premises network contains an Active Directory domain that uses Azure AD Connect to sync with an Azure AD tenant.<br>You need to configure Azure AD Connect to meet the following requirements:<br>• User sign-ins to Azure AD must be authenticated by an Active Directory domain controller.<br>• Active Directory domain users must be able to use Azure AD self-service password reset (SSPR).<br>What should you use for each requirement? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br><img src='https://img.examtopics.com/sc-300/image201.png'></p>",
+        "options": [
+            {
+                "label": "Authentication by the domain controller",
+                "choices": [
+                    "Federation with Active Directory Federation Services (AD FS)",
+                    "Pass-through authentication",
+                    "Password hash synchronization"
+                ]
+            },
+            {
+                "label": "SSPR",
+                "choices": [
+                    "Device writeback",
+                    "Group writeback",
+                    "Password hash synchronization",
+                    "Password writeback"
+                ]
+            }
+        ],
+        "correctAnswer": ["Pass-through authentication", "Password writeback"]
+    },
+    {
+        "type": "single",
+        "question": "Question #43 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br>You needed to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br>What should you use?</p>",
+        "options": {
+            "A": "the Groups blade in the Azure Active Directory admin center",
+            "B": "the Set-AzureADGroup cmdlet",
+            "C": "the Identity Governance blade in the Azure Active Directory admin center",
+            "D": "the Set-MsolUserLicense cmdlet"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #44 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have an Active Directory forest that syncs to an Azure AD tenant.<br>You discover that when a user account is disabled in Active Directory, the disabled user can still authenticate to Azure AD for up to 30 minutes.<br>You need to ensure that when a user account is disabled in Active Directory, the user account is immediately prevented from authenticating to Azure AD.<br>Solution: You configure conditional access policies.<br>Does this meet the goal?</p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #45 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have a Microsoft 365 E5 subscription.<br>You create a user named User1.<br>You need to ensure that User1 can update the status of Identity Secure Score improvement actions.<br>Solution: You assign the Exchange Administrator role to User1.<br>Does this meet the goal?</p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #46 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have a Microsoft 365 E5 subscription.<br>You create a user named User1.<br>You need to ensure that User1 can update the status of Identity Secure Score improvement actions.<br>Solution: You assign the User Administrator role to User1.<br>Does this meet the goal?</p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #47 <p>HOTSPOT<br>Case Study<br>Overview<br>Contoso, Ltd. is a consulting company that has a main office in Montreal and branch offices in London and Seattle.<br>Contoso has a partnership with a company named Fabrikam, Inc. Fabrikam has an Azure Active Directory (Azure AD) tenant named fabrikam.com.<br>Existing Environment. Existing Environment<br>The on-premises network of Contoso contains an Active Directory domain named contoso.com. The domain contains an organizational unit (OU) named Contoso_Resources. The Contoso_Resources OU contains all users and computers.<br>The contoso.com Active Directory domain contains the relevant users shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image243.png'><br>Contoso also includes a marketing department that has users in each office.<br>Existing Environment. Microsoft 365/Azure Environment<br>Contoso has an Azure AD tenant named contoso.com that has the following associated licenses:<br>• Microsoft Office 365 Enterprise E5<br>• Enterprise Mobility + Security E5<br>• Windows 10 Enterprise E3<br>• Project Plan 3<br>Azure AD Connect is configured between Azure AD and Active Directory Domain Services (AD DS). Only the Contoso_Resources OU is synced.<br>Helpdesk administrators routinely use the Microsoft 365 admin center to manage user settings.<br>User administrators currently use the Microsoft 365 admin center to manually assign licenses. All users have all licenses assigned besides the following exceptions:<br>• The users in the London office have the Microsoft 365 Phone System license unassigned.<br>• The users in the Seattle office have the Yammer Enterprise license unassigned.<br>Security defaults are disabled for contoso.com.<br>Contoso uses Azure AD Privileged Identity Management (PIM) to protect administrative roles.<br>Existing Environment. Problem Statements<br>Contoso identifies the following issues:<br>• Currently, all the helpdesk administrators can manage user licenses throughout the entire Microsoft 365 tenant.<br>• The user administrators report that it is tedious to manually configure the different license requirements for each Contoso office.<br>• The helpdesk administrators spend too much time provisioning internal and guest access to the required Microsoft 365 services and apps.<br>• Currently, the helpdesk administrators can perform tasks by using the User administrator role without justification or approval.<br>• When the Logs node is selected in Azure AD, an error message appears stating that Log Analytics integration is not enabled.<br>Requirements. Planned Changes<br>Contoso plans to implement the following changes:<br>• Implement self-service password reset (SSPR).<br>• Analyze Azure audit activity logs by using Azure Monitor.<br>• Simplify license allocation for new users added to the tenant.<br>• Collaborate with the users at Fabrikam on a joint marketing campaign.<br>• Configure the User administrator role to require justification and approval to activate.<br>• Implement a custom line-of-business Azure web app named App1. App1 will be accessible from the internet and authenticated by using Azure AD accounts.<br>• For new users in the marketing department, implement an automated approval workflow to provide access to a Microsoft SharePoint Online site, group, and app.<br>Contoso plans to acquire a company named ADatum Corporation. One hundred new ADatum users will be created in an Active Directory OU named Adatum. The users will be located in London and Seattle.<br>Requirements. Technical Requirements<br>Contoso identifies the following technical requirements:<br>• All users must be synced from AD DS to the contoso.com Azure AD tenant.<br>• App1 must have a redirect URI pointed to https://contoso.com/auth-response.<br>• License allocation for new users must be assigned automatically based on the location of the user.<br>• Fabrikam users must have access to the marketing department’s SharePoint site for a maximum of 90 days.<br>• Administrative actions performed in Azure AD must be audited. Audit logs must be retained for one year.<br>• The helpdesk administrators must be able to manage licenses for only the users in their respective office.<br>• Users must be forced to change their password if there is a probability that the users’ identity was compromised.<br>You need to meet the technical requirements for license management by the help desk administrators.<br>What should you create first, and which tool should you use? To answer, select the appropriate options in the answer area.<br>NOTE: Each correct selection is worth one point.<br><img src='https://img.examtopics.com/sc-300/image244.png'></p>",
+        "options": [
+            {
+                "label": "Object to create for each branch office",
+                "choices": [
+                    "An administrative unit",
+                    "A custom role",
+                    "A Dynamic User security group",
+                    "An OU"
+                ]
+            },
+            {
+                "label": "SSPR",
+                "choices": [
+                    "Azure Active Directory admin center",
+                    "Active Directory Administrative Center",
+                    "Active Directory module for Windows PowerShell",
+                    "Microsoft Purview Compliance portal"
+                ]
+            }
+        ],
+        "correctAnswer": ["An administrative unit", "Azure Active Directory admin center"]
+    },
+    {
+        "type": "single",
+        "question": "Question #48 <p>Case Study<br>Overview<br>ADatum Corporation is a consulting company in Montreal.<br>ADatum recently acquired a Vancouver-based company named Litware, Inc.<br>Existing Environment. ADatum Environment<br>The on-premises network of ADatum contains an Active Directory Domain Services (AD DS) forest named adatum.com.<br>ADatum has a Microsoft 365 E5 subscription. The subscription contains a verified domain that syncs with the adatum.com AD DS domain by using Azure AD Connect.<br>ADatum has an Azure Active Directory (Azure AD) tenant named adatum.com. The tenant has Security defaults disabled.<br>The tenant contains the users shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image246.png'><br>The tenant contains the groups shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image247.png'><br>Existing Environment. Litware Environment<br>Litware has an AD DS forest named litware.com<br>Existing Environment. Problem Statements<br>ADatum identifies the following issues:<br>• Multiple users in the sales department have up to five devices. The sales department users report that sometimes they must contact the support department to join their devices to the Azure AD tenant because they have reached their device limit.<br>• A recent security incident reveals that several users leaked their credentials, a suspicious browser was used for a sign-in, and resources were accessed from an anonymous IP address.<br>• When you attempt to assign the Device Administrators role to IT_Group1, the group does NOT appear in the selection list.<br>• Anyone in the organization can invite guest users, including other guests and non-administrators.<br>• The helpdesk spends too much time resetting user passwords.<br>• Users currently use only passwords for authentication.<br>Requirements. Planned Changes<br>ADatum plans to implement the following changes:<br>• Configure self-service password reset (SSPR).<br>• Configure multi-factor authentication (MFA) for all users.<br>• Configure an access review for an access package named Package1.<br>• Require admin approval for application access to organizational data.<br>• Sync the AD DS users and groups of litware.com with the Azure AD tenant.<br>• Ensure that only users that are assigned specific admin roles can invite guest users.<br>• Increase the maximum number of devices that can be joined or registered to Azure AD to 10.<br>Requirements. Technical Requirements<br>ADatum identifies the following technical requirements:<br>• Users assigned the User administrator role must be able to request permission to use the role when needed for up to one year.<br>• Users must be prompted to register for MFA and provided with an option to bypass the registration for a grace period.<br>• Users must provide one authentication method to reset their password by using SSPR. Available methods must include:<br>- Email<br>- Phone<br>- Security questions<br>- The Microsoft Authenticator app<br>• Trust relationships must NOT be established between the adatum.com and litware.com AD DS domains.<br>• The principle of least privilege must be used.<br>You need to resolve the issue of the sales department users.<br>What should you configure for the Azure AD tenant?</p>",
+        "options": {
+            "A": "the Device settings",
+            "B": "the User settings",
+            "C": "the Access reviews settings",
+            "D": "Security defaults"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #49 <p>Case Study<br>Overview<br>ADatum Corporation is a consulting company in Montreal.<br>ADatum recently acquired a Vancouver-based company named Litware, Inc.<br>Existing Environment. ADatum Environment<br>The on-premises network of ADatum contains an Active Directory Domain Services (AD DS) forest named adatum.com.<br>ADatum has a Microsoft 365 E5 subscription. The subscription contains a verified domain that syncs with the adatum.com AD DS domain by using Azure AD Connect.<br>ADatum has an Azure Active Directory (Azure AD) tenant named adatum.com. The tenant has Security defaults disabled.<br>The tenant contains the users shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image246.png'><br>The tenant contains the groups shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image247.png'><br>Existing Environment. Litware Environment<br>Litware has an AD DS forest named litware.com<br>Existing Environment. Problem Statements<br>ADatum identifies the following issues:<br>• Multiple users in the sales department have up to five devices. The sales department users report that sometimes they must contact the support department to join their devices to the Azure AD tenant because they have reached their device limit.<br>• A recent security incident reveals that several users leaked their credentials, a suspicious browser was used for a sign-in, and resources were accessed from an anonymous IP address.<br>• When you attempt to assign the Device Administrators role to IT_Group1, the group does NOT appear in the selection list.<br>• Anyone in the organization can invite guest users, including other guests and non-administrators.<br>• The helpdesk spends too much time resetting user passwords.<br>• Users currently use only passwords for authentication.<br>Requirements. Planned Changes<br>ADatum plans to implement the following changes:<br>• Configure self-service password reset (SSPR).<br>• Configure multi-factor authentication (MFA) for all users.<br>• Configure an access review for an access package named Package1.<br>• Require admin approval for application access to organizational data.<br>• Sync the AD DS users and groups of litware.com with the Azure AD tenant.<br>• Ensure that only users that are assigned specific admin roles can invite guest users.<br>• Increase the maximum number of devices that can be joined or registered to Azure AD to 10.<br>Requirements. Technical Requirements<br>ADatum identifies the following technical requirements:<br>• Users assigned the User administrator role must be able to request permission to use the role when needed for up to one year.<br>• Users must be prompted to register for MFA and provided with an option to bypass the registration for a grace period.<br>• Users must provide one authentication method to reset their password by using SSPR. Available methods must include:<br>- Email<br>- Phone<br>- Security questions<br>- The Microsoft Authenticator app<br>• Trust relationships must NOT be established between the adatum.com and litware.com AD DS domains.<br>• The principle of least privilege must be used.<br>You need to resolve the issue of IT_Group1.<br>What should you do first?</p>",
+        "options": {
+            "A": "Change Membership type of IT_Group1 to Dynamic User.",
+            "B": "Recreate the IT_Group1 group.",
+            "C": "Change Membership type of IT Group1 to Dynamic Device.",
+            "D": "Add an owner to IT_Group1."
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #50 <p>Case Study<br>Overview<br>ADatum Corporation is a consulting company in Montreal.<br>ADatum recently acquired a Vancouver-based company named Litware, Inc.<br>Existing Environment. ADatum Environment<br>The on-premises network of ADatum contains an Active Directory Domain Services (AD DS) forest named adatum.com.<br>ADatum has a Microsoft 365 E5 subscription. The subscription contains a verified domain that syncs with the adatum.com AD DS domain by using Azure AD Connect.<br>ADatum has an Azure Active Directory (Azure AD) tenant named adatum.com. The tenant has Security defaults disabled.<br>The tenant contains the users shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image246.png'><br>The tenant contains the groups shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image247.png'><br>Existing Environment. Litware Environment<br>Litware has an AD DS forest named litware.com<br>Existing Environment. Problem Statements<br>ADatum identifies the following issues:<br>• Multiple users in the sales department have up to five devices. The sales department users report that sometimes they must contact the support department to join their devices to the Azure AD tenant because they have reached their device limit.<br>• A recent security incident reveals that several users leaked their credentials, a suspicious browser was used for a sign-in, and resources were accessed from an anonymous IP address.<br>• When you attempt to assign the Device Administrators role to IT_Group1, the group does NOT appear in the selection list.<br>• Anyone in the organization can invite guest users, including other guests and non-administrators.<br>• The helpdesk spends too much time resetting user passwords.<br>• Users currently use only passwords for authentication.<br>Requirements. Planned Changes<br>ADatum plans to implement the following changes:<br>• Configure self-service password reset (SSPR).<br>• Configure multi-factor authentication (MFA) for all users.<br>• Configure an access review for an access package named Package1.<br>• Require admin approval for application access to organizational data.<br>• Sync the AD DS users and groups of litware.com with the Azure AD tenant.<br>• Ensure that only users that are assigned specific admin roles can invite guest users.<br>• Increase the maximum number of devices that can be joined or registered to Azure AD to 10.<br>Requirements. Technical Requirements<br>ADatum identifies the following technical requirements:<br>• Users assigned the User administrator role must be able to request permission to use the role when needed for up to one year.<br>• Users must be prompted to register for MFA and provided with an option to bypass the registration for a grace period.<br>• Users must provide one authentication method to reset their password by using SSPR. Available methods must include:<br>- Email<br>- Phone<br>- Security questions<br>- The Microsoft Authenticator app<br>• Trust relationships must NOT be established between the adatum.com and litware.com AD DS domains.<br>• The principle of least privilege must be used.<br>You need to implement the planned changes for litware.com.<br>What should you configure?</p>",
+        "options": {
+            "A": "Azure AD Connect cloud sync between the Azure AD tenant and litware.com",
+            "B": "Azure AD Connect to include the litware.com domain",
+            "C": "staging mode in Azure AD Connect for the litware.com domain"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #51 <p>You have the Azure resources shown in the following table.<br><img src='https://img.examtopics.com/sc-300/image254.png'><br>To which identities can you assign the Contributor role for RG1?</p>",
+        "options": {
+            "A": "User1 only",
+            "B": "User1 and Group1 only",
+            "C": "User1 and VM1 only",
+            "D": "User1, VM1, and App1 only",
+            "E": "User1, Group1, VM1, and App1"
+        },
+        "correctAnswer": [
+            "E"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #52 <p>HOTSPOT<br>You have an Azure AD tenant that contains a user named User1. User1 is assigned the User Administrator role.<br>You need to configure External collaboration settings for the tenant to meet the following requirements:<br>• Guest users must be prevented from querying staff email addresses.<br>• Guest users must be able to access the tenant only if they are invited by User1.<br>Which three settings should you configure? To answer, select the appropriate settings in the answer area.<br>NOTE: Each correct selection is worth one point.<br><img src='https://img.examtopics.com/sc-300/image255.png'></p>",
+        "options": [
+            {
+                "label": "Guest user access restrictions:",
+                "choices": [
+                    "Guest users have the same access as members (most inclusive)",
+                    "Guest users have limited access to properties and memberships of directory objects",
+                    "Guest user access is restricted to properties and memberships of their own directory objects (most restrictive)"
+                ]
+            },
+            {
+                "label": "Guest invite restrictions:",
+                "choices": [
+                    "Anyone in the organization can invite guest users including guests and non-admins (most inclusive)",
+                    "Member users and users assigned to specific admin roles can invite guest users including guests with member",
+                    "Only users assigned to specific admin roles can invite guest users",
+                    "No one in the organization can invite guest users including admins (most restrictive)"
+                ]
+            },
+            {
+                "label": "Enable guest self-service sign up via user flows:",
+                "choices": [
+                    "No",
+                    "Yes"
+                ]
+            }
+        ],
+        "correctAnswer": ["Guest user access is restricted to properties and memberships of their own directory objects (most restrictive)", "Only users assigned to specific admin roles can invite guest users", "No"]
+    },
+    {
+        "type": "single",
+        "question": "Question #53 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br>You needed to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br>What should you use?</p>",
+        "options": {
+            "A": "the Groups blade in the Azure Active Directory admin center",
+            "B": "the Set-AzureAdUser cmdlet",
+            "C": "the Identity Governance blade in the Azure Active Directory admin center",
+            "D": "the Licenses blade in the Azure Active Directory admin center"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #54 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have a Microsoft 365 E5 subscription.<br>You create a user named User1.<br>You need to ensure that User1 can update the status of Identity Secure Score improvement actions.<br>Solution: You assign the Security Operator role to User1.<br>Does this meet the goal?</p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #55 <p>Note: This question is part of a series of questions that present the same scenario. Each question in the series contains a unique solution that might meet the stated goals. Some question sets might have more than one correct solution, while others might not have a correct solution.<br>After you answer a question in this section, you will NOT be able to return to it. As a result, these questions will not appear in the review screen.<br>You have a Microsoft 365 E5 subscription.<br>You create a user named User1.<br>You need to ensure that User1 can update the status of Identity Secure Score improvement actions.<br>Solution: You assign the SharePoint Administrator role to User1.<br>Does this meet the goal?</p>",
+        "options": {
+            "A": "Yes",
+            "B": "No"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #56 <p>You have an Azure AD tenant that contains a user named Admin1.<br><br>You need to ensure that Admin1 can perform only the following tasks:<br><br>• From the Microsoft 365 admin center, create and manage service requests.<br>• From the Microsoft 365 admin center, read and configure service health.<br>• From the Azure portal, create and manage support tickets.<br><br>The solution must minimize administrative effort.<br><br>What should you do?</p>",
+        "options": {
+            "A": "Create an administrative unit and add Admin1.",
+            "B": "Enable Azure AD Privileged Identity Management (PIM) for Admin1.",
+            "C": "Assign Admin1 the Helpdesk Administrator role.",
+            "D": "Create a custom role and assign the role to Admin1."
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #57 <p>HOTSPOT<br> -<br><br>Your network contains an on-premises Active Directory Domain Services (AD DS) domain that syncs with an Azure AD tenant.<br><br>You need to ensure that user authentication always occurs by validating passwords against the AD DS domain.<br><br>What should you configure, and what should you use? To answer, select the appropriate options in the answer area.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src=\"https://img.examtopics.com/sc-300/image257.png\"></p>",
+        "options": [
+            {
+                "label": "Configure",
+                "choices": [
+                    "Azure AD Password protection",
+                    "Cross-tenant synchronization",
+                    "Pass-through authentication",
+                    "Password hash synchronization"
+                ]
+            },
+            {
+                "label": "Use",
+                "choices": [
+                    "Azure AD Connect",
+                    "Microsoft Identity Manager (MIM)",
+                    "The Microsoft Entra admin center",
+                    "The Microsoft Purview compliance portal"
+                ]
+            }
+        ],
+        "correctAnswer": ["Pass-through authentication", "Azure AD Connect"]
+    },
+    {
+        "type": "single",
+        "question": "Question #58 <p>You have a Microsoft 365 tenant that uses the domain named fabrikam.com. The Guest invite settings for Azure Active Directory (Azure AD) are configured as shown in the exhibit. (Click the Exhibit tab.)<br><br><img src=\"https://img.examtopics.com/sc-300/image259.png\"><br><br>A user named bsmith@fabrikam.com shares a Microsoft SharePoint Online document library to the users shown in the following table.<br><br><img src=\"https://img.examtopics.com/sc-300/image260.png\"><br><br>Which users will be emailed a passcode?</p>",
+        "options": {
+            "A": "User2 only",
+            "B": "User1 only",
+            "C": "User1 and User2 only",
+            "D": "User1, User2, and User3"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #59 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br><br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br><br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br><br>What should you use?</p>",
+        "options": {
+            "A": "the Administrative units blade in the Azure Active Directory admin center",
+            "B": "the Set-MsolUserLicense cmdlet",
+            "C": "the Groups blade in the Azure Active Directory admin center",
+            "D": "the Set-WindowsProductKey cmdlet"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #60 <p>HOTSPOT<br> -<br><br>Your network contains an on-premises Active Directory Domain Services (AD DS) domain that syncs with Azure AD and contains the users shown in the following table.<br><br><img src=\"https://img.examtopics.com/sc-300/image280.png\"><br><br>In Azure AD Connect, Domain/OU Filtering is configured as shown in the following exhibit.<br><br><img src=\"https://img.examtopics.com/sc-300/image281.png\"><br><br>Azure AD Connect is configured as shown in the following exhibit.<br><br><img src=\"https://img.examtopics.com/sc-300/image282.png\"><br><br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src=\"https://img.examtopics.com/sc-300/image283.png\"></p>",
+        "options": [
+            {
+                "label": "User1 can use self-service password reset (SSPR) to reset his password.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "If User1 accesses Microsoft Exchange Online, he will be authenticated by an on-premises domain controller.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "User2 can be added to a Microsoft SharePoint Online site as a member.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ],
+        "correctAnswer": ["Yes", "Yes", "Yes"]
+    },
+    {
+        "type": "single",
+        "question": "Question #61 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br><br>From the Groups blade in the Azure Active Directory admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br><br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br><br>What should you use?</p>",
+        "options": {
+            "A": "the Update-MgGroup cmdlet",
+            "B": "the Licenses blade in the Azure Active Directory admin center",
+            "C": "the Set-WindowsProductKey cmdlet",
+            "D": "the Administrative units blade in the Azure Active Directory admin center"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #62 <p>You have an Azure AD tenant that contains the users shown in the following table.<br><br><img src=\"https://img.examtopics.com/sc-300/image285.png\"><br><br>You need to compare the role permissions of each user. The solution must minimize administrative effort.<br><br>What should you use?</p>",
+        "options": {
+            "A": "the Microsoft 365 Defender portal",
+            "B": "the Microsoft 365 admin center",
+            "C": "the Microsoft Entra admin center",
+            "D": "the Microsoft Purview compliance portal"
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #63 <p>You have a Microsoft Exchange organization that uses an SMTP address space of contoso.com.<br><br>Several users use their contoso.com email address for self-service sign-up to Azure AD.<br><br>You gain global administrator privileges to the Azure AD tenant that contains the self-signed users.<br><br>You need to prevent the users from creating user accounts in the contoso.com Azure AD tenant for self-service sign-up to Microsoft 365 services.<br><br>Which PowerShell cmdlet should you run?</p>",
+        "options": {
+            "A": "Update-MgOrganization",
+            "B": "Update-MgPolicyPermissionGrantPolicyExclude",
+            "C": "Update-MgDomain",
+            "D": "Update-MgDomainFederationConfiguration"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #64 <p>HOTSPOT<br> -<br><br>You have an Azure AD tenant.<br><br>You need to configure the following External Identities features:<br><br>• B2B collaboration<br>• Monthly active users (MAU)-based pricing<br><br>Which two settings should you configure? To answer, select the settings in the answer area.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src=\"https://img.examtopics.com/sc-300/image306.png\"></p>",
+        "options": [
+            {
+                "label": "Statement 1",
+                "choices": [
+                    "Overview",
+                    "Cross-tenant access settings",
+                    "All identity providers",
+                    "External collaboration settings",
+                    "Diagnose and solve problems",
+                    "Custom user attributes",
+                    "All API connectors",
+                    "User flows",
+                    "Linked subscriptions",
+                    "Terms of use",
+                    "Access reviews"
+                ]
+            },
+            {
+                "label": "Statement 2",
+                "choices": [
+                    "Overview",
+                    "Cross-tenant access settings",
+                    "All identity providers",
+                    "External collaboration settings",
+                    "Diagnose and solve problems",
+                    "Custom user attributes",
+                    "All API connectors",
+                    "User flows",
+                    "Linked subscriptions",
+                    "Terms of use",
+                    "Access reviews"
+                ]
+            }
+        ],
+        "correctAnswer": ["External collaboration settings", "Linked subscriptions"]
+    },
+    {
+        "type": "single",
+        "question": "Question #65 <p>You have an Azure AD tenant that contains the external user shown in the following exhibit.<br><br><img src=\"https://img.examtopics.com/sc-300/image308.png\"><br><br>You update the email address of the user.<br><br>You need to ensure that the user can authenticate by using the updated email address.<br><br>What should you do for the user?</p>",
+        "options": {
+            "A": "Modify the Authentication methods settings.",
+            "B": "Reset the password.",
+            "C": "Revoke the active sessions.",
+            "D": "Reset the redemption status."
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #66 <p>You have an Azure AD tenant.<br><br>You need to ensure that only users from specific external domains can be invited as guests to the tenant.<br><br>Which settings should you configure?</p>",
+        "options": {
+            "A": "External collaboration settings",
+            "B": "All identity providers",
+            "C": "Cross-tenant access settings",
+            "D": "Linked subscriptions"
+        },
+        "correctAnswer": [
+            "A"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #67 <p>You have an Azure AD tenant that contains a user named User1 and a Microsoft 365 group named Group1. User1 is the owner of Group1.<br><br>You need to ensure that User1 is notified every three months to validate the guest membership of Group1.<br><br>What should you do?</p>",
+        "options": {
+            "A": "Configure the External collaboration settings.",
+            "B": "Create an access review.",
+            "C": "Configure an access package.",
+            "D": "Create a group expiration policy."
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "hotspot",
+        "question": "Question #68 <p>HOTSPOT<br> -<br><br>You have a Microsoft Entra tenant that contains a group named Group3 and an administrative unit named Department1.<br><br>Department1 has the users shown in the Users exhibit. (Click the Users tab.)<br><br><img src=\"https://img.examtopics.com/sc-300/image318.png\"><br><br>Department1 has the groups shown in the Groups exhibit. (Click the Groups tab.)<br><br><img src=\"https://img.examtopics.com/sc-300/image319.png\"><br><br>The User Administrator role assignments are shown in the Assignments exhibit (Click the Assignments tab.)<br><br><img src=\"https://img.examtopics.com/sc-300/image320.png\"><br><br>The members of Group2 are shown in the Group2 exhibit. (Click the Group2 tab.)<br><br><img src=\"https://img.examtopics.com/sc-300/image321.png\"><br><br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src=\"https://img.examtopics.com/sc-300/image322.png\"></p>",
+        "options": [
+            {
+                "label": "Admin1 can reset the passwords of User3 and User4.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Admin1 can add User1 to Group3.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Admin3 can reset the password of User1.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ],
+        "correctAnswer": ["Yes", "Yes", "Yes"]
+    },
+    {
+        "type": "hotspot",
+        "question": "Question #69 <p>HOTSPOT<br> -<br><br>Your network contains an on-premises Active Directory Domain Services (AD DS) domain named fabrikam.com. The domain contains an Active Directory Federation Services (AD FS) instance and a member server named Server1 that runs Windows Server. The domain contains the users shown in the following table.<br><br><img src=\"https://img.examtopics.com/sc-300/image324.png\"><br><br>You have a Microsoft Entra tenant named contoso.com that is linked to a Microsoft 365 subscription.<br><br>You establish federation between fabrikam.com and contoso.com by using a Microsoft Entra Connect instance that is configured as shown in the following exhibit.<br><br><img src=\"https://img.examtopics.com/sc-300/image325.png\"><br><br>You perform the following tasks in contoso.com:<br><br>• Create a group named Group1.<br>• Disable User2.<br>• Enable User3.<br><br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src=\"https://img.examtopics.com/sc-300/image326.png\"></p>",
+        "options": [
+            {
+                "label": "You can add User1 to Group1.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "User2 can sign in to Server1.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "User3 can sign in to Microsoft 365.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ],
+        "correctAnswer": ["Yes", "Yes", "Yes"]
+    },
+    {
+        "type": "hotarea",
+        "question": "Question #70 <p>HOTSPOT<br> -<br><br>You have a Microsoft Entra tenant that has a Microsoft Entra ID P2 service plan. The tenant contains the users shown in the following table.<br><br><img src=\"https://img.examtopics.com/sc-300/image328.png\"><br><br>You have the Device settings shown in the following exhibit.<br><br><img src=\"https://img.examtopics.com/sc-300/image329.png\"><br><br>User1 has the devices shown in the following table.<br><br><img src=\"https://img.examtopics.com/sc-300/image330.png\"><br><br>For each of the following statements, select Yes if the statement is true. Otherwise. select No.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src=\"https://img.examtopics.com/sc-300/image331.png\"></p>",
+        "options": [
+            {
+                "label": "User1 can join four additional Windows 10 devices to Microsoft Entra ID.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Admin1 can set Devices to be Microsoft Entra joined or Microsoft Entra registered require Multi-Factor Authentication to Yes.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            },
+            {
+                "label": "Admin2 is a local administrator on Device3.",
+                "choices": [
+                    "Yes",
+                    "No"
+                ]
+            }
+        ],
+        "correctAnswer": ["No", "No", "No"]
+    },
+    {
+        "type": "single",
+        "question": "Question #71 <p>You have an Azure subscription named Sub1 that contains a user named User1.<br><br>You need to ensure that User1 can purchase a Microsoft Entra Permissions Management license for Sub1. The solution must follow the principle of least privilege.<br><br>Which role should you assign to User1?</p>",
+        "options": {
+            "A": "Global Administrator",
+            "B": "Billing Administrator",
+            "C": "Permissions Management Administrator",
+            "D": "User Access Administrator"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #72 <p>You have an Azure subscription that contains a user named User1 and two resource groups named RG1 and RG2.<br><br>You need to ensure that User1 can perform the following tasks:<br><br>• View all resources.<br>• Restart virtual machines.<br>• Create virtual machines in RG1 only.<br>• Create storage accounts in RG1 only.<br><br>What is the minimum number of role-based access control (RBAC) role assignments required?</p>",
+        "options": {
+            "A": "1",
+            "B": "2",
+            "C": "3",
+            "D": "4"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #73 <p>You work for a company named Contoso, Ltd. that has a Microsoft Entra tenant named contoso.com.<br><br>Contoso is working on a project with the following two partner companies:<br><br>• A company named A. Datum Corporation that has a Microsoft Entra tenant named adatum.com.<br>• A company named Fabrikam, Inc. that has a Microsoft Entra tenant named fabrikam.com.<br><br>When you attempt to invite a new guest user from adatum.com to contoso.com, you receive an error message.<br><br>You can successfully invite a new guest user from fabrikam.com to contoso.com.<br><br>You need to be able to invite new guest users from adatum.com to contoso.com.<br><br>What should you configure?</p>",
+        "options": {
+            "A": "Guest invite settings",
+            "B": "Verifiable credentials",
+            "C": "Named locations",
+            "D": "Collaboration restrictions"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #74 <p>You have an Azure subscription that contains a user-assigned managed identity named Managed1 in the East US Azure region. The subscription contains the resources shown in the following table.<br><br><img src='https://img.examtopics.com/sc-300/image345.png'><br><br>Which resources can use Managed1 as their identity?</p>",
+        "options": {
+            "A": "WebApp1 only",
+            "B": "storage1 and WebApp1 only",
+            "C": "VM1 and WebApp1 only",
+            "D": "VM1, storage1, and WebApp1"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "drag",
+        "question": "Question #75 <p>DRAG DROP<br> -<br><br>Your network contains an on-premises Active Directory domain named contoso.com that syncs with Microsoft Entra ID by using Microsoft Entra Connect. The domain contains the users shown in the following table.<br><br><img src='https://img.examtopics.com/sc-300/image347.png'><br><br>From Active Directory Users and Computers, you add the following user:<br><br>• Name: User3<br>• UPN: user3@contoso.com<br>• Proxy addresses: smtp: user3@contoso.com, smtp: sales@contoso.com<br><br>From Active Directory Users and Computers, you update the proxyAddresses attribute for each user as shown in the following table.<br><br><img src='https://img.examtopics.com/sc-300/image348.png'><br><br>You trigger a manual synchronization.<br><br>Which sync status will Microsoft Entra Connect sync return for each user? To answer, drag the appropriate status to the correct users. Each status may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br><br>NOTE: Each correct selection is worth one point.<br><br><img src='https://img.examtopics.com/sc-300/image349.png'></p>",
+        "options": [
+            "AttributeValueMustBeUnique error occurs",
+            "InvalidSoftMatch error occurs",
+            "ObjectTypeMismatch error occurs",
+            "Successfully synced"
+        ],
+        "correctOrder": [3, 0, 1]
+    },
+    {
+        "type": "single",
+        "question": "Question #76 <p>You have a Microsoft 365 tenant that uses the domain name fabrikam.com.<br><br>The External collaboration settings are configured as shown in the Collaboration exhibit. (Click the Collaboration tab.)<br><br><img src='https://img.examtopics.com/sc-300/image351.png'><br><br>The Email one-time passcode for guests setting is enabled for the tenant.<br><br>A user named bsmith@fabrikam.com shares a Microsoft SharePoint Online document library to the users shown in the following table.<br><br><img src='https://img.examtopics.com/sc-300/image352.png'><br><br>Which users will be emailed a passcode?</p>",
+        "options": {
+            "A": "User1 only",
+            "B": "User2 only",
+            "C": "User1 and User2 only",
+            "D": "User1, User2, and User3"
+        },
+        "correctAnswer": [
+            "B"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #77 <p>You have an Azure subscription named Sub1 that contains a virtual machine named VM1.<br><br>You need to enable Microsoft Entra login for VM1 and configure VM1 to access the resources in Sub1.<br><br>Which type of identity should you assign to VM1?</p>",
+        "options": {
+            "A": "Microsoft Entra user account",
+            "B": "user-assigned managed identity",
+            "C": "Azure Automation account",
+            "D": "system-assigned managed identity"
+        },
+        "correctAnswer": [
+            "D"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #78 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br><br>From the Groups blade in the Microsoft Entra admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br><br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br><br>What should you use?</p>",
+        "options": {
+            "A": "the Set-WindowsProductKey cmdlet",
+            "B": "the Update-MgGroup cmdlet",
+            "C": "the Set-MgUserLicense cmdlet",
+            "D": "the Update-MgUser cmdlet"
+        },
+        "correctAnswer": [
+            "C"
+        ]
+    },
+    {
+        "type": "single",
+        "question": "Question #79 <p>You have 2,500 users who are assigned Microsoft Office 365 Enterprise E3 licenses. The licenses are assigned to individual users.<br><br>From the Groups blade in the Microsoft Entra admin center, you assign Microsoft Office 365 Enterprise E5 licenses to a group that includes all users.<br><br>You need to remove the Office 365 Enterprise E3 licenses from the users by using the least amount of administrative effort.<br><br>What should you use?</p>",
+        "options": {
+            "A": "the Licenses blade in the Microsoft Entra admin center",
+            "B": "the Administrative units blade in the Microsoft Entra admin center",
+            "C": "the Identity Governance blade in the Microsoft Entra admin center",
+            "D": "the Update-MgUser cmdlet"
+        },
+        "correctAnswer": [
+            "A"
+        ]
     }
 ]
+
+
+
