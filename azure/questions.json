@@ -58,7 +58,7 @@
     },
     {
         "type": "hotarea",
-        "question": "For each of the following statements, select Yes if the statement is true. Otherwise, select No.",
+        "question": "Question #5 <p>HOTSPOT -<br>You have a Microsoft 365 tenant named contoso.com.<br>Guest user access is enabled.<br>Users are invited to collaborate with contoso.com as shown in the following table:<br><img src='azure/5_1.png'><br>From the External collaboration settings in the Azure Active Directory admin center, you configure the Collaboration restrictions settings as shown in the following exhibit:<br><img src='azure/5_2.png'><br>From a Microsoft SharePoint Online site, a user invites user3@adatum.com to the site.<br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br>NOTE: Each correct selection is worth one point.<br>Hot Area:<br><img src='azure/5_3.png'><br></p>",
         "options": [
             {
                 "label": "Statement 1",
@@ -82,7 +82,7 @@
                 ]
             }
         ],
-        "correctAnswer": ["No", "No", "Yes"],
+        "correctAnswer": ["Yes", "Yes", "No"],
         "explanation": "Explanation for the correct choices."
     },
     {
