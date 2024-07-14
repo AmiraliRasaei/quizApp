@@ -260,7 +260,7 @@
     },
     {
         "type": "hotarea",
-        "question": "Question #18 <p>HOTSPOT -<br>Your network contains an on-premises Active Directory domain named contoso.com. The domain contains the objects shown in the following table.<br><img src='azure/18_1.png'><br>You install Azure AD Connect. You configure the Domain and OU filtering settings as shown in the Domain and OU Filtering exhibit. (Click the Domain and OU Filtering tab.)<br><img src='azure/18_2.jpg'><br>You configure the Filter users and devices settings as shown in the Filter Users and Devices exhibit. (Click the Filter Users and Devices tab.)<br><img src='azure/18_3.jpg'><br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br>NOTE: Each correct selection is worth one point.<br></p>",
+        "question": "Question #18 <p>HOTSPOT -<br>Your network contains an on-premises Active Directory domain named contoso.com. The domain contains the objects shown in the following table.<br><img src='azure/18_1.png'><br>You install Azure AD Connect. You configure the Domain and OU filtering settings as shown in the Domain and OU Filtering exhibit. (Click the Domain and OU Filtering tab.)<br><img src='azure/18_2.jpg'><br>You configure the Filter users and devices settings as shown in the Filter Users and Devices exhibit. (Click the Filter Users and Devices tab.)<br>For each of the following statements, select Yes if the statement is true. Otherwise, select No.<br>NOTE: Each correct selection is worth one point.<br></p>",
         "options": [
             {
                 "label": "User1 syncs to Azure AD",
@@ -301,7 +301,7 @@
     },
     {
         "type": "drag",
-        "question": "Question #20 <p>DRAG DROP -<br>You have a new Microsoft 365 tenant that uses a domain name of contoso.onmicrosoft.com.<br>You register the name contoso.com with a domain registrar.<br>You need to use contoso.com as the default domain name for new Microsoft 365 users.<br>Which four actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.<br>Select and Place:<br><img src='azure/20_1.png'><br></p>",
+        "question": "Question #20 <p>DRAG DROP -<br>You have a new Microsoft 365 tenant that uses a domain name of contoso.onmicrosoft.com.<br>You register the name contoso.com with a domain registrar.<br>You need to use contoso.com as the default domain name for new Microsoft 365 users.<br>Which four actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.<br>Select and Place:<br><br></p>",
         "options": [
             "Delete the contoso.onmicrosoft.com domain.",
             "Add a custom domain name of contoso.com.",
@@ -341,7 +341,7 @@
     },
     {
         "type": "drag",
-        "question": "Question #22 <p>DRAG DROP -<br>You have a Microsoft 365 E5 subscription that contains three users named User1, User2, and User3.<br>You need to configure the users as shown in the following table.<br><img src='azure/22_1.png'><br>Which portal should you use to configure each user? To answer, drag the appropriate portals to the correct users. Each portal may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br>Select and Place:<br><img src='azure/22_2.jpg'><br></p>",
+        "question": "Question #22 <p>DRAG DROP -<br>You have a Microsoft 365 E5 subscription that contains three users named User1, User2, and User3.<br>You need to configure the users as shown in the following table.<br><img src='azure/22_1.png'><br>Which portal should you use to configure each user? To answer, drag the appropriate portals to the correct users. Each portal may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br>Select and Place:<br><br></p>",
         "options": [
             "Azure Active Directory admin center",
             "Exchange admin center",
@@ -443,7 +443,7 @@
     },
     {
         "type": "drag",
-        "question": "Question #29 <p>DRAG DROP -<br>You need to resolve the recent security incident issues.<br>What should you configure for each incident? To answer, drag the appropriate policy types to the correct issues. Each policy type may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br>Select and Place:<br><img src='azure/29_1.jpg'><br></p>",
+        "question": "Question #29 <p>DRAG DROP -<br>You need to resolve the recent security incident issues.<br>What should you configure for each incident? To answer, drag the appropriate policy types to the correct issues. Each policy type may be used once, more than once, or not at all. You may need to drag the split bar between panes or scroll to view content.<br>NOTE: Each correct selection is worth one point.<br>Select and Place:<br><br></p>",
         "options": [
             "An authentication method policy",
             "A Conditional Access policy",
@@ -505,7 +505,7 @@
     },
     {
         "type": "single",
-        "question": "Question #33 <p>Your company has two divisions named Contoso East and Contoso West. The Microsoft 365 identity architecture for both divisions is shown in the following exhibit.<br><img src='/assets/media/exam-media/04262/0005800001.jpg' class='in-exam-image'><br>You need to assign users from the Contoso East division access to Microsoft SharePoint Online sites in the Contoso West tenant. The solution must not require additional Microsoft 365 licenses.<br>What should you do?<br></p>",
+        "question": "Question #33 <p>Your company has two divisions named Contoso East and Contoso West. The Microsoft 365 identity architecture for both divisions is shown in the following exhibit.<br><br>You need to assign users from the Contoso East division access to Microsoft SharePoint Online sites in the Contoso West tenant. The solution must not require additional Microsoft 365 licenses.<br>What should you do?<br></p>",
         "options": {
             "A": "Configure Azure AD Application Proxy in the Contoso West tenant.",
             "B": "Invite the Contoso East users as guests in the Contoso West tenant.",
