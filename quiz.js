@@ -11,7 +11,7 @@ const state = {
 
 // Utility functions
 const fetchQuestionFiles = async () => {
-    const response = await fetch('/azure/questionFiles.json');
+    const response = await fetch('azure/questionFiles.json');
     if (!response.ok) {
         throw new Error('Failed to fetch list of question files');
     }
@@ -19,7 +19,7 @@ const fetchQuestionFiles = async () => {
 };
 
 const fetchQuestions = async (filePath) => {
-    const response = await fetch(`/azure/${filePath}`);
+    const response = await fetch(`azure/${filePath}`);
     if (!response.ok) {
         throw new Error(`Failed to fetch questions from ${filePath}`);
     }
