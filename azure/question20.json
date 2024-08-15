@@ -119,12 +119,14 @@
         "type": "drag",
         "question": "Question #8 <p>DRAG DROP -<br><br>You have an on-premises Microsoft Exchange organization that uses an SMTP address space of contoso.com.<br><br>You discover that users use their email address for self-service sign-up to Microsoft 365 services.<br><br>You need to gain global administrator privileges to the Azure Active Directory (Azure AD) tenant that contains the self-signed users.<br><br>Which four actions should you perform in sequence? To answer, move the appropriate actions from the list of actions to the answer area and arrange them in the correct order.<br><br>Select and Place:<br><br><img src='azure/8.png'><br><br></p>",
         "options": [
-            "Create a new global admin account in Azure AD.",
-            "Sign in to the Azure portal with the global admin account.",
+            "Sign in to the microsoft admin center",
+            "Create a self-signed user account in Azure AD.",
+            "From the Microsoft 365 admin center, add the domain name.",
             "Respond to the 'Become the admin' email sent to the domain.",
+            "From the Microssoft 365 admin center, remove the domain name.",
             "Verify the domain ownership by adding a TXT record."
         ],
-        "correctOrder": [0, 1, 2, 3],
+        "correctOrder": [1, 0, 3, 5],
         "explanation": "<h3>Key Concepts:</h3><ol><li><strong>On-Premises Microsoft Exchange Organization</strong>:<ul><li>Uses an SMTP address space for email (in this case, contoso.com).</li></ul></li><li><strong>Self-Service Sign-Up</strong>:<ul><li>Users use their email addresses for self-service sign-up to Microsoft 365 services, which might create unmanaged or 'viral' tenant accounts in Azure AD.</li></ul></li><li><strong>Global Administrator Privileges</strong>:<ul><li>You need to gain global administrator privileges to manage and control the Azure AD tenant effectively.</li></ul></li></ol><h3>Required Actions:</h3><ol><li><strong>Create a new global admin account in Azure AD</strong>:<ul><li>This step involves creating an account in the Azure AD tenant, which can later be elevated to a global administrator role.</li></ul></li><li><strong>Sign in to the Azure portal with the global admin account</strong>:<ul><li>Use the global admin account to access the Azure portal.</li></ul></li><li><strong>Respond to the 'Become the admin' email sent to the domain</strong>:<ul><li>This email appears when you try to manage the domain from within the Azure portal. Responding to this email is part of claiming administrative control over the tenant.</li></ul></li><li><strong>Verify the domain ownership by adding a TXT record</strong>:<ul><li>Adding a TXT record to the DNS zone of the domain (contoso.com) helps verify domain ownership, which is a crucial step in claiming administrative privileges.</li></ul></li></ol><h3>Summary:</h3><p>This sequence ensures that you establish an account, access the portal, initiate the admin claiming process, and verify domain ownership correctly.</p>"
     },
     {
